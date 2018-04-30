@@ -3,10 +3,14 @@
 import Morph from 'src/components/widgets/lively-morph.js';
 
 export default class IpythonTerminal extends Morph {
-  async initialize() {
+  initialize() {
     this.windowTitle = "IpythonTerminal";
+    this.input = this.get("#terminalIn");
+    this.output = this.get("#terminalOut");
+    this.inLine = this.get("#inputLine");
+    this.terminal = this.get("#terminal");
+    this.port = -1;   
     this.registerButtons()
-
     lively.html.registerKeys(this); // automatically installs handler for some methods
     
     lively.addEventListener("template", this, "dblclick", 
@@ -19,7 +23,16 @@ export default class IpythonTerminal extends Morph {
     // registering a closure instead of the function allows the class to make 
     // use of a dispatch at runtime. That means the ``onDblClick`` method can be
     // replaced during development
+
+    
+  this.input.addEventListener("keyup", (event) => {
+      if (event.keyCode === 13) {
+        this.runCommand();
+      }
+    });
   }
+  
+  
   
   // this method is autmatically registered through the ``registerKeys`` method
   onKeyDown(evt) {
