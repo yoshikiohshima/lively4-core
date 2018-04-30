@@ -9,7 +9,7 @@ export default class IpythonTerminal extends Morph {
     this.output = this.get("#terminalOut");
     this.inLine = this.get("#inputLine");
     this.terminal = this.get("#terminal");
-    this.port = -1;   
+    this.port = 8888;   
     lively.html.registerKeys(this); // automatically installs handler for some methods
 
   this.input.addEventListener("keyup", (event) => {
