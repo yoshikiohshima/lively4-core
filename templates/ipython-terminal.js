@@ -31,14 +31,59 @@ export default class IpythonTerminal extends Morph {
         this.runCommand();
       }
     });
+    
+     this.terminal.addEventListener("click", (event) => {
+      if (this.runningProcess !== "") {
+        this.httpGet("http://localhost:"+this.port+"/kill/" + this.runningProcess, (data) => {
+          console.log("kill process");
+        });
+        this.endProcess();
+      }
+      this.input.focus();
+    });
+    this.input.focus();
   }
   
-  
-  
-  // this method is autmatically registered through the ``registerKeys`` method
-  onKeyDown(evt) {
-    lively.notify("Key Down!" + evt.charCode)
+  runCommand() {
+    this.storePort();
+    this.httpGet("http://localhost:"+ this.port +"/terminalserver/", (data) => {
+      if (data && data === "running terminalserver") {
+        console.log("running: " + this.input.value);
+        this.output.innerHTML += "> " + this.input.value + "&st;br>";
+        this.inLine.style.visibility = "hidden";
+        this.httpGet("http://localhost:"+this.port+"/new/" + this.input.value, (processId) => {
+          this.runningProcess = processId;
+          console.log("starting new process: " + processId);
+          this.runLoop();
+        });
+      } else {
+        this.output.innerHTML += "No terminal server running: check https://github.com/LivelyKernel/lively4-app for more information &st;br>";
+      }
+    })  
   }
+  
+  runLoop() {
+    if (this.runningProcess !== "") {
+      this.httpGet("http://localhost:"+this.port+"/stdout/" + this.runningProcess, (output) => {
+        this.addToOutput(output);
+        this.httpGet("http://localhost:"+this.port+"/stderr/" + this.runningProcess, (error) => {
+          this.addToOutput(error);
+
+          this.httpGet("http://localhost:"+this.port+"/end/" + this.runningProcess, (ended) => {
+            if (ended === "true") {
+              this.endProcess();
+              
+            } else {
+              setTimeout(() => {
+                this.runLoop();
+              }, 100);
+            }
+          });
+        });
+      });
+    } 
+  }
+  
   
   // this method is automatically registered as handler through ``registerButtons``
   onFirstButton() {
