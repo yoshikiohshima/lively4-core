@@ -11,19 +11,7 @@ export default class IpythonTerminal extends Morph {
     this.terminal = this.get("#terminal");
     this.port = -1;   
     lively.html.registerKeys(this); // automatically installs handler for some methods
-    
-    lively.addEventListener("template", this, "dblclick", 
-      evt => this.onDblClick(evt))
-    // #Note 1
-    // ``lively.addEventListener`` automatically registers the listener
-    // so that the the handler can be deactivated using:
-    // ``lively.removeEventListener("template", this)``
-    // #Note 1
-    // registering a closure instead of the function allows the class to make 
-    // use of a dispatch at runtime. That means the ``onDblClick`` method can be
-    // replaced during development
 
-    
   this.input.addEventListener("keyup", (event) => {
       if (event.keyCode === 13) {
         console.log("hey");
