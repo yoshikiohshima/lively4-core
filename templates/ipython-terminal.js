@@ -10,7 +10,6 @@ export default class IpythonTerminal extends Morph {
     this.inLine = this.get("#inputLine");
     this.terminal = this.get("#terminal");
     this.port = -1;   
-    this.registerButtons()
     lively.html.registerKeys(this); // automatically installs handler for some methods
     
     lively.addEventListener("template", this, "dblclick", 
@@ -85,11 +84,7 @@ export default class IpythonTerminal extends Morph {
   }
   
   
-  // this method is automatically registered as handler through ``registerButtons``
-  onFirstButton() {
-    lively.notify("hello")
-  }
-
+  
   /* Lively-specific API */
 
   livelyPreMigrate() {
