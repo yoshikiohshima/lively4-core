@@ -83,7 +83,7 @@ export default class IpythonTerminal extends Morph {
     } 
   }
   
-  onDBLClick() {
+  onDblClick() {
     console.log("foo");
   }
   
