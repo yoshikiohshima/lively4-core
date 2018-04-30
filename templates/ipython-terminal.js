@@ -83,8 +83,6 @@ export default class IpythonTerminal extends Morph {
     } 
   }
   
-  
-  
   /* Lively-specific API */
 
   livelyPreMigrate() {
