@@ -83,6 +83,10 @@ export default class IpythonTerminal extends Morph {
     } 
   }
   
+  onDBLClick() {
+    console.log("foo");
+  }
+  
   /* Lively-specific API */
 
   livelyPreMigrate() {
