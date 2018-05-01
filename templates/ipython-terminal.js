@@ -26,31 +26,27 @@ export default class IpythonTerminal extends Morph {
   }
 
   test() {
-    this.serviceManager = new Services.ServiceManager({id: '1b0a81b202725810f709f698ef71058d8dc2b8dabddecc0b', name: 'foo.ipynb'});
-    console.log(this.serviceManager);
-    var options = {kernelName: 'python', path: "foo.ipynb"};
-    var session;
-    Services.Session.startNew(options).then(s => {
-      console.log('session started');
-      session = s;
-      return session.setPath('bar.ipynb');
-    }).then(() => {
-      log('session renamed to ' + session.path);
-      var future = session.kernel.requestExecute({code: 'a = 1'});
+    
+    var k;
+    var Request = Services.ServerConnection.defaultSettings.Request;
+    var Headers = Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = Services.ServerConnection.defaultSettings.WebSocket;
+    var fetch = Services.ServerConnection.defaultSettings.fetch;
+    var obj = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: '8f07046014d87478317d4a4c655877c0dc5d71386c6baacf', init: {cache: 'no-store', credentials: "same-origin"}, Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+  
+    var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
+    Services.Kernel.connectTo(model, obj).then((c) => {
+      k = c;
+      var future = k.requestExecute({code: 'a = 1'});
       future.onReply = (reply) => {
-        console.log('got execute reply');
+         console.log('got execute reply');
       };
       return future.done;
-    }).then(() => {
-      console.log('future is fulfilled');
-      return session.shutdown();
-    }).then(() => {
-      console.log("session shutdown");
-    }).catch(err => {
-      console.error(err);
-    });    
+      }).then(() => {
+        console.log('future is fulfilled');
+      });    
   }
-  
+
   runCommand() {
     this.httpGet("http://localhost:8888/?token=1b0a81b202725810f709f698ef71058d8dc2b8dabddecc0b", (data) => {
       if (data && data === "running terminalserver") {
