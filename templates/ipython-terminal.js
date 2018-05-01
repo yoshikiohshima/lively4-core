@@ -16,7 +16,7 @@ export default class IpythonTerminal extends Morph {
   this.input.addEventListener("keyup", (event) => {
       if (event.keyCode === 13) {
         console.log("hey");
-        this.runCommand();
+        this.test();
       }
     });
     
