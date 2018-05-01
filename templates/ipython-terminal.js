@@ -33,7 +33,8 @@ export default class IpythonTerminal extends Morph {
     var fetch = Services.ServerConnection.defaultSettings.fetch;
     var obj = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: '8f07046014d87478317d4a4c655877c0dc5d71386c6baacf', init: {cache: 'no-store', credentials: "same-origin"}, Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
   
-    var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
+     console.log(obj);
+     var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
     Services.Kernel.connectTo(model, obj).then((c) => {
       k = c;
       console.log(k);
