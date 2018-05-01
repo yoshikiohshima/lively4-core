@@ -25,6 +25,7 @@
 
 </style>
 <script>
+  var that = this;
   (function() {
     'use strict';
     Promise.all([
@@ -32,8 +33,11 @@
     ]).then((imports) => {
       const Services = imports[0];
       const Kernel = Services.Kernel;
+      that.Services = Services.
     })
   })();
+  debugger;
+  console.log(this.Services);
   </script>
 <div id="terminal">
   <div id= "terminalOut">
