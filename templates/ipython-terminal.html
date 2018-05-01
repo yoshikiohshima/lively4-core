@@ -30,7 +30,6 @@
     Promise.all([
       System.import(lively4url + '/src/external/jupyterlab/services/index.js')
     ]).then((imports) => {
-      debugger;
       const Services = imports[0];
       const Kernel = Services.Kernel;
     })
