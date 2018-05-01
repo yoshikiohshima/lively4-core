@@ -30,7 +30,7 @@ export default class IpythonTerminal extends Morph {
     });
     this.input.focus();
   }
-  
+
   runCommand() {
     this.httpGet("http://localhost:8888/?token=1b0a81b202725810f709f698ef71058d8dc2b8dabddecc0b", (data) => {
       if (data && data === "running terminalserver") {
