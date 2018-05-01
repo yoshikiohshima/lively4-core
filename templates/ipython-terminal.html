@@ -27,7 +27,7 @@
 <script>
   (function() {
   'use strict';
-  const template = document.currentScript.ownerDocument.querySelector('#lively-xterm');
+  const template = document.currentScript.ownerDocument.querySelector('#ipython-terminal');
   const clone = document.importNode(template.content, true);
   Promise.all([
   System.import(lively4url + '/src/external/jupyterlab/services/index.js')
