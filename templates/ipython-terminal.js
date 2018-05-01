@@ -44,7 +44,7 @@ export default class IpythonTerminal extends Morph {
       return future.done;
       }).then(() => {
         console.log('future is fulfilled');
-      });    
+      }); 
   }
 
   runCommand() {
