@@ -24,6 +24,17 @@
 } 
 
 </style>
+<script>
+  (function() {
+  'use strict';
+  const template = document.currentScript.ownerDocument.querySelector('#lively-xterm');
+  const clone = document.importNode(template.content, true);
+  Promise.all([
+  System.import(lively4url + '/src/external/jupyterlab/services/index.js')
+  ]).then((imports) => {
+  const MyObject = imports[0];
+  });
+  </script>
 <div id="terminal">
   <div id= "terminalOut">
   </div>
