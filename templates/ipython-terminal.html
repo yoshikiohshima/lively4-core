@@ -25,12 +25,12 @@
 
 </style>
 <script>
-  debugger;
   (function() {
   'use strict';
  Promise.all([
   System.import(lively4url + '/src/external/jupyterlab/services/index.js')
   ]).then((imports) => {
+  debugger;
   const MyObject = imports[0];
   })
   })();
