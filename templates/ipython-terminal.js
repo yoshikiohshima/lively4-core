@@ -26,6 +26,7 @@ export default class IpythonTerminal extends Morph {
   }
 
   test() {
+    debugger;
     var options = {kernelName: 'python', path: "foo.ipynb"};
     var session;
     Services.Session.startNew(options).then(s => {
