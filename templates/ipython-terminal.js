@@ -28,6 +28,7 @@ export default class IpythonTerminal extends Morph {
   test() {
     debugger;
     this.serviceManager = new Services.ServiceManager({id: '1b0a81b202725810f709f698ef71058d8dc2b8dabddecc0b', name: 'foo.ipynb'});
+    console.log(this.serviceManager);
     var options = {kernelName: 'python', path: "foo.ipynb"};
     var session;
     Services.Session.startNew(options).then(s => {
