@@ -4,6 +4,7 @@ import Morph from 'src/components/widgets/lively-morph.js';
 
 export default class IpythonTerminal extends Morph {
   initialize() {
+    debugger;
     this.windowTitle = "IpythonTerminal";
     this.input = this.get("#terminalIn");
     this.output = this.get("#terminalOut");
