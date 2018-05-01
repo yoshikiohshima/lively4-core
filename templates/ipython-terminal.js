@@ -22,7 +22,7 @@ export default class IpythonTerminal extends Morph {
      this.terminal.addEventListener("click", (event) => {
       if (this.runningProcess !== "") {
         this.httpGet("http://localhost:"+this.port+"/kill/" + this.runningProcess, (data) => {
-          console.log("kill process");
+          console.log("kill process", data);
         });
         this.endProcess();
       }
