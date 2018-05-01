@@ -43,8 +43,8 @@ export default class IpythonTerminal extends Morph {
          console.log('got execute reply', reply);
       };
       return future.done;
-      }).then(() => {
-        console.log('future is fulfilled');
+      }).then((val) => {
+        console.log('future is fulfilled', val);
       }); 
   }
 
