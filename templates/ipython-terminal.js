@@ -38,9 +38,9 @@ export default class IpythonTerminal extends Morph {
     Services.Kernel.connectTo(model, obj).then((c) => {
       k = c;
       console.log(k);
-      var future = k.requestExecute({code: 'a = 1'});
+      var future = k.requestExecute({code: 'a = 3 + 4'});
       future.onReply = (reply) => {
-         console.log('got execute reply');
+         console.log('got execute reply', reply);
       };
       return future.done;
       }).then(() => {
