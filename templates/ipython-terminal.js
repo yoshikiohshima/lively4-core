@@ -60,7 +60,7 @@ export default class IpythonTerminal extends Morph {
         } else if (type === "execute_input") {
           console.log('input sent');
         } else if (type === "execute_result") {
-          console.log("result", reply.content.data);
+          console.log("result", reply);
           if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
             this.output.innerHTML += reply.content.data['text/plain'] + '<br>'
           }
