@@ -3,5 +3,7 @@
     <script src="src/client/boot.js" data-container="true"></script>
   
 <div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
+
+<lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 506.697px; top: 802.55px; width: 1228px; height: 1070px;" title="ipython-terminal.js" active="true"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/templates/ipython-terminal.js" leftpane-flex="0.200813 1 0%" rightpane-flex="0.799184 1 0%" mode="edit"></lively-container></lively-window>
 <div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
-<div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 209.031px; top: 114.012px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 209px; top: 114px;"></lively-menu>
+<lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-notification-list hidden=""></lively-notification-list><lively-menu tabindex="0" style="position: absolute; left: 1004px; top: 411px;"></lively-menu>
