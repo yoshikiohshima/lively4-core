@@ -19,7 +19,7 @@ export default class IpythonTerminal extends Morph {
   }
   
   addInput() {
-    var text = document.createEelement("input");
+    var text = document.createElement("input");
     text.classList.add('terminalIn');
     text.setAttribute("type", "text");
     this.terminal.appendChild(text);
@@ -35,7 +35,7 @@ export default class IpythonTerminal extends Morph {
   }
 
   addOutput(str) {
-    var text = document.createEelement("div");
+    var text = document.createElement("div");
     text.classList.add('terminalOut');
     text.innerHTML = this.escape(str);
     this.terminal.appendChild(text);
