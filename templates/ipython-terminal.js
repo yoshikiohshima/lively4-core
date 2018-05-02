@@ -90,14 +90,14 @@ export default class IpythonTerminal extends Morph {
         } else if (type === "execute_result") {
           console.log("result", reply);
           if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-            this.output.innerHTML += this.escape(reply.content.data['text/plain']) + '<br>'
+            this.oneStep(reply.content.data['text/plain']);
           }
         } else if (type === "stream") {
           console.log(reply.content.name, reply.content.text);
-          this.output.innerHTML += this.escape(reply.content.text) + '<br>'
+          this.oneStep(reply.content.text);
         } else if (type === "error") {
         console.log("error", reply);
-         this.output.innerHTML += this.escape(reply.content.evalue) + '<br>'
+         this.oneStep(reply.content.evalue);
         }
       };
       return future.done;
