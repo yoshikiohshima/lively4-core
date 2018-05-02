@@ -67,6 +67,8 @@ export default class IpythonTerminal extends Morph {
         } else if (type === "stream") {
           console.log(reply.content.name, reply.content.text);
           this.output.innerHTML += reply.content.text + '<br>'
+        } else if (type === "error") {
+          this.output.innerHTML += reply.content.evalue + '<br>'
         }
       };
       return future.done;
