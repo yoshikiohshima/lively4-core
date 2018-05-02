@@ -25,13 +25,13 @@ export default class IpythonTerminal extends Morph {
     this.terminal.appendChild(text);
     if (this.input) {this.input.blur();}
     this.input = text;
-    this.input.addEventListener("keyup", (event) => {
+    text.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
-          this.runCommand();
+          this.runCommand(text);
         }
       });
      this.terminal.addEventListener("click", (event) => {
-       this.input.focus();
+       text.focus();
      });
     this.input.focus();
    }
@@ -57,7 +57,7 @@ export default class IpythonTerminal extends Morph {
          .replace(/'/g, "&#039;");
    }
 
-  runCommand() {
+  runCommand(text) {
     var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
@@ -71,7 +71,7 @@ export default class IpythonTerminal extends Morph {
       that.kernel = c;
       console.log("kernel found") 
       console.log(this.input.value);
-      var future = this.kernel.requestExecute({code: this.input.value});
+      var future = this.kernel.requestExecute({code: text.value});
       future.onReply = (reply) => {
         console.log("execution reply", reply);
       };
