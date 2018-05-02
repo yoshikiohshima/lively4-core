@@ -27,6 +27,15 @@ export default class IpythonTerminal extends Morph {
      });
   }
   
+  escape(str) {
+    return str
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+   }
+  
   test() {
     var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
@@ -62,35 +71,18 @@ export default class IpythonTerminal extends Morph {
         } else if (type === "execute_result") {
           console.log("result", reply);
           if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-            this.output.innerHTML += reply.content.data['text/plain'] + '<br>'
+            this.output.innerHTML += this.escape(reply.content.data['text/plain']) + '<br>'
           }
         } else if (type === "stream") {
           console.log(reply.content.name, reply.content.text);
-          this.output.innerHTML += reply.content.text + '<br>'
+          this.output.innerHTML += this.escape(reply.content.text) + '<br>'
         } else if (type === "error") {
         console.log("error", reply);
-         this.output.innerHTML += reply.content.evalue + '<br>'
+         this.output.innerHTML += this.escape(reply.content.evalue) + '<br>'
         }
       };
       return future.done;
     });
-  }
-
-  runCommand() {
-    this.httpGet("http://localhost:8888/?token=1b0a81b202725810f709f698ef71058d8dc2b8dabddecc0b", (data) => {
-      if (data && data === "running terminalserver") {
-        console.log("running: " + this.input.value);
-        this.output.innerHTML += "> " + this.input.value + "&st;br>";
-        this.inLine.style.visibility = "hidden";
-        this.httpGet("http://localhost:"+this.port+"/new/" + this.input.value, (processId) => {
-          this.runningProcess = processId;
-          console.log("starting new process: " + processId);
-          this.runLoop();
-        });
-      } else {
-        this.output.innerHTML += "No terminal server running: check https://github.com/LivelyKernel/lively4-app for more information &st;br>";
-      }
-    })  
   }
     
   /* Lively-specific API */
@@ -116,15 +108,5 @@ export default class IpythonTerminal extends Morph {
   livelyPrepareSave() {
     
   }
-  
-  
-  async livelyExample() {
-    // this customizes a default instance to a pretty example
-    // this is used by the 
-    this.style.backgroundColor = "red"
-    this.someJavaScriptProperty = 42
-    this.appendChild(<div>This is my content</div>)
-  }
-  
   
 }
