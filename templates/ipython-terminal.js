@@ -17,12 +17,11 @@ export default class IpythonTerminal extends Morph {
 
     lively.html.registerKeys(this); // automatically installs handler for some methods
 
-  this.input.addEventListener("keyup", (event) => {
-      if (event.keyCode === 13) {
-        this.test();
-      }
-    });
-    
+    this.input.addEventListener("keyup", (event) => {
+        if (event.keyCode === 13) {
+          this.test();
+        }
+      });
      this.terminal.addEventListener("click", (event) => {
        this.input.focus();
      });
