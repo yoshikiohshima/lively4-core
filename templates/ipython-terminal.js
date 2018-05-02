@@ -37,8 +37,8 @@ export default class IpythonTerminal extends Morph {
      var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
     Services.Kernel.connectTo(model, obj).then((c) => {
       k = c;
-      console.log(k);
-      var future = k.requestExecute({code: 'a + 4'});
+      console.log(this.input.value);
+      var future = k.requestExecute({code: this.input.value});
       future.onReply = (reply) => {
          console.log('got execute reply', reply);
       };
