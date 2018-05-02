@@ -10,6 +10,7 @@ export default class IpythonTerminal extends Morph {
     this.inLine = this.get("#inputLine");
     this.terminal = this.get("#terminal");
     this.port = 8888;
+    this.Services = window.Services;
 
     lively.html.registerKeys(this); // automatically installs handler for some methods
 
@@ -27,25 +28,31 @@ export default class IpythonTerminal extends Morph {
 
   test() {
     var k;
-    var Request = Services.ServerConnection.defaultSettings.Request;
-    var Headers = Services.ServerConnection.defaultSettings.Headers;
-    var WebSocket = Services.ServerConnection.defaultSettings.WebSocket;
-    var fetch = Services.ServerConnection.defaultSettings.fetch;
+    var Request = this.Services.ServerConnection.defaultSettings.Request;
+    var Headers = this.Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
+    var fetch = this.Services.ServerConnection.defaultSettings.fetch;
     var obj = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: '8f07046014d87478317d4a4c655877c0dc5d71386c6baacf', init: {cache: 'no-store', credentials: "same-origin"}, Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
   
-     console.log(obj);
-     var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
-    Services.Kernel.connectTo(model, obj).then((c) => {
+    console.log(obj);
+    var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
+    this.Services.Kernel.connectTo(model, obj).then((c) => {
       k = c;
       console.log(this.input.value);
       var future = k.requestExecute({code: this.input.value});
       future.onReply = (reply) => {
-         console.log('got execute reply', reply);
+        console.log('got execute reply', reply);
+      };
+      future.onIOPub = (reply) => {
+        console.log('got io pub reply', reply);
+      };
+       future.onStdin = (reply) => {
+        console.log('got stdin reply', reply);
       };
       return future.done;
-      }).then((val) => {
-        console.log('future is fulfilled', val);
-      }); 
+    }).then((val) => {
+      console.log('future is fulfilled', val);
+    }); 
   }
 
   runCommand() {
