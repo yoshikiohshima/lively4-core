@@ -15,17 +15,6 @@ export default class IpythonTerminal extends Morph {
     this.modelId = '350d6e50-af33-4b2e-b5b3-622bfc25fb1c';
     this.model = {id: this.modelId, name: 'python3'};
 
-    lively.html.registerKeys(this); // automatically installs handler for some methods
-
-    this.input.addEventListener("keyup", (event) => {
-        if (event.keyCode === 13) {
-          this.runCommand();
-        }
-      });
-     this.terminal.addEventListener("click", (event) => {
-       this.input.focus();
-     });
-
     this.addInput();
   }
   
@@ -35,6 +24,14 @@ export default class IpythonTerminal extends Morph {
     text.setAttribute("type", "text");
     this.terminal.appendChild(text);
     this.input = text;
+    this.input.addEventListener("keyup", (event) => {
+        if (event.keyCode === 13) {
+          this.runCommand();
+        }
+      });
+     this.terminal.addEventListener("click", (event) => {
+       this.input.focus();
+     });
   }
 
   addOutput(str) {
