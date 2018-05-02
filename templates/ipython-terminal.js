@@ -83,6 +83,7 @@ export default class IpythonTerminal extends Morph {
           if (reply.content.execution_state === "busy") {
             console.log("kernel started working");
           } else if (reply.content.execution_state == "idle") {
+            this.addInput();
             console.log('kernel ready');
           } else {
             console.log("unknown state");
@@ -92,14 +93,14 @@ export default class IpythonTerminal extends Morph {
         } else if (type === "execute_result") {
           console.log("result", reply);
           if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-            this.oneStep(reply.content.data['text/plain']);
+            this.addOutput(reply.content.data['text/plain']);
           }
         } else if (type === "stream") {
           console.log(reply.content.name, reply.content.text);
-          this.oneStep(reply.content.text);
+          this.addOutput(reply.content.text);
         } else if (type === "error") {
         console.log("error", reply);
-         this.oneStep(reply.content.evalue);
+         this.addOutput(reply.content.evalue);
         }
       };
       return future.done;
