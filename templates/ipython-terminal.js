@@ -97,6 +97,10 @@ export default class IpythonTerminal extends Morph {
 
   livelyPreMigrate() {
     // is called on the old object before the migration
+    if (this.kernel) {
+      this.kernel.shutdown();
+      this.kernel == null;
+    }
   }
   
   livelyMigrate(other) {
