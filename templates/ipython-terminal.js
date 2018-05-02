@@ -4,10 +4,10 @@ import Morph from 'src/components/widgets/lively-morph.js';
 
 export default class IpythonTerminal extends Morph {
   initialize() {
+    this.inputs = [];
+    this.outputs = [];
+    this.input = null;
     this.windowTitle = "IpythonTerminal";
-    this.input = this.get("#terminalIn");
-    this.output = this.get("#terminalOut");
-    this.inLine = this.get("#inputLine");
     this.terminal = this.get("#terminal");
     this.port = 8888;
     this.Services = window.Services;
@@ -27,6 +27,21 @@ export default class IpythonTerminal extends Morph {
      });
   }
   
+  addInput() {
+    var text = document.createEelement("input");
+    text.classList.add('terminalIn');
+    text.setAttribute("type", "text");
+    this.terminal.appendChild(text);
+    this.input = text;
+  }
+
+  addOutput(str) {
+    var text = document.createEelement("div");
+    text.classList.add('terminalOut');
+    text.innerHTML = this.escape(str);
+    this.terminal.appendChild(text);
+  }
+
   escape(str) {
     return str
          .replace(/&/g, "&amp;")
