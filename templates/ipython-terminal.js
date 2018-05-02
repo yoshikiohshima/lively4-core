@@ -33,7 +33,8 @@ export default class IpythonTerminal extends Morph {
      this.terminal.addEventListener("click", (event) => {
        this.input.focus();
      });
-  }
+    this.input.focus();
+   }
 
   addOutput(str) {
     var text = document.createElement("div");
