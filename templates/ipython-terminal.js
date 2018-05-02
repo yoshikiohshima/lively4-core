@@ -25,6 +25,8 @@ export default class IpythonTerminal extends Morph {
      this.terminal.addEventListener("click", (event) => {
        this.input.focus();
      });
+
+    this.addInput();
   }
   
   addInput() {
@@ -40,6 +42,11 @@ export default class IpythonTerminal extends Morph {
     text.classList.add('terminalOut');
     text.innerHTML = this.escape(str);
     this.terminal.appendChild(text);
+  }
+
+  oneStep(str) {
+    this.addOutput(str);
+    this.addInput();
   }
 
   escape(str) {
