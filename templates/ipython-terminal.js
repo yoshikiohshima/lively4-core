@@ -46,7 +46,7 @@ export default class IpythonTerminal extends Morph {
         console.log("execution reply", reply);
       };
       future.onIOPub = (reply) => {
-        console.log(reply);
+        console.log(reply.type);
         var type = reply.msg_type;
         if (type === "status") {
           if (reply.content.status === "ok") {
