@@ -52,6 +52,7 @@ export default class IpythonTerminal extends Morph {
     console.log(this.input.value);
     var future = this.kernel.requestExecute({code: this.input.value});
     future.onReply = (reply) => {
+      console.log('reply', reply);
       if (reply.content && reply.content.ok) {
         console.log('got execute reply', reply);
       } else {
