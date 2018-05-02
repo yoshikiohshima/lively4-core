@@ -26,10 +26,9 @@ export default class IpythonTerminal extends Morph {
      this.terminal.addEventListener("click", (event) => {
        this.input.focus();
      });
-    this.open();
   }
   
-  open() {
+  test() {
     var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
@@ -38,38 +37,33 @@ export default class IpythonTerminal extends Morph {
     this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+
     this.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
       that.kernel = c;
-      console.log("kernel found");
-    }); 
-   }
-
-  test() {
-    if (!this.kernel) {
-      throw 'not connected';
-    }
-    console.log(this.input.value);
-    var future = this.kernel.requestExecute({code: this.input.value});
-    future.onReply = (reply) => {
-      console.log("execution reply", reply);
-    };
-    future.onIOPub = (reply) => {
-      var type = reply.msg_type;
-      if (type === "status") {
-        if (reply.content.status === "ok") {
-          console.log('execution accepted', reply);
-        } else if (reply.content.status == "idle") {
-          console.log('execution ready');
-        } else {
-          console.log("unknown status");
+      console.log("kernel found") 
+      console.log(this.input.value);
+      var future = this.kernel.requestExecute({code: this.input.value});
+      future.onReply = (reply) => {
+        console.log("execution reply", reply);
+      };
+      future.onIOPub = (reply) => {
+        var type = reply.msg_type;
+        if (type === "status") {
+          if (reply.content.status === "ok") {
+            console.log('execution accepted', reply);
+          } else if (reply.content.status == "idle") {
+            console.log('execution ready');
+          } else {
+            console.log("unknown status");
+          }
+        } else if (type === "execute_input") {
+          console.log('input sent');
+        } else if (type === "execute_result") {
+          console.log("result", reply.content.data);
         }
-      } else if (type === "execute_input") {
-        console.log('input sent');
-      } else if (type === "execute_result") {
-        console.log("result", reply.content.data);
-      }
-    };
-    future.done;
+      };
+      return future.done;
+    });
   }
 
   runCommand() {
