@@ -19,7 +19,7 @@ export default class IpythonTerminal extends Morph {
 
     this.input.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
-          this.test();
+          this.runCommand();
         }
       });
      this.terminal.addEventListener("click", (event) => {
@@ -36,7 +36,7 @@ export default class IpythonTerminal extends Morph {
          .replace(/'/g, "&#039;");
    }
   
-  test() {
+  runCommand() {
     var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
