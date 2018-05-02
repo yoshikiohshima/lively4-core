@@ -53,7 +53,7 @@ export default class IpythonTerminal extends Morph {
           if (reply.content.execution_state === "busy") {
             console.log("kernel started working");
           } else if (reply.content.execution_state == "idle") {
-            console.log('execution ready');
+            console.log('kernel ready');
           } else {
             console.log("unknown state");
           }
