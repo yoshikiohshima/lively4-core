@@ -23,6 +23,7 @@ export default class IpythonTerminal extends Morph {
     text.classList.add('terminalIn');
     text.setAttribute("type", "text");
     this.terminal.appendChild(text);
+    this.input.blur();
     this.input = text;
     this.input.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
