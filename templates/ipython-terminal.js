@@ -64,33 +64,7 @@ export default class IpythonTerminal extends Morph {
       }
     })  
   }
-  
-  runLoop() {
-    if (this.runningProcess !== "") {
-      this.httpGet("http://localhost:"+this.port+"/stdout/" + this.runningProcess, (output) => {
-        this.addToOutput(output);
-        this.httpGet("http://localhost:"+this.port+"/stderr/" + this.runningProcess, (error) => {
-          this.addToOutput(error);
-
-          this.httpGet("http://localhost:"+this.port+"/end/" + this.runningProcess, (ended) => {
-            if (ended === "true") {
-              this.endProcess();
-              
-            } else {
-              setTimeout(() => {
-                this.runLoop();
-              }, 100);
-            }
-          });
-        });
-      });
-    } 
-  }
-  
-  onDblClick() {
-    console.log("foo");
-  }
-  
+    
   /* Lively-specific API */
 
   livelyPreMigrate() {
