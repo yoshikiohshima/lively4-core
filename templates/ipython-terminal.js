@@ -27,6 +27,7 @@ export default class IpythonTerminal extends Morph {
      this.terminal.addEventListener("click", (event) => {
        this.input.focus();
      });
+    this.open();
   }
   
   open() {
