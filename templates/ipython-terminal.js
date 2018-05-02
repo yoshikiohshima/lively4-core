@@ -61,6 +61,7 @@ export default class IpythonTerminal extends Morph {
     future.onIOPub = (reply) => {
       console.log('got io pub reply', reply);
     };
+    future.done;
   }
 
   runCommand() {
