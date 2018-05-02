@@ -11,6 +11,9 @@ export default class IpythonTerminal extends Morph {
     this.terminal = this.get("#terminal");
     this.port = 8888;
     this.Services = window.Services;
+    this.token = '8f07046014d87478317d4a4c655877c0dc5d71386c6baacf';
+    this.modelId = '350d6e50-af33-4b2e-b5b3-622bfc25fb1c';
+    this.model = {id: this.modelId, name: 'python3'};
 
     lively.html.registerKeys(this); // automatically installs handler for some methods
 
@@ -25,34 +28,38 @@ export default class IpythonTerminal extends Morph {
        this.input.focus();
      });
   }
-
-  test() {
-    var k;
+  
+  open() {
+    var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
     var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
     var fetch = this.Services.ServerConnection.defaultSettings.fetch;
-    var obj = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: '8f07046014d87478317d4a4c655877c0dc5d71386c6baacf', init: {cache: 'no-store', credentials: "same-origin"}, Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
-  
-    console.log(obj);
-    var model = {id: '350d6e50-af33-4b2e-b5b3-622bfc25fb1c', name: 'python3'};
-    this.Services.Kernel.connectTo(model, obj).then((c) => {
-      k = c;
-      console.log(this.input.value);
-      var future = k.requestExecute({code: this.input.value});
-      future.onReply = (reply) => {
-        console.log('got execute reply', reply);
-      };
-      future.onIOPub = (reply) => {
-        console.log('got io pub reply', reply);
-      };
-       future.onStdin = (reply) => {
-        console.log('got stdin reply', reply);
-      };
-      return future.done;
-    }).then((val) => {
-      console.log('future is fulfilled', val);
+    this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
+               init: {cache: 'no-store', credentials: "same-origin"},
+               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+    this.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
+      that.kernel = c;
+      console.log("kernel found");
     }); 
+   }
+
+  test() {
+    if (!this.kernel) {
+      throw 'not connected';
+    }
+    console.log(this.input.value);
+    var future = this.kernel.requestExecute({code: this.input.value});
+    future.onReply = (reply) => {
+      if (reply.content && reply.content.ok) {
+        console.log('got execute reply', reply);
+      } else {
+        console.log('execution failed');
+      }
+    };
+    future.onIOPub = (reply) => {
+      console.log('got io pub reply', reply);
+    };
   }
 
   runCommand() {
