@@ -35,7 +35,7 @@ export default class IpythonTerminal extends Morph {
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
    }
-  
+
   runCommand() {
     var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
