@@ -52,10 +52,10 @@ export default class IpythonTerminal extends Morph {
         if (type === "status") {
           if (reply.content.execution_state === "busy") {
             console.log("kernel started working");
-          } else if (reply.content.status == "idle") {
+          } else if (reply.content.state == "idle") {
             console.log('execution ready');
           } else {
-            console.log("unknown status");
+            console.log("unknown state");
           }
         } else if (type === "execute_input") {
           console.log('input sent');
