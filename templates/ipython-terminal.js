@@ -11,7 +11,7 @@ export default class IpythonTerminal extends Morph {
     this.terminal = this.get("#terminal");
     this.port = 8888;
     this.Services = window.Services;
-    this.token = '8f07046014d87478317d4a4c655877c0dc5d71386c6baacf';
+    this.token = '5d769eeadc7cdc5a4ca64c3404c435aee38354fb7b9deb18';
     this.modelId = '350d6e50-af33-4b2e-b5b3-622bfc25fb1c';
     this.model = {id: this.modelId, name: 'python3'};
 
