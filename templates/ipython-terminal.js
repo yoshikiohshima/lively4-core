@@ -72,7 +72,8 @@ export default class IpythonTerminal extends Morph {
      window.Services.Session.listRunning(this.settings).then(callback);
   }
   
-  setModel(id) {
+  setModel() {
+    debugger;
     this.model =  {id: this.modelId, name: 'python3'};
   }
   
