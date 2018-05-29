@@ -57,13 +57,13 @@ export default class IpythonTerminal extends Morph {
         option.text = id;
          choice.add(option);
        console.log("id: ", id);
-          that.modelId = '3b5b592e1c46ee2bc12e432c96688cec';
+          that.modelId = '78abeb6b-5c87-43df-84fc-3ea973be94ef';
 
      }
     choice.addEventListener("change", function(evt) {
         var id = evt.target.value;
         console.log("selection: ", id);
-        that.modelId ='3b5b592e1c46ee2bc12e432c96688cec';
+        that.modelId ='78abeb6b-5c87-43df-84fc-3ea973be94ef';
     }.bind(this));
 
   }
