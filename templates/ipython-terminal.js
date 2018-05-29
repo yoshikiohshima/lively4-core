@@ -17,8 +17,6 @@ export default class IpythonTerminal extends Morph {
   }
   
   settings() {
-    if (this.settings) {return;}
-    var that = this;
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
     var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
