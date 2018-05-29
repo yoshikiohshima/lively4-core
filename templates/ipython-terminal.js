@@ -12,7 +12,7 @@ export default class IpythonTerminal extends Morph {
     this.port = 8888;
     this.Services = window.Services;
     this.setupTokenField();
-    
+    console.log("init");
     this.addInput();
   }
 
