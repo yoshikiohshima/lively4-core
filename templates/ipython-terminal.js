@@ -36,7 +36,6 @@ export default class IpythonTerminal extends Morph {
     var Headers = window.Services.ServerConnection.defaultSettings.Headers;
     var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
     var fetch = window.Services.ServerConnection.defaultSettings.fetch;
-    debugger;
     this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
