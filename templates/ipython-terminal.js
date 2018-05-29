@@ -60,7 +60,8 @@ export default class IpythonTerminal extends Morph {
         var name = evt.target.value;
         console.log("selection: ", name);
         this.modelId = evt.target.modelId;
-    });
+        this.model = {id: this.modelId, name: 'python3'};
+      });
   }
 
   updateChoices() {
@@ -77,9 +78,9 @@ export default class IpythonTerminal extends Morph {
         var name = model.name;
         var option = document.createElement("option");
         option.text = name;
-        debugger;
         option.modelId = id;
         choices.add(option);
+        this.modelId = id;
       }
       console.log('models', models);
     });   
