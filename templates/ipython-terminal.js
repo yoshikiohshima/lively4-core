@@ -48,14 +48,16 @@ export default class IpythonTerminal extends Morph {
   }
 
   setChoices(models) {
-    console.log('models', models);
+    var that = this;
+     console.log('models', models);
     var choice = this.get('#modelChoice');
      for (var i = 0; i < models.length; i++) {
        var option = document.createElement("option");
         option.text = models[i].id;
          choice.add(option);
+               that.modelId = name;
+
      }
-    var that = this;
     choice.addEventListener("change", function(evt) {
         var name = evt.target.value;
         console.log("selection: ", name);
