@@ -114,7 +114,7 @@ export default class IpythonTerminal extends Morph {
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
     this.Services.Session.listRunning(this.settings).then(function(models) {
-      console.log(models);
+      console.log('models', models);
     });
 
     if (this.kernel && this.kernel.idle && this.kernel.busy) {
