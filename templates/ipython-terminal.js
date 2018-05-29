@@ -45,7 +45,7 @@ export default class IpythonTerminal extends Morph {
     this.token = this.get("#token").value;
     this.setSettings();
    " this.listRunning(this.setChoices.bind(this));"
-    this.modelId = '4bcaac65-e329-41c1-a2f0-736fa5f7b53f';
+    this.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
   }
 
   setChoices(models) {
@@ -58,13 +58,13 @@ export default class IpythonTerminal extends Morph {
         option.text = id;
          choice.add(option);
        console.log("id: ", id);
-          that.modelId = '78abeb6b-5c87-43df-84fc-3ea973be94ef';
+          that.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
 
      }
     choice.addEventListener("change", function(evt) {
         var id = evt.target.value;
         console.log("selection: ", id);
-        that.modelId ='78abeb6b-5c87-43df-84fc-3ea973be94ef';
+        that.modelId ='27e286db-3787-46ad-9fd0-d9fcc35d1486';
     }.bind(this));
 
   }
