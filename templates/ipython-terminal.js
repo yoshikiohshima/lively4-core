@@ -45,7 +45,7 @@ export default class IpythonTerminal extends Morph {
     this.token = this.get("#token").value;
     this.setSettings();
    " this.listRunning(this.setChoices.bind(this));"
-    this.modelId = '78abeb6b-5c87-43df-84fc-3ea973be94ef';
+    this.modelId = '4bcaac65-e329-41c1-a2f0-736fa5f7b53f';
   }
 
   setChoices(models) {
