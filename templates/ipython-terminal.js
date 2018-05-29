@@ -19,7 +19,7 @@ export default class IpythonTerminal extends Morph {
   setupTokenField() {
     var field = this.get('#token');
     console.log(field);
-    field.value = 'b011c7b7d961aff81506a1f0a84062883d5a9cc93eb311f2';
+    field.value = '6008f6fb56c8c0c0541000045e0582eb40405b5b26aa72b8';
 
     field.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
