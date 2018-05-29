@@ -28,15 +28,10 @@ export default class IpythonTerminal extends Morph {
     
   }
   
-  kernelSelected(name) {
-    var options = this.get('#modelChoice').options;
-    for (var i = 0; i < options.length; i++) {
-      var option = options[i];
-      if (option.text == name) {
-        this.modelId = option.id;
-      }
-    }
-  }
+  kernelSelected(id) {
+       this.modelId = id;
+      this.model = {id: id, name: 'python3'};
+   }
 
   setupTokenField() {
     var field = this.get('#token');
@@ -59,8 +54,7 @@ export default class IpythonTerminal extends Morph {
     choices.addEventListener("change", (evt) => {
         var name = evt.target.value;
         console.log("selection: ", name);
-        this.modelId = evt.target.modelId;
-        this.model = {id: this.modelId, name: 'python3'};
+        this.kernelSelected(evt.target.modelId);
       });
   }
 
@@ -80,8 +74,8 @@ export default class IpythonTerminal extends Morph {
         option.text = name;
         option.modelId = id;
         choices.add(option);
-        this.modelId = id;
-      }
+        this.kernelSelected(id);
+     }
       console.log('models', models);
     });   
   }
