@@ -73,7 +73,6 @@ export default class IpythonTerminal extends Morph {
   }
   
   setModel() {
-    debugger;
     this.model =  {id: this.modelId, name: 'python3'};
   }
   
