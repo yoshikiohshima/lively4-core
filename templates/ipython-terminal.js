@@ -30,7 +30,7 @@ export default class IpythonTerminal extends Morph {
   
   kernelSelected(name) {
     var options = this.get('#modelChoice').options;
-    for (var i = 0; i < options.length; i++){
+    for (var i = 0; i < options.length; i++) {
       var option = options[i];
       if (option.text == name) {
         this.modelId = option.id;
