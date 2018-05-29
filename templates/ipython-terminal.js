@@ -13,7 +13,7 @@ export default class IpythonTerminal extends Morph {
     this.Services = window.Services;
     this.get('#token').value = 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4';
     this.setupTokenField();
-    this.getList();
+    this.setupChoices();
     this.addInput();
   }
   
@@ -40,14 +40,48 @@ export default class IpythonTerminal extends Morph {
 
   setupTokenField() {
     var field = this.get('#token');
-       field.addEventListener("keyup", (event) => {
+    field.addEventListener("keyup", (event) => {
         if (event.keyCode === 13) {
           this.token = field.value;
+          this.setSettings();
+          this.updateChoices();
         }
       });
      field.addEventListener("click", () => {
        field.focus();
      });
+    this.token = field.value;
+  }
+  
+  setupChoices() {
+    var choices = this.get('#modelChoice');
+
+    choices.addEventListener("change", (evt) => {
+        var name = evt.target.value;
+        console.log("selection: ", name);
+        this.modelId = evt.target.modelId;
+    });
+  }
+
+  updateChoices() {
+    var choices = this.get('#modelChoice');
+    while (choices.options.length > 0) {
+        choices.remove(0);
+    }
+
+    this.Services.Session.listRunning(this.settings).then(function(models) {
+      for (var i = 0; i < models.length; i++) {
+        var model = models[i];
+        var kernelModel = model.kernel;
+        var id = kernelModel.id;
+        var name = model.name;
+        var option = document.createElement("option");
+        option.text = name;
+        option.odelId = id;
+        choices.add(option);
+      }
+      console.log('models', models);
+    });   
   }
 
   getList() {
