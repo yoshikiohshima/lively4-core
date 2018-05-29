@@ -12,10 +12,9 @@ export default class IpythonTerminal extends Morph {
     this.port = 8888;
     this.Services = window.Services;
     this.token = '6008f6fb56c8c0c0541000045e0582eb40405b5b26aa72b8';
+    this.getList();
     this.addInput();
   }
-  
-  
   
   settings() {
     if (this.settings) {return;}
@@ -84,9 +83,9 @@ export default class IpythonTerminal extends Morph {
     this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
-    this.Services.Session.listRunning(this.settings).then(function(models) {
+ /*   this.Services.Session.listRunning(this.settings).then(function(models) {
       console.log(models);
-    });
+    });*/
 
     this.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
       that.kernel = c;
