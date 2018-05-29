@@ -11,70 +11,29 @@ export default class IpythonTerminal extends Morph {
     this.terminal = this.get("#terminal");
     this.port = 8888;
     this.Services = window.Services;
-    this.setupTokenField();
-    console.log("init");
+    this.token = '7e3e6a906468ddc04e71ac9acce9d617c83e64d86f622a4d';
     this.addInput();
   }
-
-  setupTokenField() {
-    var field = this.get('#token');
-    console.log(field);
-    field.value = '6008f6fb56c8c0c0541000045e0582eb40405b5b26aa72b8';
-
-    field.addEventListener("keyup", (event) => {
-        if (event.keyCode === 13) {
-          this.getToken();
-        }
-      });
-     field.addEventListener("click", () => {
-       field.focus();
-     });
-   }
   
-  setSettings() {
-    var Request = window.Services.ServerConnection.defaultSettings.Request;
-    var Headers = window.Services.ServerConnection.defaultSettings.Headers;
-    var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
-    var fetch = window.Services.ServerConnection.defaultSettings.fetch;
+  
+  
+  settings() {
+    if (this.settings) {return;}
+    var that = this;
+    var Request = this.Services.ServerConnection.defaultSettings.Request;
+    var Headers = this.Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
+    var fetch = this.Services.ServerConnection.defaultSettings.fetch;
     this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+    
   }
-
-  getToken() {
-    this.token = this.get("#token").value;
-    this.setSettings();
-   " this.listRunning(this.setChoices.bind(this));"
-    this.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
-  }
-
-  setChoices(models) {
-    var that = this;
-     console.log('models', models);
-    var choice = this.get('#modelChoice');
-     for (var i = 0; i < models.length; i++) {
-       var option = document.createElement("option");
-       var id = models[i].id;
-        option.text = id;
-         choice.add(option);
-       console.log("id: ", id);
-          that.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
-
-     }
-    choice.addEventListener("change", function(evt) {
-        var id = evt.target.value;
-        console.log("selection: ", id);
-        that.modelId ='27e286db-3787-46ad-9fd0-d9fcc35d1486';
-    }.bind(this));
-
-  }
-
-  listRunning(callback) {
-     window.Services.Session.listRunning(this.settings).then(callback);
-  }
-  
-  setModel() {
-    this.model =  {id: this.modelId, name: 'python3'};
+ 
+  getList() {
+    this.modelId = 'd9c898dd-2273-462b-9d8b-099571565485';
+    this.model = {id: this.modelId, name: 'python3'};
+    
   }
   
   addInput() {
@@ -117,12 +76,20 @@ export default class IpythonTerminal extends Morph {
    }
 
   runCommand(text) {
-    this.setModel();
     var that = this;
- 
-    window.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
+    var Request = this.Services.ServerConnection.defaultSettings.Request;
+    var Headers = this.Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
+    var fetch = this.Services.ServerConnection.defaultSettings.fetch;
+    this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
+               init: {cache: 'no-store', credentials: "same-origin"},
+               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+    this.Services.Session.listRunning(this.settings).then(function(models) {
+      console.log(models);
+    });
+
+    this.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
       that.kernel = c;
-      debugger;
       console.log("kernel found") 
       console.log(this.input.value);
       var future = this.kernel.requestExecute({code: text.value});
