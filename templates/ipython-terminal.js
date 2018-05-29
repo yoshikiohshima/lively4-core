@@ -33,10 +33,10 @@ export default class IpythonTerminal extends Morph {
    }
   
   setSettings() {
-    var Request = this.Services.ServerConnection.defaultSettings.Request;
-    var Headers = this.Services.ServerConnection.defaultSettings.Headers;
-    var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
-    var fetch = this.Services.ServerConnection.defaultSettings.fetch;
+    var Request = window.Services.ServerConnection.defaultSettings.Request;
+    var Headers = window.Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
+    var fetch = window.Services.ServerConnection.defaultSettings.fetch;
     this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
@@ -58,7 +58,7 @@ export default class IpythonTerminal extends Morph {
   }
 
   listRunning(callback) {
-     this.Services.Session.listRunning(this.settings).then(callback);
+     window.Services.Session.listRunning(this.settings).then(callback);
   }
   
   setModel(id) {
