@@ -16,7 +16,7 @@ export default class IpythonTerminal extends Morph {
     this.addInput();
   }
   
-  settings() {
+  setSettings() {
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
     var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
@@ -114,7 +114,7 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     var that = this;
-    this.settings();    
+    this.setSettings();    
 
     this.Services.Session.listRunning(this.settings).then(function(models) {
       for (var i = 0; i < models.length; i++) {
