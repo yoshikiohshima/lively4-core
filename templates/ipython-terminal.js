@@ -49,12 +49,7 @@ export default class IpythonTerminal extends Morph {
        field.focus();
      });
   }
-  
-  getToken() {
-    this.token =  this.get('#token').value;
- 
-  }
- 
+
   getList() {
     this.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
     this.model = {id: this.modelId, name: 'python3'};
