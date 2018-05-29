@@ -30,7 +30,7 @@ export default class IpythonTerminal extends Morph {
   }
  
   getList() {
-    this.modelId = 'd9c898dd-2273-462b-9d8b-099571565485';
+    this.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
     this.model = {id: this.modelId, name: 'python3'};
     
   }
