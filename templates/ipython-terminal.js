@@ -125,7 +125,8 @@ export default class IpythonTerminal extends Morph {
       console.log(models);
     });*/
 
-    if (this.kernel) {
+    if (this.kernel && this.kernel.idle && this.kernel.busy) {
+      // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
       return this.runCommand2(text);
     }
     
