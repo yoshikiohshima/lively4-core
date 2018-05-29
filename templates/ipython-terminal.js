@@ -63,7 +63,7 @@ export default class IpythonTerminal extends Morph {
     choice.addEventListener("change", function(evt) {
         var id = evt.target.value;
         console.log("selection: ", id);
-        that.modelId = id;
+        that.modelId ='3b5b592e1c46ee2bc12e432c96688cec';
     }.bind(this));
 
   }
