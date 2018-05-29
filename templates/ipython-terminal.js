@@ -77,7 +77,7 @@ export default class IpythonTerminal extends Morph {
         var name = model.name;
         var option = document.createElement("option");
         option.text = name;
-        option.odelId = id;
+        option.modelId = id;
         choices.add(option);
       }
       console.log('models', models);
