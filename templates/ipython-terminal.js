@@ -45,11 +45,11 @@ export default class IpythonTerminal extends Morph {
   getToken() {
     this.token = this.get("#token").value;
     this.setSettings();
-    this.listRunning(this.setChoices);
+    this.listRunning(this.setChoices.bind(this));
   }
 
   setChoices(models) {
-      var choice = this.get('#modelChoice');
+    var choice = this.get('#modelChoice');
      for (var i = 0; i < models.length; i++) {
        var option = document.createElement("option");
         option.text = i;
