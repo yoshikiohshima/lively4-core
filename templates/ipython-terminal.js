@@ -117,6 +117,7 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     this.setModel();
+    var that = this;
  
     this.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
       that.kernel = c;
