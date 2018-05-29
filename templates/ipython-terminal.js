@@ -12,11 +12,23 @@ export default class IpythonTerminal extends Morph {
     this.port = 8888;
     this.Services = window.Services;
     
-    this.get('#token').value = '7e3e6a906468ddc04e71ac9acce9d617c83e64d86f622a4d';
-
     this.addInput();
   }
 
+  setupTokenField() {
+    var field = this.get('#token');
+    field.value = '7e3e6a906468ddc04e71ac9acce9d617c83e64d86f622a4d';
+
+    field.addEventListener("keyup", (event) => {
+        if (event.keyCode === 13) {
+          this.getToken();
+        }
+      });
+     field.addEventListener("click", () => {
+       field.focus();
+     });
+   }
+  
   setSettings() {
     var Request = this.Services.ServerConnection.defaultSettings.Request;
     var Headers = this.Services.ServerConnection.defaultSettings.Headers;
@@ -25,8 +37,6 @@ export default class IpythonTerminal extends Morph {
     this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
                init: {cache: 'no-store', credentials: "same-origin"},
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
-    
-
   }
 
   getToken() {
