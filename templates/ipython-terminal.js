@@ -114,14 +114,7 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     var that = this;
-    var Request = this.Services.ServerConnection.defaultSettings.Request;
-    var Headers = this.Services.ServerConnection.defaultSettings.Headers;
-    var WebSocket = this.Services.ServerConnection.defaultSettings.WebSocket;
-    var fetch = this.Services.ServerConnection.defaultSettings.fetch;
-    this.settings = {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: this.token,
-               init: {cache: 'no-store', credentials: "same-origin"},
-               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
-    
+    this.settings();    
 
     this.Services.Session.listRunning(this.settings).then(function(models) {
       for (var i = 0; i < models.length; i++) {
