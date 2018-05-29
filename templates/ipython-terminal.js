@@ -151,18 +151,7 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     var that = this;
-    this.setSettings();    
-
-    this.Services.Session.listRunning(this.settings).then(function(models) {
-      debugger;
-      for (var i = 0; i < models.length; i++) {
-        var model = models[i];
-        var kernelModel = model.kernel;
-        var id = kernelModel.id;
-        var name = model.name;
-      }
-      console.log('models', models);
-    });
+    this.setSettings(); 
 
     if (this.kernel && this.kernel.idle && this.kernel.busy) {
       // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
