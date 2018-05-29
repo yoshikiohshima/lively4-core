@@ -172,8 +172,7 @@ export default class IpythonTerminal extends Morph {
       that.kernel = c;
       console.log("kernel found") 
       console.log(this.input.value);
-      return this.runCommand2(text);
-      return future.done;
+      this.runCommand2(text);
     });
   }
     
