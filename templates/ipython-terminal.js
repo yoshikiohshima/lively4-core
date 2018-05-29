@@ -28,6 +28,16 @@ export default class IpythonTerminal extends Morph {
                Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
     
   }
+  
+  kernelSelected(name) {
+    var options = this.get('#modelChoice').options;
+    for (var i = 0; i < options.length; i++){
+      var option = options[i];
+      if (option.text == name) {
+        this.modelId = option.id;
+      }
+    }
+  }
  
   getList() {
     this.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
@@ -116,6 +126,12 @@ export default class IpythonTerminal extends Morph {
     
 
     this.Services.Session.listRunning(this.settings).then(function(models) {
+      for (var i = 0; i < models.length; i++) {
+        var model = models[i];
+        var kernelModel = model.kernel;
+        var id = kernelModel.id;
+        var name = model.name;
+      }
       console.log('models', models);
     });
 
