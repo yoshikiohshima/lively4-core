@@ -85,11 +85,6 @@ export default class IpythonTerminal extends Morph {
       console.log('models', models);
     });   
   }
-
-  getList() {
-    this.modelId = '27e286db-3787-46ad-9fd0-d9fcc35d1486';
-    this.model = {id: this.modelId, name: 'python3'};
-  }
   
   addInput() {
     var text = document.createElement("input");
