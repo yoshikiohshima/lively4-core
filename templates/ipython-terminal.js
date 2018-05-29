@@ -75,7 +75,6 @@ export default class IpythonTerminal extends Morph {
    }
 
   runCommand2(text) {
-    debugger;
       console.log('runCommand2', this.input.value);
       var future = this.kernel.requestExecute({code: text.value});
       future.onReply = (reply) => {
