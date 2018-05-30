@@ -2,6 +2,34 @@
 
 import Morph from 'src/components/widgets/lively-morph.js';
 
+function iPythonSettings(token) {
+  var Request = window.Services.ServerConnection.defaultSettings.Request;
+  var Headers = window.Services.ServerConnection.defaultSettings.Headers;
+  var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
+  // var fetch = window.Services.ServerConnection.defaultSettings.fetch;
+  var fetch = window.originalFetch;
+  return {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: token,
+               init: {cache: 'no-store', credentials: "same-origin"},
+               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+    
+}
+
+export class Notebook {
+  initialize(token) {
+    this.token = token;
+  }
+  
+  newUntitled(then) {
+    var settings = iPythonSettings(this.token);
+    var mymodel;
+    var contents = new window.Services.ContentsManager({serverSettings: settings});
+    contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((model) =>{
+      mymodel = model;
+      then(model);
+    });
+  }
+}
+
 export default class IpythonTerminal extends Morph {
   initialize() {
     this.inputs = [];
