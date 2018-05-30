@@ -15,6 +15,8 @@ export default class IpythonTerminal extends Morph {
     this.setupTokenField();
     this.setupChoices();
     this.addInput();
+
+    this.kernels = {}; // {name: id}
   }
   
   setSettings() {
@@ -31,7 +33,6 @@ export default class IpythonTerminal extends Morph {
   kernelSelected(id) {
        this.modelId = id;
       this.model = {id: id, name: 'python3'};
-     debugger;
     if (this.kernel) {
         this.kernel.shutdown();
         this.kernel == null;
@@ -68,20 +69,24 @@ export default class IpythonTerminal extends Morph {
     while (choices.options.length > 0) {
         choices.remove(0);
     }
+    this.kernels = {};
 
     this.Services.Session.listRunning(this.settings).then((models) => {
-      debugger;
+      var firstId = null;
       for (var i = 0; i < models.length; i++) {
         var model = models[i];
         var kernelModel = model.kernel;
         var id = kernelModel.id;
+        if (!firstId) {
+          firstId = id;
+        }
         var name = model.name;
         var option = document.createElement("option");
         option.text = name;
         option.modelId = id;
         choices.add(option);
-        this.kernelSelected(id);
      }
+
       console.log('models', models);
     });   
   }
