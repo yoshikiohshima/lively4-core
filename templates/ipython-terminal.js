@@ -156,6 +156,7 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     var that = this;
+    debugger;
     this.setSettings(); 
 
     if (this.kernel && this.kernel.idle && this.kernel.busy) {
