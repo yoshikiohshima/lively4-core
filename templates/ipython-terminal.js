@@ -87,6 +87,9 @@ export default class IpythonTerminal extends Morph {
         option.modelId = id;
         choices.add(option);
      }
+     if( firstId) {
+       this.kernelSelected(firstId);
+     }
 
       console.log('models', models);
     });   
