@@ -60,6 +60,7 @@ export default class IpythonTerminal extends Morph {
     choices.addEventListener("change", (evt) => {
         var name = evt.target.value;
         console.log("selection: ", name);
+      console.log(this);
         this.kernelSelected(this.kernels[name]);
       });
   }
