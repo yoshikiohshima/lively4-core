@@ -31,7 +31,8 @@ export default class IpythonTerminal extends Morph {
   kernelSelected(id) {
        this.modelId = id;
       this.model = {id: id, name: 'python3'};
-     if (this.kernel) {
+     debugger;
+    if (this.kernel) {
         this.kernel.shutdown();
         this.kernel == null;
     }
@@ -156,7 +157,6 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     var that = this;
-    debugger;
     this.setSettings(); 
 
     if (this.kernel && this.kernel.idle && this.kernel.busy) {
