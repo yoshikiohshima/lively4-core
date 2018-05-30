@@ -17,17 +17,48 @@ function iPythonSettings(token) {
 export class Notebook {
   initialize(token) {
     this.token = token;
+    this.cells = null;
+    this.model = null;
   }
   
-  newUntitled(then) {
+  async newUntitled() {
     var settings = iPythonSettings(this.token);
-    var mymodel;
     var contents = new window.Services.ContentsManager({serverSettings: settings});
-    contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((model) =>{
-      mymodel = model;
-      then(model);
-    });
+    var result = await contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'});
+    this.model = result;
+    this.cells = [];
+    return result;
   }
+
+  evaluate(code) {
+      console.log('python evaluate', code);
+      var future = this.kernel.requestExecute({code: code});
+      future.onReply = (reply) => {
+        console.log("execution reply", reply);
+      };
+      future.onIOPub = (reply) => {
+        var type = reply.msg_type;
+        if (type === "status") {
+          if (reply.content.execution_state === "busy") {
+            console.log("kernel started working");
+          } else if (reply.content.execution_state == "idle") {
+            this.addInput();
+          } else {
+          }
+        } else if (type === "execute_input") {
+        } else if (type === "execute_result") {
+          if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
+            this.addOutput(reply.content.data['text/plain']);
+          }
+        } else if (type === "stream") {
+          console.log(reply.content.name, reply.content.text);
+          this.addOutput(reply.content.text);
+        } else if (type === "error") {
+         this.addOutput(reply.content.evalue);
+        }
+      };
+      return future.done;
+  }   
 }
 
 export default class IpythonTerminal extends Morph {
