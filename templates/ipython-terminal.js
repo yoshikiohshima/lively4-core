@@ -31,6 +31,10 @@ export default class IpythonTerminal extends Morph {
   kernelSelected(id) {
        this.modelId = id;
       this.model = {id: id, name: 'python3'};
+   if (this.kernel) {
+      this.kernel.shutdown();
+      this.kernel == null;
+ 
    }
 
   setupTokenField() {
