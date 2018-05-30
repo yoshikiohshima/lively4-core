@@ -2,7 +2,109 @@
     <!-- booting lively just came down to this one line -->
     <script src="src/client/boot.js" data-container="true"></script>
   
-<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
-<lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 442.496px; top: -15.654px; width: 1228px; height: 1070px;" title="ipython-terminal.js" active="true"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/templates/ipython-terminal.js" leftpane-flex="" rightpane-flex="" mode="edit"></lively-container></lively-window>
+<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div><lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 200px; top: 100px;" title="IpythonTerminal"><ipython-terminal></ipython-terminal></lively-window>
+<lively-window class="global" tabindex="0" style="z-index: 103; position: absolute; left: 51.7422px; top: 193.141px; width: 1279px; height: 725px;" title="Workspace" active="true"><lively-code-mirror mode="text/jsx">window.Services
+
+var contents = new window.Services.ContentsManager( {serverSettings: setSettings()})
+
+contents.get(".").then((model) =&gt; {console.log('files: ', model.content)});
+
+contents.save('./Untitled.ipynb');
+
+contents.createCheckpoint("./Untitled.ipynb").then((model)=&gt; {
+  let checkpoint = model;
+  console.log("model", model);
+  
+  contents.restoreCheckPoint('./Untitled.ipynb', checkpoint.id);
+})
+
+
+function setSettings() {
+    var Request = window.Services.ServerConnection.defaultSettings.Request;
+    var Headers = window.Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
+   // var fetch = window.Services.ServerConnection.defaultSettings.fetch;
+    var fetch = window.originalFetch;
+    return {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4',
+               init: {cache: 'no-store', credentials: "same-origin"},
+               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+    
+  }
+
+debugger;
+contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((model) =&gt; {
+  console.log("new file", model.path);
+})
+</lively-code-mirror></lively-window>
+<lively-window class="global" tabindex="0" style="z-index: 101; position: absolute; left: 111.27px; top: 370.606px; width: 950px; height: 600px;" title="ipython-terminal.html"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/templates/ipython-terminal.html" leftpane-flex="" rightpane-flex=""><pre><code class="hljs xml"> <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"ipython-terminal"</span> <span class="hljs-attr">data-class</span>=<span class="hljs-string">"IpythonTerminal"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">data-src</span>=<span class="hljs-string">"/src/external/font-awesome/css/font-awesome.css"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">data-src</span>=<span class="hljs-string">"/templates/livelystyle.css"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+<span class="hljs-selector-pseudo">:host</span> {
+  
+}
+<span class="hljs-selector-id">#content</span> {
+  <span class="hljs-attribute">background-color</span>: gray;
+}
+<span class="hljs-selector-id">#terminal</span> { 
+    <span class="hljs-attribute">background</span>: white; 
+    <span class="hljs-attribute">border</span>:<span class="hljs-number">1px</span> solid <span class="hljs-number">#cbcbcb</span>;
+    <span class="hljs-attribute">height</span>:<span class="hljs-number">100%</span>;
+    <span class="hljs-attribute">width</span>:<span class="hljs-number">100%</span>;
+    <span class="hljs-attribute">padding</span>:<span class="hljs-number">10px</span>;
+    <span class="hljs-attribute">overflow-y</span>: scroll;
+}
+  
+<span class="hljs-selector-class">.terminalIn</span> {
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">12pt</span>;
+    <span class="hljs-attribute">background</span>: white;
+    <span class="hljs-attribute">border</span>:grey;
+    <span class="hljs-attribute">width</span>:<span class="hljs-number">95%</span>;
+    <span class="hljs-attribute">height</span>:<span class="hljs-number">20px</span>;
+} 
+  
+<span class="hljs-selector-class">.terminalOut</span> {
+    <span class="hljs-attribute">background</span>: white;
+    <span class="hljs-attribute">border</span>:grey;
+    <span class="hljs-attribute">width</span>:<span class="hljs-number">95%</span>;
+    <span class="hljs-attribute">height</span>:<span class="hljs-number">20px</span>;
+} 
+  
+  <span class="hljs-selector-id">#token</span> {
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">300px</span>;
+  }
+  
+  <span class="hljs-selector-id">#modelChoice</span> {
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;
+    <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">20px</span>;
+  }
+
+
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">var</span> that = <span class="hljs-keyword">this</span>;
+  (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-meta">    'use strict'</span>;
+    <span class="hljs-built_in">Promise</span>.all([
+      System.import(lively4url + <span class="hljs-string">'/src/external/jupyterlab/services/index.js'</span>)
+    ]).then(<span class="hljs-function">(<span class="hljs-params">imports</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> Services = imports[<span class="hljs-number">0</span>];
+      that.Services = Services;
+    })
+  })();
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tokenlabel"</span>&gt;</span>token:<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"token"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"modelChoice"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"terminal"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>= <span class="hljs-string">"terminalOut"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"registrationScript"</span>&gt;</span><span class="undefined">lively.registerTemplate()</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre></lively-container></lively-window>
+<lively-window class="global" tabindex="0" style="z-index: 102; position: absolute; left: 597.75px; top: 11.2594px; width: 1083px; height: 800px;" title="ipython-terminal.js"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/templates/ipython-terminal.js" leftpane-flex="" rightpane-flex="" mode="edit"></lively-container></lively-window>
 <div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
-<lively-notification-list hidden=""></lively-notification-list><lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-menu tabindex="0" style="position: absolute; left: 262px; top: 186px;"></lively-menu><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 151.191px; top: 67.7188px; display: none;"></div>
+<lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-notification-list hidden=""></lively-notification-list><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 91.0469px; top: 65.4727px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 91px; top: 65px;"></lively-menu>
