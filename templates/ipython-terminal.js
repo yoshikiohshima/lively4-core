@@ -34,7 +34,7 @@ export default class IpythonTerminal extends Morph {
    if (this.kernel) {
       this.kernel.shutdown();
       this.kernel == null;
- 
+   }
    }
 
   setupTokenField() {
