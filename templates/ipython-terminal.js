@@ -65,7 +65,7 @@ export default class IpythonTerminal extends Morph {
     }
 
     this.Services.Session.listRunning(this.settings).then((models) => {
-    debugger;
+      debugger;
       for (var i = 0; i < models.length; i++) {
         var model = models[i];
         var kernelModel = model.kernel;
