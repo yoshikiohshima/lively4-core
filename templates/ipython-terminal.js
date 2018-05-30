@@ -58,7 +58,7 @@ export class Notebook {
         }
       };
       return future.done;
-  }   
+  }
 }
 
 export default class IpythonTerminal extends Morph {
@@ -68,8 +68,6 @@ export default class IpythonTerminal extends Morph {
     this.input = null;
     this.windowTitle = "IpythonTerminal";
     this.terminal = this.get("#terminal");
-    this.port = 8888;
-    this.Services = window.Services;
     this.get('#token').value = 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4';
     this.setupTokenField();
     this.setupChoices();
@@ -90,8 +88,8 @@ export default class IpythonTerminal extends Morph {
   }
   
   kernelSelected(id) {
-       this.modelId = id;
-      this.model = {id: id, name: 'python3'};
+    this.modelId = id;
+    this.model = {id: id, name: 'python3'};
     if (this.kernel) {
         this.kernel.shutdown();
         this.kernel == null;
@@ -118,8 +116,6 @@ export default class IpythonTerminal extends Morph {
 
     choices.addEventListener("change", (evt) => {
         var name = evt.target.value;
-        console.log("selection: ", name);
-      console.log(this);
         this.kernelSelected(this.kernels[name]);
       });
   }
