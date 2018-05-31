@@ -123,13 +123,13 @@ export default class IpythonTerminal extends Morph {
             choices.remove(0);
         }
 
-        var firstId = null;
+        var firstModel = null;
         for (var i = 0; i < sessions.length; i++) {
             var sessionModel = sessions[i];
             var kernelModel = sessionModel.kernel;
             var id = sessionModel.id;
-            if (!firstId) {
-                firstId = id;
+            if (!firstModel) {
+                firstModel = sessionModel;
             }
             var name = sessionModel.name;
             var option = document.createElement("option");
@@ -137,8 +137,8 @@ export default class IpythonTerminal extends Morph {
             option.modelId = id;
             choices.add(option);
         }
-        if(firstId) {
-            this.sessionSelected(firstId);
+        if(firstModel) {
+            this.sessionSelected(firstModel);
         }
     }
   
@@ -160,17 +160,17 @@ export default class IpythonTerminal extends Morph {
         this.notebook.newUntitled();
     }
 
-    openNotebook(id) {
+    openNotebook(sessionModel) {
         this.notebook = new Notebook(this.token, this);
-        this.notebook.open(this.sessions[id]);
+        this.notebook.open(sessionModel);
     }
   
-    sessionSelected(id) {
+    sessionSelected(sessionModel) {
         if (this.notebook) {
             this.notebook.shutdown().then(() => {console.log("session closed")});
             this.notebook == null;
         }
-        this.openNotebook(id);
+        this.openNotebook(sessionModel);
     }
 
     setupChoices() {
