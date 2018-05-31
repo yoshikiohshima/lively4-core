@@ -14,13 +14,17 @@ function iPythonSettings(token) {
 }
 
 export class Notebook {
-    initialize(token, terminal) {
+    initialize(token) {
         this.token = token;
-        this.terminal = terminal;
         this.cells = null;
         this.sessionModel = null;  // session model
         this.session = null;       // session
         this.kernel = null;   // real kernel
+    }
+
+    status() {
+	if (!this.kernel) {return "unknown";}
+	return this.kernel.status();
     }
 
     async newUntitled() {
@@ -55,7 +59,7 @@ export class Notebook {
         });
     }
 
-    evaluate(code) {
+    evaluate(code, terminal) {
         console.log('python evaluate', code);
         var future = this.kernel.requestExecute({code: code});
         future.onReply = (reply) => {
@@ -67,19 +71,19 @@ export class Notebook {
                 if (reply.content.execution_state === "busy") {
                     console.log("kernel started working");
                 } else if (reply.content.execution_state == "idle") {
-                    this.terminal.addInput();
+                    terminal.addInput();
                 } else {
                 }
             } else if (type === "execute_input") {
             } else if (type === "execute_result") {
                 if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-                    this.terminal.addOutput(reply.content.data['text/plain']);
+                    terminal.addOutput(reply.content.data['text/plain']);
                 }
             } else if (type === "stream") {
                 console.log(reply.content.name, reply.content.text);
-                this.terminal.addOutput(reply.content.text);
+                terminal.addOutput(reply.content.text);
             } else if (type === "error") {
-                this.terminal.addOutput(reply.content.evalue);
+                terminal.addOutput(reply.content.evalue);
             }
         };
         return future.done;
@@ -221,6 +225,26 @@ export default class IpythonTerminal extends Morph {
             .replace(/'/g, "&#039;");
     }
 
+  runCommand(text) {
+      var that = this;
+      if (!this.notebook) {return;}
+      var settings = iPythonSettings(this.token);
+	  debugger;
+      if (this.notebook.status()) {
+	  // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
+	  // and test it accordingly
+	  return this.notebook.evaluate(text.value, this);
+      }
+  }
+    
+    this.Services.Kernel.connectTo(this.model, settings).then((c) => {
+      that.kernel = c;
+      console.log("kernel found") 
+      console.log(this.input.value);
+      this.runCommand2(text);
+    });
+  }
+
     runCommand2(text) {
         console.log('runCommand2', this.input.value);
         var future = this.kernel.requestExecute({code: text.value});
@@ -251,22 +275,7 @@ export default class IpythonTerminal extends Morph {
         return future.done;
     }
 
-  runCommand(text) {
-    var that = this;
-    var settings = iPythonSettings(this.token);
-debugger;
-    if (this.kernel && this.kernel.idle && this.kernel.busy) {
-      // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
-      return this.runCommand2(text);
-    }
-    
-    this.Services.Kernel.connectTo(this.model, settings).then((c) => {
-      that.kernel = c;
-      console.log("kernel found") 
-      console.log(this.input.value);
-      this.runCommand2(text);
-    });
-  }
+
     
   /* Lively-specific API */
 
