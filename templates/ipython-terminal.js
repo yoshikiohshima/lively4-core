@@ -32,7 +32,7 @@ class Notebook {
         var contents = new window.Services.ContentsManager({serverSettings: settings});
 
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-          this.open(notebook);
+          this.open(notebook.path);
       });
     }                                                
 
