@@ -128,7 +128,16 @@ export default class IpythonTerminal extends Morph {
         });
   }
 
-    updateChoices(files) {
+  setupChoices() {
+        var choices = this.get('#modelChoice');
+
+        choices.addEventListener("change", (evt) => {
+            var name = evt.target.value;
+            this.sessionSelected(name);
+        });
+  }
+
+   updateChoices(files) {
         var choices = this.get('#modelChoice');
         while (choices.options.length > 0) {
             choices.remove(0);
@@ -181,21 +190,12 @@ export default class IpythonTerminal extends Morph {
         this.notebook.open(fileModel, this.token);
     }
   
-    sessionSelected(fileModel) {
+    sessionSelected(file) {
         if (this.notebook) {
             this.notebook.shutdown().then(() => {console.log("session closed")});
             this.notebook == null;
         }
-        this.openNotebook(fileModel);
-    }
-
-    setupChoices() {
-        var choices = this.get('#modelChoice');
-
-        choices.addEventListener("change", (evt) => {
-            var name = evt.target.value;
-            this.kernelSelected(this.kernels[name]);
-        });
+        this.openNotebook(file);
     }
 
     addInput() {
@@ -238,7 +238,6 @@ export default class IpythonTerminal extends Morph {
     }
 
   runCommand(text) {
-      var that = this;
       if (!this.notebook) {return;}
       var settings = iPythonSettings(this.token);
       if (this.notebook.status) {
