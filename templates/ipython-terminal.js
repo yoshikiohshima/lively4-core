@@ -33,6 +33,7 @@ export class Notebook {
 
     async open(sessionModel, optNotebook) {
         var settings = iPythonSettings(this.token);
+      debugger;
         var session = await window.Services.Session.connectTo(sessionModel, settings);
         this.session = session;
         this.kernel = session.kernel;
