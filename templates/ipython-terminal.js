@@ -189,6 +189,7 @@ export default class IpythonTerminal extends Morph {
         var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.get(file).then((model) => {
+          debugger;
           this.parseCells(model.content.cells);
         });
     }
@@ -254,12 +255,10 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
       if (!this.notebook) {return;}
-      var settings = iPythonSettings(this.token);
       if (this.notebook.status) {
           // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
           // and test it accordingly
           return this.notebook.evaluate(text.value, this);
-        
       }
   }
     
