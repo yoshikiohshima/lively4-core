@@ -16,7 +16,6 @@ function iPythonSettings(token) {
 class Notebook {
     initialize() {
         this.cells = null;
-        this.sessionModel = null;  // session model
         this.session = null;       // session
         this.kernel = null;   // real kernel
     }
@@ -35,23 +34,17 @@ class Notebook {
       });
     }
   
-    getCells(file, token) {
-        var settings = iPythonSettings(token);
-        var contents = new window.Services.ContentsManager({serverSettings: settings});
-        contents.get(file).then((model) => {
-          var cells = model.content.cells;
-        });
-    }
-
-    async open(file, token) {
+    async open(file, token, optCallback) {
         var settings = iPythonSettings(token);
           var options = {kernelName: 'python3',
                         path: file,
                         serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
-           this.session = session;
-            this.kernel = session.kernel;
-            this.getCells(file, token);
+          this.session = session;
+          this.kernel = session.kernel;
+          if (optCallback) {
+            optCallback();
+          }
        })
     }
 
@@ -175,19 +168,7 @@ export default class IpythonTerminal extends Morph {
       });
     }
   
-    listSessions(token) {
-      var sessions;
-      window.Services.Session.listRunning(iPythonSettings(token)).then((sess) => {
-        sessions = sess;
-        this.sessions = {};
-        for (var i = 0; i < sessions.length; i++) {
-            this.sessions[sessions[i].id] = sessions[i];
-        }
-        this.updateChoices(sessions);
-      });
-    }
-
-    newNotebook() {
+   newNotebook() {
         this.notebook = new Notebook(this.token, this);
         this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token);
     }
@@ -204,9 +185,35 @@ export default class IpythonTerminal extends Morph {
         }
         this.openNotebook(file);
     }
+  
+    getCells(file) {
+        var settings = iPythonSettings(this.token);
+        var contents = new window.Services.ContentsManager({serverSettings: settings});
+        contents.get(file).then((model) => {
+          this.parseCells(model.content.cells);
+        });
+    }
 
-    addInput() {
+    parseCells(cells) {
+      for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        switch (cell.cell_type) {
+          case "code":
+            this.addInput(cell.source);
+            for (var j = 0; j < cell.outputs.length; j++) {
+              var output = cell.outputs[j];
+              this.addOutput(output.data['text/plain']);
+            }
+            break;
+          }     
+      }
+    }
+
+    addInput(optSource) {
         var text = document.createElement("input");
+        if (optSource) {
+          text.value = optSource;
+        }
         text.classList.add('terminalIn');
         text.setAttribute("type", "text");
         this.terminal.appendChild(text);
