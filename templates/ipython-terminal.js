@@ -253,14 +253,14 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
     var that = this;
-    this.setSettings(); 
-
+    var settings = iPythonSettings(this.token);
+debugger;
     if (this.kernel && this.kernel.idle && this.kernel.busy) {
       // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
       return this.runCommand2(text);
     }
     
-    this.Services.Kernel.connectTo(this.model, this.settings).then((c) => {
+    this.Services.Kernel.connectTo(this.model, settings).then((c) => {
       that.kernel = c;
       console.log("kernel found") 
       console.log(this.input.value);
