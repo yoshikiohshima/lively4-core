@@ -34,7 +34,8 @@ class Notebook {
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
           debugger;
           var options = {kernelName: 'python3',
-                        path: notebook.path};
+                        path: notebook.path,
+                        serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
             debugger;
             this.session = session;
