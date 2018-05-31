@@ -15,7 +15,6 @@ function iPythonSettings(token) {
 
 class Notebook {
     initialize(token) {
-      debugger;
         this.token = token;
         this.cells = null;
         this.sessionModel = null;  // session model
