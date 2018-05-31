@@ -156,7 +156,7 @@ export default class IpythonTerminal extends Morph {
       var contents = new window.Services.ContentsManager({serverSettings: settings});
       contents.get(".").then((models) => {
         debugger;
-        books = models.filter((e) => e.type === "notebook").map((e) => e.name);
+        books = models.content.filter((e) => e.type === "notebook").map((e) => e.name);
         this.updateChoices(books);
       });
     }
