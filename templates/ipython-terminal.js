@@ -117,6 +117,7 @@ export default class IpythonTerminal extends Morph {
     }
 
     updateChoices(sessions) {
+      debugger;
         var choices = this.get('#modelChoice');
         while (choices.options.length > 0) {
             choices.remove(0);
