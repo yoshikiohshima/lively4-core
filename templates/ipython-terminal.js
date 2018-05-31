@@ -106,7 +106,7 @@ export default class IpythonTerminal extends Morph {
         field.addEventListener("keyup", (event) => {
             if (event.keyCode === 13) {
                 this.token = field.value;
-                this.listSessions(this.token);
+                await this.listSessions(this.token);
                 this.updateChoices();
             }
         });
