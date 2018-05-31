@@ -18,29 +18,40 @@ export class Notebook {
 	this.token = token;
 	this.terminal = terminal;
 	this.cells = null;
-	this.kernel = null;
-	this.model;
+	this.sessionModel = null;  // session model
+	this.session = null;       // session
+	this.kernel = null;   // real kernel
     }
-  
+
     async newUntitled() {
 	var settings = iPythonSettings(this.token);
 	var contents = new window.Services.ContentsManager({serverSettings: settings});
-	var result = await contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'});
-	this.model = result;
-	this.cells = [];
-	this.kernel = this.model.kernel;
-	return result;
+	var notebook = await contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'});
+	var sessionModel = await window.Services.Session.findByPath(notebook.path, settings);
+	await this.open(sessionModel, notebook);
     }
 
-    async open(sessionModel) {
+    async open(sessionModel, optNotebook) {
 	var settings = iPythonSettings(this.token);
-	window.Services.Session.connectTo(sessionModel, settings);
-	var contents = new window.Services.ContentsManager({serverSettings: settings});
-	var result = await contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'});
-	this.model = result;
-	this.cells = [];
-	this.kernel = this.model.kernel;
-	return result;
+	var session = await window.Services.Session.connectTo(sessionModel, settings);
+	this.session = session;
+	this.kernel = session.kernel;
+
+	if (optNotebook && optNotebook.cells) {
+	    this.cells = optNotebook.cells;
+	} else {
+	    this.cells = [];
+	}
+    }
+
+    async shutdown() {
+	if (!this.session) {return;}
+	this.session.shutdown().then(() => {
+	    console.log('session closed');
+	    this.session = null;
+	    this.sessionModel = null;
+	    this.kernel = null;
+	});
     }
 
     evaluate(code) {
@@ -88,7 +99,6 @@ export default class IpythonTerminal extends Morph {
 	this.addInput();
 
 	this.sessions = null;
-	this.session = null;
     }
 
     setupTokenField() {
@@ -106,15 +116,15 @@ export default class IpythonTerminal extends Morph {
 	this.token = field.value;
     }
 
-    updateChoices() {
+    updateChoices(sessions) {
 	var choices = this.get('#modelChoice');
 	while (choices.options.length > 0) {
             choices.remove(0);
 	}
 
 	var firstId = null;
-	for (var i = 0; i < this.sessions.length; i++) {
-	    var sessionModel = this.sessions[i];
+	for (var i = 0; i < sessions.length; i++) {
+	    var sessionModel = sessions[i];
 	    var kernelModel = sessionModel.kernel;
 	    var id = sessionModel.id;
 	    if (!firstId) {
@@ -127,15 +137,13 @@ export default class IpythonTerminal extends Morph {
 	    choices.add(option);
 	}
 	if(firstId) {
-	    this.kernelSelected(firstId);
+	    this.sessionSelected(firstId);
 	}
     }
   
     async listSessions(token) {
 	var sessions = await window.Services.Session.listRunning(iPythonSettings(token));
-	this.sessions = sessions;
-	this.updateChoices();
-
+	this.updateChoices(sessions);
 	this.sessions = {};
 	for (var i = 0; i < sessions.length; i++) {
 	    this.sessions[sessions[i].id] = sessions[i];
@@ -153,11 +161,11 @@ export default class IpythonTerminal extends Morph {
     }
   
     sessionSelected(id) {
-	if (this.session) {
-            this.session.shutdown().then(() => {console.log("session closed")});
-            this.session == null;
+	if (this.notebook) {
+            this.notebook.shutdown().then(() => {console.log("session closed")});
+            this.notebook == null;
 	}
-	this.session = this.sessions[id];
+	this.openNotebook(id);
     }
 
     setupChoices() {
