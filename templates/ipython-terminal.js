@@ -140,9 +140,8 @@ export default class IpythonTerminal extends Morph {
             if (!firstFile) {
                 firstFile = file;
             }
-            var name = file.name;
             var option = document.createElement("option");
-            option.text = name;
+            option.text = file;
             choices.add(option);
         }
         if(firstFile) {
