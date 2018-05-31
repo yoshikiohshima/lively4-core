@@ -36,11 +36,11 @@ class Notebook {
       });
     }                                                
 
-    async open(fileModel) {
+    async open(file) {
    debugger;
         var settings = iPythonSettings(this.token);
           var options = {kernelName: 'python3',
-                        path: fileModel.path,
+                        path: file,
                         serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
            this.session = session;
