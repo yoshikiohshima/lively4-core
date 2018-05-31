@@ -170,6 +170,7 @@ export default class IpythonTerminal extends Morph {
     }
 
     newNotebook() {
+      debugger;
         this.notebook = new Notebook(this.token, this);
         this.notebook.newUntitled(() => {this.listSessions(this.token);});
     }
