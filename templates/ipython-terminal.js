@@ -99,8 +99,9 @@ export default class IpythonTerminal extends Morph {
         this.get('#token').value = 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4';
 
         this.setupTokenField();
-
         this.setupChoices();
+
+        this.setupNewButton();
         this.addInput();
 
         this.sessions = null;
