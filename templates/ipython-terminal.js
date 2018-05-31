@@ -15,7 +15,6 @@ function iPythonSettings(token) {
 
 class Notebook {
     initialize() {
-        this.cells = null;
         this.session = null;       // session
         this.kernel = null;   // real kernel
     }
@@ -210,6 +209,7 @@ export default class IpythonTerminal extends Morph {
     }
 
     addInput(optSource) {
+      (function() {
         var text = document.createElement("input");
         if (optSource) {
           text.value = optSource;
@@ -227,6 +227,7 @@ export default class IpythonTerminal extends Morph {
         this.terminal.addEventListener("click", (event) => {
             text.focus();
         });
+      })();
         this.input.focus();
     }
 
@@ -258,6 +259,7 @@ export default class IpythonTerminal extends Morph {
           // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
           // and test it accordingly
           return this.notebook.evaluate(text.value, this);
+        
       }
   }
     
