@@ -228,7 +228,7 @@ export default class IpythonTerminal extends Morph {
             text.focus();
         });
       })();
-        this.input.focus();
+      this.input.focus();
     }
 
     addOutput(str) {
