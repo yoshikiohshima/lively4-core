@@ -32,12 +32,10 @@ class Notebook {
         var contents = new window.Services.ContentsManager({serverSettings: settings});
 
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-          debugger;
           var options = {kernelName: 'python3',
                         path: notebook.path,
                         serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
-            debugger;
             this.session = session;
             this.kernel = session.kernel;
             this.cells = [];
