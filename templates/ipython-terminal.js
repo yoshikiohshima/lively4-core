@@ -95,20 +95,20 @@ export default class IpythonTerminal extends Morph {
         this.terminal = this.get("#terminal");
         this.get('#token').value = 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4';
 
-        this.setupTokenField();
+        this.setupTokenField((sessions) => {this.updateChoices(sessions);});
+
         this.setupChoices();
         this.addInput();
 
         this.sessions = null;
     }
 
-    setupTokenField() {
+    setupTokenField(then) {
         var field = this.get('#token');
         field.addEventListener("keyup", (event) => {
             if (event.keyCode === 13) {
                 this.token = field.value;
-                var sessions = this.listSessions(this.token);
-                this.updateChoices();
+                var promise = this.listSessions(this.token, then);
             }
         });
         field.addEventListener("click", () => {
