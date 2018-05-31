@@ -37,7 +37,6 @@ export class Notebook {
 
     async open(sessionModel, optNotebook) {
         var settings = iPythonSettings(this.token);
-      debugger;
         var session = await window.Services.Session.connectTo(sessionModel, settings);
         this.session = session;
         this.kernel = session.kernel;
@@ -149,7 +148,6 @@ export default class IpythonTerminal extends Morph {
     listSessions(token) {
       var sessions;
       window.Services.Session.listRunning(iPythonSettings(token)).then((sess) => {
-     debugger;
          sessions = sess;
         this.sessions = {};
         for (var i = 0; i < sessions.length; i++) {
