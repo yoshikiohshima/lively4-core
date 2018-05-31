@@ -227,7 +227,7 @@ export default class IpythonTerminal extends Morph {
             }
         });
         that.terminal.addEventListener("click", (event) => {
-            text.focus();
+         //   text.focus();
         });
       })();
       that.input.focus();
