@@ -13,7 +13,7 @@ function iPythonSettings(token) {
             Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
 }
 
-export class Notebook {
+export default class Notebook {
     initialize(token) {
       debugger;
         this.token = token;
