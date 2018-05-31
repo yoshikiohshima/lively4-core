@@ -210,6 +210,7 @@ export default class IpythonTerminal extends Morph {
     }
 
     addInput(optSource) {
+      var that = this;
       (function() {
         var text = document.createElement("input");
         if (optSource) {
@@ -217,19 +218,19 @@ export default class IpythonTerminal extends Morph {
         }
         text.classList.add('terminalIn');
         text.setAttribute("type", "text");
-        this.terminal.appendChild(text);
-        if (this.input) {this.input.blur();}
-        this.input = text;
+        that.terminal.appendChild(text);
+        if (that.input) {that.input.blur();}
+        that.input = text;
         text.addEventListener("keyup", (event) => {
             if (event.keyCode === 13 && event.shiftKey) {
-                this.runCommand(text);
+                that.runCommand(text);
             }
         });
-        this.terminal.addEventListener("click", (event) => {
+        that.terminal.addEventListener("click", (event) => {
             text.focus();
         });
       })();
-      this.input.focus();
+      that.input.focus();
     }
 
     addOutput(str) {
