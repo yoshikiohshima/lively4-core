@@ -28,6 +28,7 @@ export class Notebook {
     }
 
     newUntitled(then) {
+      debugger;
         var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
