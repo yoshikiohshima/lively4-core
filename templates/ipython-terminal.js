@@ -32,28 +32,20 @@ class Notebook {
         var contents = new window.Services.ContentsManager({serverSettings: settings});
 
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
+          this.open(notebook);
+      });
+    }                                                
+
+    async open(fileModel) {
+        var settings = iPythonSettings(this.token);
           var options = {kernelName: 'python3',
-                        path: notebook.path,
+                        path: fileModel.path,
                         serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
-            this.session = session;
+           this.session = session;
             this.kernel = session.kernel;
-            this.cells = [];
+            this.cells = session.cells || [];
           })
-        })
-     }
-
-    async open(sessionModel, optNotebook) {
-        var settings = iPythonSettings(this.token);
-        var session = await window.Services.Session.connectTo(sessionModel, settings);
-        this.session = session;
-        this.kernel = session.kernel;
-
-        if (optNotebook && optNotebook.cells) {
-            this.cells = optNotebook.cells;
-        } else {
-            this.cells = [];
-        }
     }
 
     async shutdown() {
@@ -136,35 +128,42 @@ export default class IpythonTerminal extends Morph {
         });
   }
 
-    updateChoices(sessions) {
+    updateChoices(files) {
         var choices = this.get('#modelChoice');
         while (choices.options.length > 0) {
             choices.remove(0);
         }
 
-        var firstModel = null;
-        for (var i = 0; i < sessions.length; i++) {
-            var sessionModel = sessions[i];
-            var kernelModel = sessionModel.kernel;
-            var id = sessionModel.id;
-            if (!firstModel) {
-                firstModel = sessionModel;
+        var firstFile = null;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (!firstFile) {
+                firstFile = file;
             }
-            var name = sessionModel.name;
+            var name = file.name;
             var option = document.createElement("option");
             option.text = name;
-            option.modelId = id;
             choices.add(option);
         }
-        if(firstModel) {
-            this.sessionSelected(firstModel);
+        if(firstFile) {
+            this.sessionSelected(firstFile);
         }
+    }
+
+    listNotebooks(token) {
+      var books;
+      var settings = new iPythonSettings(token);
+      var contents = new window.Services.ContentsManager({serverSettings: settings});
+      contents.get(".").then((models) => {
+        books = models.filter((e) => e.type === "notebook").map((e) => e.name);
+        this.updateChoices(books);
+      });
     }
   
     listSessions(token) {
       var sessions;
       window.Services.Session.listRunning(iPythonSettings(token)).then((sess) => {
-         sessions = sess;
+        sessions = sess;
         this.sessions = {};
         for (var i = 0; i < sessions.length; i++) {
             this.sessions[sessions[i].id] = sessions[i];
@@ -175,20 +174,20 @@ export default class IpythonTerminal extends Morph {
 
     newNotebook() {
         this.notebook = new Notebook(this.token, this);
-        this.notebook.newUntitled(() => {this.listSessions(this.token);}, this.token);
+        this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token);
     }
 
-    openNotebook(sessionModel) {
+    openNotebook(fileModel) {
         this.notebook = new Notebook(this.token, this);
-        this.notebook.open(sessionModel);
+        this.notebook.open(fileModel);
     }
   
-    sessionSelected(sessionModel) {
+    sessionSelected(fileModel) {
         if (this.notebook) {
             this.notebook.shutdown().then(() => {console.log("session closed")});
             this.notebook == null;
         }
-        this.openNotebook(sessionModel);
+        this.openNotebook(fileModel);
     }
 
     setupChoices() {
