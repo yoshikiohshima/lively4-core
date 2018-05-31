@@ -30,9 +30,16 @@ class Notebook {
     newUntitled(then, token) {
         var settings = iPythonSettings(token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
+
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-          window.Services.Session.findByPath(notebook.path, settings).then((sessionModel) => {
-            this.open(sessionModel, notebook).then(then);
+          debugger;
+          var options = {kernelName: 'python3',
+                        path: notebook.path};
+          window.Services.Session.startNew(options, settings).then((session) => {
+            debugger;
+            this.session = session;
+            this.kernel = session.kernel;
+            this.cells = [];
           })
         })
      }
