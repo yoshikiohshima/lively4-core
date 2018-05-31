@@ -237,45 +237,13 @@ export default class IpythonTerminal extends Morph {
       }
   }
     
-    runCommand2(text) {
-        console.log('runCommand2', this.input.value);
-        var future = this.kernel.requestExecute({code: text.value});
-        future.onReply = (reply) => {
-            console.log("execution reply", reply);
-        };
-        future.onIOPub = (reply) => {
-            var type = reply.msg_type;
-            if (type === "status") {
-                if (reply.content.execution_state === "busy") {
-                    console.log("kernel started working");
-                } else if (reply.content.execution_state == "idle") {
-                    this.addInput();
-                } else {
-                }
-            } else if (type === "execute_input") {
-            } else if (type === "execute_result") {
-                if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-                    this.addOutput(reply.content.data['text/plain']);
-                }
-            } else if (type === "stream") {
-                console.log(reply.content.name, reply.content.text);
-                this.addOutput(reply.content.text);
-            } else if (type === "error") {
-                this.addOutput(reply.content.evalue);
-            }
-        };
-        return future.done;
-    }
-
-
-    
   /* Lively-specific API */
 
   livelyPreMigrate() {
     // is called on the old object before the migration
-    if (this.kernel) {
-      this.kernel.shutdown();
-      this.kernel == null;
+    if (this.notebook) {
+      this.notebook.shutdown();
+      this.notebook == null;
     }
   }
   
