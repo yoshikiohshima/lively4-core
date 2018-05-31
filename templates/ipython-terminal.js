@@ -33,10 +33,17 @@ class Notebook {
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
           this.open(notebook.path, token);
       });
-    }                                                
+    }
+  
+    getCells(file, token) {
+        var settings = iPythonSettings(token);
+        var contents = new window.Services.ContentsManager({serverSettings: settings});
+        contents.get(file).then((model) => {
+          var cells = model.content.cells;
+        });
+    }
 
     async open(file, token) {
-   debugger;
         var settings = iPythonSettings(token);
           var options = {kernelName: 'python3',
                         path: file,
@@ -44,8 +51,8 @@ class Notebook {
           window.Services.Session.startNew(options, settings).then((session) => {
            this.session = session;
             this.kernel = session.kernel;
-            this.cells = session.cells || [];
-          })
+            this.getCells(file, token);
+       })
     }
 
     async shutdown() {
