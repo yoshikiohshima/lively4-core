@@ -95,7 +95,7 @@ export default class IpythonTerminal extends Morph {
         this.terminal = this.get("#terminal");
         this.get('#token').value = 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4';
 
-        this.setupTokenField((sessions) => {this.updateChoices(sessions);});
+        this.setupTokenField();
 
         this.setupChoices();
         this.addInput();
@@ -103,12 +103,12 @@ export default class IpythonTerminal extends Morph {
         this.sessions = null;
     }
 
-    setupTokenField(then) {
+    setupTokenField() {
         var field = this.get('#token');
         field.addEventListener("keyup", (event) => {
             if (event.keyCode === 13) {
                 this.token = field.value;
-                var promise = this.listSessions(this.token, then);
+                var promise = this.listSessions(this.token);
             }
         });
         field.addEventListener("click", () => {
@@ -142,10 +142,13 @@ export default class IpythonTerminal extends Morph {
         }
     }
   
-    async listSessions(token) {
-        var sessions = await window.Services.Session.listRunning(iPythonSettings(token));
-        this.updateChoices(sessions);
-      debugger;
+    listSessions(token) {
+	var sessions;
+        window.Services.Session.listRunning(iPythonSettings(token)).then((sess) => {
+	    sessions = sess;
+	    this.updateChoices(sessions);
+	});
+	debugger;
         this.sessions = {};
         for (var i = 0; i < sessions.length; i++) {
             this.sessions[sessions[i].id] = sessions[i];
