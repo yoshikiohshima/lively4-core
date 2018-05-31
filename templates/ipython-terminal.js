@@ -23,8 +23,8 @@ export class Notebook {
     }
 
     status() {
-	if (!this.kernel) {return "unknown";}
-	return this.kernel.status();
+        if (!this.kernel) {return "unknown";}
+        return this.kernel.status();
     }
 
     async newUntitled() {
@@ -229,12 +229,20 @@ export default class IpythonTerminal extends Morph {
       var that = this;
       if (!this.notebook) {return;}
       var settings = iPythonSettings(this.token);
-	  debugger;
+          debugger;
       if (this.notebook.status()) {
-	  // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
-	  // and test it accordingly
-	  return this.notebook.evaluate(text.value, this);
+          // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
+          // and test it accordingly
+          return this.notebook.evaluate(text.value, this);
       }
+  }
+    
+    this.Services.Kernel.connectTo(this.model, settings).then((c) => {
+      that.kernel = c;
+      console.log("kernel found") 
+      console.log(this.input.value);
+      this.runCommand2(text);
+    });
   }
 
     runCommand2(text) {
