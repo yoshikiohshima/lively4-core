@@ -177,8 +177,8 @@ export default class IpythonTerminal extends Morph {
     }
 
     openNotebook(fileModel) {
-        this.notebook = new Notebook(this.token, this);
-        this.notebook.open(fileModel);
+        this.notebook = new Notebook();
+        this.notebook.open(fileModel, this.token);
     }
   
     sessionSelected(fileModel) {
