@@ -143,16 +143,16 @@ export default class IpythonTerminal extends Morph {
     }
   
     listSessions(token) {
-	var sessions;
-        window.Services.Session.listRunning(iPythonSettings(token)).then((sess) => {
-	    sessions = sess;
-	    this.updateChoices(sessions);
-	});
-	debugger;
+      var sessions;
+      window.Services.Session.listRunning(iPythonSettings(token)).then((sess) => {
+        sessions = sess;
+        this.updateChoices(sessions);
+      debugger;
         this.sessions = {};
         for (var i = 0; i < sessions.length; i++) {
             this.sessions[sessions[i].id] = sessions[i];
         }
+      });
     }
 
     newNotebook() {
