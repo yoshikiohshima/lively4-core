@@ -145,6 +145,7 @@ export default class IpythonTerminal extends Morph {
     async listSessions(token) {
         var sessions = await window.Services.Session.listRunning(iPythonSettings(token));
         this.updateChoices(sessions);
+      debugger;
         this.sessions = {};
         for (var i = 0; i < sessions.length; i++) {
             this.sessions[sessions[i].id] = sessions[i];
