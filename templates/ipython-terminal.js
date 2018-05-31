@@ -27,9 +27,9 @@ class Notebook {
         return this.kernel.status();
     }
 
-    newUntitled(then) {
+    newUntitled(then, token) {
       debugger;
-        var settings = iPythonSettings(this.token);
+        var settings = iPythonSettings(token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
           window.Services.Session.findByPath(notebook.path, settings).then((sessionModel) => {
