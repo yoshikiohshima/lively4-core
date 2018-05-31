@@ -106,7 +106,7 @@ export default class IpythonTerminal extends Morph {
         field.addEventListener("keyup", (event) => {
             if (event.keyCode === 13) {
                 this.token = field.value;
-                await this.listSessions(this.token);
+                var sessions = this.listSessions(this.token);
                 this.updateChoices();
             }
         });
@@ -117,7 +117,6 @@ export default class IpythonTerminal extends Morph {
     }
 
     updateChoices(sessions) {
-      debugger;
         var choices = this.get('#modelChoice');
         while (choices.options.length > 0) {
             choices.remove(0);
