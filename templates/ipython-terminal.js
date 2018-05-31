@@ -230,7 +230,7 @@ export default class IpythonTerminal extends Morph {
       if (!this.notebook) {return;}
       var settings = iPythonSettings(this.token);
           debugger;
-      if (this.notebook.status()) {
+      if (this.notebook.status) {
           // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
           // and test it accordingly
           return this.notebook.evaluate(text.value, this);
