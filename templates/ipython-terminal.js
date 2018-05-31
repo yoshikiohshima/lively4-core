@@ -189,7 +189,6 @@ export default class IpythonTerminal extends Morph {
         var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.get(file).then((model) => {
-          debugger;
           this.parseCells(model.content.cells);
         });
     }
