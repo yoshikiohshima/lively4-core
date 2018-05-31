@@ -37,6 +37,7 @@ class Notebook {
     }                                                
 
     async open(fileModel) {
+   debugger;
         var settings = iPythonSettings(this.token);
           var options = {kernelName: 'python3',
                         path: fileModel.path,
@@ -154,7 +155,6 @@ export default class IpythonTerminal extends Morph {
       var settings = new iPythonSettings(token);
       var contents = new window.Services.ContentsManager({serverSettings: settings});
       contents.get(".").then((models) => {
-        debugger;
         books = models.content.filter((e) => e.type === "notebook").map((e) => e.name);
         this.updateChoices(books);
       });
