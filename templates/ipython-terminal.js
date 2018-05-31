@@ -27,13 +27,15 @@ export class Notebook {
         return this.kernel.status();
     }
 
-    async newUntitled() {
+    newUntitled(then) {
         var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
-        var notebook = await contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'});
-        var sessionModel = await window.Services.Session.findByPath(notebook.path, settings);
-        await this.open(sessionModel, notebook);
-    }
+        contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
+          window.Services.Session.findByPath(notebook.path, settings).then((sessionModel) => {
+            this.open(sessionModel, notebook).then(then);
+          })
+        })
+     }
 
     async open(sessionModel, optNotebook) {
         var settings = iPythonSettings(this.token);
@@ -166,10 +168,8 @@ export default class IpythonTerminal extends Morph {
     }
 
     newNotebook() {
-      debugger;
         this.notebook = new Notebook(this.token, this);
-        this.notebook.newUntitled();
-        this.listSessions(this.token);
+        this.notebook.newUntitled(() => {this.listSessions(this.token);});
     }
 
     openNotebook(sessionModel) {
