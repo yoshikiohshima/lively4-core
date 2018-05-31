@@ -14,8 +14,7 @@ function iPythonSettings(token) {
 }
 
 class Notebook {
-    initialize(token) {
-        this.token = token;
+    initialize() {
         this.cells = null;
         this.sessionModel = null;  // session model
         this.session = null;       // session
@@ -32,13 +31,13 @@ class Notebook {
         var contents = new window.Services.ContentsManager({serverSettings: settings});
 
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-          this.open(notebook.path);
+          this.open(notebook.path, token);
       });
     }                                                
 
-    async open(file) {
+    async open(file, token) {
    debugger;
-        var settings = iPythonSettings(this.token);
+        var settings = iPythonSettings(token);
           var options = {kernelName: 'python3',
                         path: file,
                         serverSettings: settings};
