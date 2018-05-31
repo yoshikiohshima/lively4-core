@@ -119,6 +119,13 @@ export default class IpythonTerminal extends Morph {
         });
         this.token = field.value;
     }
+  
+  setupNewButton() {
+         var button = this.get('#newNotebook');
+        button.addEventListener("click", () => {
+            this.newNotebook();
+        });
+  }
 
     updateChoices(sessions) {
         var choices = this.get('#modelChoice');
