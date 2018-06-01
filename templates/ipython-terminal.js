@@ -194,6 +194,7 @@ export default class IpythonTerminal extends Morph {
     }
   
     getCells() {
+      debugger;
       if (!this.notebook) {return;}
        var file = this.notebook.path;
        var settings = iPythonSettings(this.token);
