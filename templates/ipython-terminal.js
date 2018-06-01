@@ -103,18 +103,28 @@ export default class IpythonTerminal extends Morph {
         this.outputs = [];
         this.input = null;
         this.windowTitle = "IpythonTerminal";
-        this.terminal = this.get("#terminal");
         this.get('#token').value = 'edfe4b7bc3aa7cc79a14864247378b1eb52b5e8fbb1139b4';
 
         this.setupTokenField();
         this.setupChoices();
         this.setupNewButton();
         this.setupSaveButton();
-        this.addInput();
+
+      this.initTerminal();
 
         this.sessions = null;
     }
 
+  
+  initTerminal() {
+    this.terminal = this.get("#terminal");
+
+    while ( this.terminal .firstChild) {
+     this.terminal .removeChild( this.terminal .firstChild);
+    }
+    this.addInput();
+  }
+ 
     setupTokenField() {
         var field = this.get('#token');
         field.addEventListener("keyup", (event) => {
@@ -185,19 +195,19 @@ export default class IpythonTerminal extends Morph {
   
    newNotebook() {
         this.notebook = new Notebook(this.token, this);
-        this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {this.getCells()});
+        this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {this.updateModel(true)});
     }
 
     openNotebook(file) {
         this.notebook = new Notebook();
-        this.notebook.open(file, this.token, () => {this.getCells()});
+        this.notebook.open(file, this.token, () => {this.updateModel(true)});
     }
   
     saveNotebook() {
       if (!this.notebook) {return;}
       var cells = this.makeCells();
       this.model.content.cells = cells;
-      this.notebook.save(this.model, this.token, () => {this.getCells()});
+      this.notebook.save(this.model, this.token, () => {this.updateModel(false)});
     }
   
     sessionSelected(file) {
@@ -207,18 +217,20 @@ export default class IpythonTerminal extends Morph {
         }
         this.openNotebook(file);
     }
-  
-    getCells() {
-      if (!this.notebook) {return;}
+
+  updateModel(optUpdateCells) {
+     if (!this.notebook) {return;}
        var file = this.notebook.session.path;
        var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.get(file).then((model) => {
           this.model = model;
-          this.parseCells(model.content.cells);
+          if (optUpdateCells) {
+            this.parseCells(model.content.cells);
+          }
         });
     }
-
+  
     parseCells(cells) {
       for (var i = 0; i < cells.length; i++) {
         var cell = cells[i];
