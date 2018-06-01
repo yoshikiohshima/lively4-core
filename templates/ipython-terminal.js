@@ -107,8 +107,8 @@ export default class IpythonTerminal extends Morph {
 
         this.setupTokenField();
         this.setupChoices();
-
         this.setupNewButton();
+        this.setupSaveButton();
         this.addInput();
 
         this.sessions = null;
