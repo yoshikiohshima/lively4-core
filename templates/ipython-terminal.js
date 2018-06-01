@@ -272,7 +272,6 @@ export default class IpythonTerminal extends Morph {
     }
 
     addOutput(str) {
-      debugger;
         var text = document.createElement("div");
         text.classList.add('terminalOut');
         text.innerHTML = this.escape(str);
