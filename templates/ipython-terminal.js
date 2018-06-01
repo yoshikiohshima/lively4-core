@@ -208,17 +208,44 @@ export default class IpythonTerminal extends Morph {
       }
     }
   
-    /*makeCells() {
-      function find
-      var more = true;
-      var i = 0;
+    makeCells() {
       var childNodes = this.get('#terminal').childNodes;
+      var i = 0;
+      var cells = [];
       
-      while (more) {
-        childNodes
+      while (i < childNodes.length) {
+        var child = childNodes[i];
+        if (child.classList.contains('terminalIn')) {
+          var cell = {cell_type: 'code',
+                      execution_count: 1,
+                       metadata: {
+                         trusted: true,
+                       },
+                        source: child.value
+                     };
+          i++;
+          var lookOutputs = true;
+          var outputs = [];
+          while (lookOutputs) {
+            var maybe = childNodes[i];
+            if (maybe.classList.contains('terminalOut')) {
+              i++;
+              var output = {
+                output_type: "execute_result",
+                metadata: {},
+                execution_count: 1,
+                data: {'text/plain': child.value}
+              };
+              outputs.push(output);
+            } else {
+              lookOutputs = false;
+            }
+          }
+          cell.outputs = outputs;
+        }
       }
-      
-    }*/
+      return cells;
+    }
 
     addInput(optSource) {
       var that = this;
