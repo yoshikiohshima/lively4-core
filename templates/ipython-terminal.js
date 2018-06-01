@@ -29,22 +29,23 @@ class Notebook {
         var contents = new window.Services.ContentsManager({serverSettings: settings});
 
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-          this.open(notebook.path, token);
+          this.open(notebook, token);
       });
     }
   
-    async open(file, token, optCallback) {
+    async open(notebook, token, optCallback) {
         var settings = iPythonSettings(token);
           var options = {kernelName: 'python3',
-                        path: file,
+                        path: notebook.path,
                         serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
           this.session = session;
+          this.notebook = notebook;
           this.kernel = session.kernel;
           if (optCallback) {
             optCallback();
           }
-       })
+       });
     }
 
     async shutdown() {
@@ -85,6 +86,14 @@ class Notebook {
             }
         };
         return future.done;
+    }
+
+    save(cells, token) {
+        var settings = iPythonSettings(token);
+        var contents = new window.Services.ContentsManager({serverSettings: settings});
+
+      
+        contents.save(this.session.name, mymodel);
     }
 }
 
