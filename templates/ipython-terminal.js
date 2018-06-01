@@ -194,9 +194,8 @@ export default class IpythonTerminal extends Morph {
     }
   
     getCells() {
-      debugger;
       if (!this.notebook) {return;}
-       var file = this.notebook.path;
+       var file = this.notebook.session.path;
        var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.get(file).then((model) => {
