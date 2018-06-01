@@ -193,7 +193,6 @@ export default class IpythonTerminal extends Morph {
     }
   
     saveNotebook() {
-      debugger;
       if (!this.notebook) {return;}
       this.notebook.save(this.makeCells(), this.token);
     }
@@ -232,7 +231,8 @@ export default class IpythonTerminal extends Morph {
     }
   
     makeCells() {
-      var childNodes = this.get('#terminal').childNodes;
+       debugger;
+     var childNodes = this.get('#terminal').childNodes;
       var i = 0;
       var cells = [];
       
