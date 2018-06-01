@@ -249,7 +249,7 @@ export default class IpythonTerminal extends Morph {
           i++;
           var lookOutputs = true;
           var outputs = [];
-          while (lookOutputs) {
+          while (lookOutputs && i < childNodes.length) {
             var maybe = childNodes[i];
             if (maybe.classList.contains('terminalOut')) {
               i++;
@@ -265,6 +265,7 @@ export default class IpythonTerminal extends Morph {
             }
           }
           cell.outputs = outputs;
+          cells.push(cell);
         }
       }
       return cells;
