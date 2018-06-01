@@ -87,12 +87,13 @@ class Notebook {
         return future.done;
     }
 
-    save(cells, token) {
+    save(cells, token, optCallback) {
         var settings = iPythonSettings(token);
-        var contents = new window.Services.ContentsManager({serverSettings: settings});
-
-      
-        contents.save(this.session.name, mymodel);
+        var contents = new window.Services.ContentsManager({serverSettings: settings});      
+        contents.save(this.session.path, cells);
+          if (optCallback) {
+            optCallback();
+          }
     }
 }
 
@@ -194,7 +195,9 @@ export default class IpythonTerminal extends Morph {
   
     saveNotebook() {
       if (!this.notebook) {return;}
-      this.notebook.save(this.makeCells(), this.token);
+      var cells = this.makeCells();
+      this.model.content.cells = cells;
+      this.notebook.save(this.model, this.token, () => {this.getCells()});
     }
   
     sessionSelected(file) {
@@ -211,6 +214,7 @@ export default class IpythonTerminal extends Morph {
        var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.get(file).then((model) => {
+          this.model = model;
           this.parseCells(model.content.cells);
         });
     }
@@ -231,7 +235,6 @@ export default class IpythonTerminal extends Morph {
     }
   
     makeCells() {
-       debugger;
      var childNodes = this.get('#terminal').childNodes;
       var i = 0;
       var cells = [];
