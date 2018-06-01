@@ -24,23 +24,22 @@ class Notebook {
         return this.kernel.status();
     }
 
-    newUntitled(then, token) {
+    newUntitled(then, token, optCallback) {
         var settings = iPythonSettings(token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
 
         contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-          this.open(notebook, token);
+          this.open(notebook.path, token, optCallback);
       });
     }
   
-    async open(notebook, token, optCallback) {
+    async open(file, token, optCallback) {
         var settings = iPythonSettings(token);
           var options = {kernelName: 'python3',
-                        path: notebook.path,
+                        path: file,
                         serverSettings: settings};
           window.Services.Session.startNew(options, settings).then((session) => {
           this.session = session;
-          this.notebook = notebook;
           this.kernel = session.kernel;
           if (optCallback) {
             optCallback();
@@ -178,12 +177,12 @@ export default class IpythonTerminal extends Morph {
   
    newNotebook() {
         this.notebook = new Notebook(this.token, this);
-        this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token);
+        this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {this.getCells()});
     }
 
     openNotebook(file) {
         this.notebook = new Notebook();
-        this.notebook.open(file, this.token, () => {this.getCells(file)});
+        this.notebook.open(file, this.token, () => {this.getCells()});
     }
   
     sessionSelected(file) {
@@ -194,8 +193,10 @@ export default class IpythonTerminal extends Morph {
         this.openNotebook(file);
     }
   
-    getCells(file) {
-        var settings = iPythonSettings(this.token);
+    getCells() {
+      if (!this.notebook) {return;}
+       var file = this.notebook.path;
+       var settings = iPythonSettings(this.token);
         var contents = new window.Services.ContentsManager({serverSettings: settings});
         contents.get(file).then((model) => {
           this.parseCells(model.content.cells);
