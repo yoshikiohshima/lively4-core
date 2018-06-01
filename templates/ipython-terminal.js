@@ -74,6 +74,7 @@ class Notebook {
                 }
             } else if (type === "execute_input") {
             } else if (type === "execute_result") {
+            console.log("execution result", reply);
                 if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
                     terminal.addOutput(reply.content.data['text/plain']);
                 }
