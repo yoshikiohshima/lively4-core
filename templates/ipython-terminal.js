@@ -135,6 +135,13 @@ export default class IpythonTerminal extends Morph {
         });
   }
 
+  setupSaveButton() {
+         var button = this.get('#saveNotebook');
+        button.addEventListener("click", () => {
+            this.saveNotebook();
+        });
+  }
+
   setupChoices() {
         var choices = this.get('#modelChoice');
 
@@ -183,6 +190,12 @@ export default class IpythonTerminal extends Morph {
     openNotebook(file) {
         this.notebook = new Notebook();
         this.notebook.open(file, this.token, () => {this.getCells()});
+    }
+  
+    saveNotebook() {
+      debugger;
+      if (!this.notebook) {return;}
+      this.notebook.save(this.makeCells(), this.token);
     }
   
     sessionSelected(file) {
