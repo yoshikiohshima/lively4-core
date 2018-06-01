@@ -308,7 +308,6 @@ export default class IpythonTerminal extends Morph {
           // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
           // and test it accordingly
           return this.notebook.evaluate(text.value, this);
-          
       }
   }
     
