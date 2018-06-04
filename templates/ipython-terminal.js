@@ -350,6 +350,8 @@ export default class IpythonTerminal extends Morph {
         var text = document.createElement("textarea");
         if (optSource) {
           text.value = optSource;
+          var lines = optSource.split('\n').length;
+          text.style.height = (20*lines)+'px';
         }
         text.classList.add('terminalIn');
         text.setAttribute("type", "text");
@@ -370,6 +372,10 @@ export default class IpythonTerminal extends Morph {
 
     addOutput(str) {
         var text = document.createElement("textarea");
+        if (str) {
+          var lines = str.split('\n').length;
+          text.style.height = (20*lines)+'px';
+        }
         text.classList.add('terminalOut');
         text.innerHTML = this.escape(str);
         this.terminal.appendChild(text);
