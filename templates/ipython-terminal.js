@@ -70,20 +70,20 @@ class Notebook {
                 if (reply.content.execution_state === "busy") {
                     console.log("kernel started working");
                 } else if (reply.content.execution_state == "idle") {
-                    terminal.addInput();
+                    if (terminal) {terminal.addInput();}
                 } else {
                 }
             } else if (type === "execute_input") {
             } else if (type === "execute_result") {
             console.log("execution result", reply);
                 if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-                    terminal.addOutput(reply.content.data['text/plain']);
+                    if (terminal) {terminal.addOutput(reply.content.data['text/plain']);}
                 }
             } else if (type === "stream") {
                 console.log(reply.content.name, reply.content.text);
-                terminal.addOutput(reply.content.text);
+                if (terminal) {terminal.addOutput(reply.content.text);}
             } else if (type === "error") {
-                terminal.addOutput(reply.content.evalue);
+                if (terminal) {terminal.addOutput(reply.content.evalue);}
             }
         };
         return future.done;
