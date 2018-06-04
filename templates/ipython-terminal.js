@@ -102,6 +102,16 @@ class Notebook {
     debugger;
     var kernel = this.kernel;
     if (!kernel) {return;}
+
+    kernel.registerCommTarget('weights', (comm, commMsg) => {
+    comm.onMsg = (msg) => {
+      console.log(msg);  // 'hello'
+    };
+    comm.onClose = (msg) => {
+      console.log(msg);  // 'bye'
+    };
+  });
+
    var code = `
 from ipykernel.comm import Comm
 import numpy as np
@@ -113,16 +123,7 @@ def sendTensor():
 `;
      this.evaluate(code);
   }
-  
-  askComm() {
-     var kernel = this.kernel;
-    if (!kernel) {return;}
-       kernel.connectToComm('my_comm_target', (comm) => {
-      comm.open('initial state');
-      comm.send('test');
-      comm.close('bye');
-       });
-  }
+
 }
 
 export default class IpythonTerminal extends Morph {
