@@ -166,8 +166,6 @@ export default class IpythonTerminal extends Morph {
         this.setupNewButton();
         this.setupSaveButton();
 
-      this.initTerminal();
-
         this.sessions = null;
     }
 
