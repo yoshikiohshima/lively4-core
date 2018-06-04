@@ -133,14 +133,13 @@ def on_msg(comm, msg):
   ask() {
     var kernel = this.kernel;
     if (!kernel) {return;}
-debugger;
     kernel.registerCommTarget('mycomm', (comm, commMsg) => {
    comm.onOpen= (msg) => {
         comm.send(msg); // echo
     };
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
-    };    
+    };
   });
     
   var code = `
