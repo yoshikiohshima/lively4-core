@@ -248,11 +248,13 @@ export default class IpythonTerminal extends Morph {
   
    newNotebook() {
         this.notebook = new Notebook(this.token, this);
+        this.initTerminal();
         this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {this.updateModel(true)});
     }
 
     openNotebook(file) {
         this.notebook = new Notebook();
+        this.initTerminal();
         this.notebook.open(file, this.token, () => {this.updateModel(true)});
     }
   
