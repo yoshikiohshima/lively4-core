@@ -112,12 +112,16 @@ class Notebook {
     });
 
    let code = `
-def target_func(comm, msg):
-  @comm.on_msg
-  def _recv(msg):
-    comm.send({'foo': 5})
+from ipykernel.comm import Comm
 
-get_ipython.kernel.comm_manager.register_target('my_comm_target', target_func)
+# Use comm to send a message from the kernel
+my_comm = Comm(target_name='my_comm_target', data={'foo': 1})
+my_comm.send({'foo': 2})
+
+# Add a callback for received messages.
+@my_comm.on_msg
+def _recv(msg):
+    # Use msg['content']['data'] for the data in the message
  `;
      kernel.requestExecute({ code: code });
   }
