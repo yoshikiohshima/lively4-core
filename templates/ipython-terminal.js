@@ -106,9 +106,10 @@ class Notebook {
 from ipykernel.comm import Comm
 import numpy as np
 
-comm = Comm(target_name='weights')
-comm.send(data=np.zeros((2, 2)))
-comm.close()
+def sendTensor():
+  comm = Comm(target_name='weights')
+  comm.send(data=np.zeros((2, 2)))
+  comm.close()
 `;
      this.evaluate(code);
   }
