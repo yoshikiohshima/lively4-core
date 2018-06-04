@@ -106,13 +106,12 @@ class Notebook {
 from ipykernel.comm import Comm
 
 # Use comm to send a message from the kernel
-my_comm = Comm(target_name='my_comm_target', data={'foo': 1})
-my_comm.send({'foo': 2})
+my_comm = Comm(target_name='my_comm_target')
 
-# Add a callback for received messages.
-@my_comm.on_msg
-def _recv(msg):
-    print('msg', msg)
+def foo(v):
+  print(v)
+
+my_comm.on_msg(v)
  `;
      this.evaluate(code);
   }
