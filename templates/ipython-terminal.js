@@ -99,7 +99,6 @@ class Notebook {
     }
   
   setupComm() {
-    debugger;
     var kernel = this.kernel;
     if (!kernel) {return;}
 
