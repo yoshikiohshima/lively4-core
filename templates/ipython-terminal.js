@@ -135,12 +135,18 @@ def on_msg(comm, msg):
     if (!kernel) {return;}
 debugger;
     kernel.registerCommTarget('mycomm', (comm, commMsg) => {
-    
+   comm.onOpen= (msg) => {
+        comm.send(msg); // echo
+    };
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
-    };
+    };    
   });
-  }
+    
+  var code = `
+m_comm = Comm(target_name="mycomm", on_msg=on_msg)
+`;
+     this.evaluate(code);
 
 }
 
