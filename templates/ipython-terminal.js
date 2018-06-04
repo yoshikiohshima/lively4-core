@@ -105,7 +105,7 @@ class Notebook {
     kernel.registerCommTarget('weights', (comm, commMsg) => {
     comm.onMsg = (msg) => {
       console.log(msg);  // 'hello'
-      console.log(msg.buffers);
+      console.log(msg.buffers[0].buffer);
     };
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
