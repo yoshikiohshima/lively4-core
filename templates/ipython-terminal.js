@@ -130,6 +130,20 @@ def sendTensor():
 `;
      this.evaluate(code);
   }
+  
+  ask() {
+    var kernel = this.kernel;
+    if (!kernel) {return;}
+
+    kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+    comm.onOpen= (msg) => {
+        comm.send(msg); // echo
+    };
+    comm.onClose = (msg) => {
+      console.log(msg);  // 'bye'
+    };
+  });
+  }
 
 }
 
