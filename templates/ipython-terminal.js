@@ -106,6 +106,8 @@ class Notebook {
     comm.onMsg = (msg) => {
       console.log(msg);  // 'hello'
       console.log(msg.buffers[0].buffer);
+      var ar = new Float32Array(msg.buffers[0].buffer);
+      console.log(ar);
     };
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
