@@ -123,6 +123,9 @@ class Notebook {
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
     };
+     comm.onMsg = (msg) => {
+       console.log('msg', msg);
+     };
   });
     
 
