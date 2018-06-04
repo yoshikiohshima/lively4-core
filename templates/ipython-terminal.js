@@ -118,7 +118,7 @@ import numpy as np
 
 def sendTensor():
   comm = Comm(target_name='weights')
-  comm.send(data='test', buffers=[memoryview(np.zeros((2, 2), dtype='float32'))])
+  comm.send(data='test', buffers=[memoryview(np.array((1.5, 2.5), dtype='float32'))])
   comm.close()
 `;
      this.evaluate(code);
