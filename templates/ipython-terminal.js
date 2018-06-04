@@ -135,7 +135,8 @@ def on_msg(comm, msg):
     if (!kernel) {return;}
     kernel.registerCommTarget('mycomm', (comm, commMsg) => {
    comm.onOpen= (msg) => {
-        comm.send('open', msg); // echo
+        comm.send(msg); // echo
+        console.log('open', msg);
     };
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
