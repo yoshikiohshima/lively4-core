@@ -291,7 +291,6 @@ export default class IpythonTerminal extends Morph {
         var cell = cells[i];
         switch (cell.cell_type) {
           case "code":
-            debugger;
             this.addInput(cell.source);
             for (var j = 0; j < cell.outputs.length; j++) {
               var output = cell.outputs[j];
