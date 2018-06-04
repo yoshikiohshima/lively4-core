@@ -123,10 +123,10 @@ def sendTensor():
   comm.send(data='test', buffers=[memoryview(np.array((1.5, 2.5), dtype='float32'))])
   comm.close()
 
- def on_msg(comm, msg):
-        print(msg)
+def on_msg(comm, msg):
+  print(msg)
 
- m_comm = Comm(target_name="mycomm", on_msg=on_msg)
+m_comm = Comm(target_name="mycomm", on_msg=on_msg)
 `;
      this.evaluate(code);
   }
