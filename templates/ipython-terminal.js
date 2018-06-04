@@ -41,6 +41,7 @@ class Notebook {
           window.Services.Session.startNew(options, settings).then((session) => {
           this.session = session;
           this.kernel = session.kernel;
+          this.setupComm();
           if (optCallback) {
             optCallback();
           }
@@ -96,6 +97,30 @@ class Notebook {
             optCallback();
           }
     }
+  
+  setupComm() {
+    var kernel = this.kernel;
+    if (!kernel) {return;}
+      kernel.registerCommTarget('test2', (comm, commMsg) => {
+    if (commMsg.content.target_name !== 'test2') {
+       return;
+    }
+    comm.onMsg = (msg) => {
+      console.log(msg);  // 'hello'
+    };
+    comm.onClose = (msg) => {
+      console.log(msg);  // 'bye'
+    };
+  });
+
+  let code = [
+    'from ipykernel.comm import Comm',
+    'comm = Comm(target_name="test2")',
+    'comm.send(data="hello")',
+    'comm.close(data="bye")'
+  ].join('\n');
+  kernel.requestExecute({ code: code });
+  }
 }
 
 export default class IpythonTerminal extends Morph {
