@@ -145,7 +145,7 @@ def on_msg(comm, msg):
   ask() {
   var code = `
 m_comm = Comm(target_name="mycomm", on_msg=on_msg)
-m_comm.send(")
+m_comm.send('hi')
 `;
      this.evaluate(code);
   }
