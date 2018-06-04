@@ -113,12 +113,14 @@ class Notebook {
       };
    });
 
-   let code = [
-    'from ipykernel.comm import Comm',
-    'comm = Comm(target_name="test2")',
-    'comm.send(data="hello")',
-    'comm.close(data="bye")'
-   ].join('\n');
+   let code = `
+def target_func(comm, msg):
+  @comm.on_msg
+  def _recv(msg):
+    comm.send({'foo': 5})
+
+get_ipython.kernel.comm_manager.register_target('my_comm_target', target_func)
+ `;
      kernel.requestExecute({ code: code });
   }
 }
