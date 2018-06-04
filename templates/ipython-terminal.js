@@ -140,7 +140,9 @@ def sendTensor():
   comm.close()
 
 def on_msg(comm, msg):
+  import sys
   print(msg)
+  sys.exit(3)
 
 `;
      this.evaluate(code);
