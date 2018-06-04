@@ -99,19 +99,17 @@ class Notebook {
     }
   
   setupComm() {
-     var kernel = this.kernel;
-      if (!kernel) {return;}
-       kernel.registerCommTarget('test2', (comm, commMsg) => {
-     if (commMsg.content.target_name !== 'test2') {
-        return;
-     }
-     comm.onMsg = (msg) => {
-       console.log(msg);  // 'hello'
-     };
-     comm.onClose = (msg) => {
-       console.log(msg);  // 'bye'
+    var kernel = this.kernel;
+    if (!kernel) {return;}
+    kernel.registerCommTarget('test2', (comm, commMsg) => {
+      if (commMsg.content.target_name !== 'test2') {return;}
+      comm.onMsg = (msg) => {
+        console.log(msg);  // 'hello'
       };
-   });
+      comm.onClose = (msg) => {
+        console.log(msg);  // 'bye'
+      };
+    });
 
    let code = `
 def target_func(comm, msg):
@@ -122,6 +120,16 @@ def target_func(comm, msg):
 get_ipython.kernel.comm_manager.register_target('my_comm_target', target_func)
  `;
      kernel.requestExecute({ code: code });
+  }
+  
+  askComm() {
+     var kernel = this.kernel;
+    if (!kernel) {return;}
+       kernel.connectToComm('my_comm_target', (comm) => {
+      comm.open('initial state');
+      comm.send('test');
+      comm.close('bye');
+       });
   }
 }
 
