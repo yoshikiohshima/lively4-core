@@ -126,7 +126,6 @@ def sendTensor():
 def on_msg(comm, msg):
   print(msg)
 
-m_comm = Comm(target_name="mycomm", on_msg=on_msg)
 `;
      this.evaluate(code);
   }
