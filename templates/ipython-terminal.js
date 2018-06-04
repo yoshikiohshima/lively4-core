@@ -112,7 +112,7 @@ my_comm.send({'foo': 2})
 # Add a callback for received messages.
 @my_comm.on_msg
 def _recv(msg):
-    # Use msg['content']['data'] for the data in the message
+    print('msg', msg)
  `;
      this.evaluate(code);
   }
