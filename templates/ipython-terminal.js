@@ -140,9 +140,7 @@ def sendTensor():
   comm.close()
 
 def on_msg(comm, msg):
-  import sys
   print(msg)
-  sys.exit(3)
 
 `;
      this.evaluate(code);
@@ -161,7 +159,7 @@ export default class IpythonTerminal extends Morph {
     initialize() {
         this.input = null;
         this.windowTitle = "IpythonTerminal";
-        this.get('#token').value = '0a6f547598efb69bc5cd6dbe2c133fe7ff23568e18feb464';
+        this.get('#token').value = '47101fa5a35a38e5a6007ca14ca86051fdc3a8e2bab0406a';
 
         this.setupTokenField();
         this.setupChoices();
