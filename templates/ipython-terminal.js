@@ -114,7 +114,6 @@ export default class IpythonTerminal extends Morph {
         this.sessions = null;
     }
 
-  
   initTerminal() {
     this.terminal = this.get("#terminal");
 
