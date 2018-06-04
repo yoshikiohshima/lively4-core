@@ -294,7 +294,7 @@ export default class IpythonTerminal extends Morph {
             this.addInput(cell.source);
             for (var j = 0; j < cell.outputs.length; j++) {
               var output = cell.outputs[j];
-              if (output.data['text/plain']) {
+              if (output && output.data && output.data['text/plain']) {
                 this.addOutput(output.data['text/plain']);
               }
             }
