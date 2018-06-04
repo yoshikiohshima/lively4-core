@@ -104,15 +104,12 @@ class Notebook {
     if (!kernel) {return;}
    var code = `
 from ipykernel.comm import Comm
+import numpy as np
 
-# Use comm to send a message from the kernel
-my_comm = Comm(target_name='my_comm_target')
-
-def foo(v):
-  print(v)
-
-my_comm.on_msg(v)
- `;
+comm = Comm(target_name='weights')
+comm.send(data=np.zeros((2, 2)))
+comm.close()
+`;
      this.evaluate(code);
   }
   
