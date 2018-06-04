@@ -134,7 +134,7 @@ m_comm = Comm(target_name="mycomm", on_msg=on_msg)
   ask() {
     var kernel = this.kernel;
     if (!kernel) {return;}
-
+debugger;
     kernel.registerCommTarget('mycomm', (comm, commMsg) => {
     
     comm.onClose = (msg) => {
