@@ -125,7 +125,8 @@ class Notebook {
     };
      comm.onMsg = (msg) => {
        console.log('msg', msg);
-     };
+        comm.send(msg); // echo
+    };
   });
     
 
