@@ -304,7 +304,7 @@ export default class IpythonTerminal extends Morph {
                 that.runCommand(text);
             }
         });
-        that.terminal.addEventListener("click", (event) => {
+        text.addEventListener("click", (event) => {
            text.focus();
         });
       })();
