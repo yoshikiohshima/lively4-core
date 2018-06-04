@@ -99,27 +99,27 @@ class Notebook {
     }
   
   setupComm() {
-    var kernel = this.kernel;
-    if (!kernel) {return;}
-      kernel.registerCommTarget('test2', (comm, commMsg) => {
-    if (commMsg.content.target_name !== 'test2') {
-       return;
-    }
-    comm.onMsg = (msg) => {
-      console.log(msg);  // 'hello'
-    };
-    comm.onClose = (msg) => {
-      console.log(msg);  // 'bye'
-    };
-  });
+     var kernel = this.kernel;
+      if (!kernel) {return;}
+       kernel.registerCommTarget('test2', (comm, commMsg) => {
+     if (commMsg.content.target_name !== 'test2') {
+        return;
+     }
+     comm.onMsg = (msg) => {
+       console.log(msg);  // 'hello'
+     };
+     comm.onClose = (msg) => {
+       console.log(msg);  // 'bye'
+      };
+   });
 
-  let code = [
+   let code = [
     'from ipykernel.comm import Comm',
     'comm = Comm(target_name="test2")',
     'comm.send(data="hello")',
     'comm.close(data="bye")'
-  ].join('\n');
-  kernel.requestExecute({ code: code });
+   ].join('\n');
+     kernel.requestExecute({ code: code });
   }
 }
 
