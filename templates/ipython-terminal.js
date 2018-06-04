@@ -100,8 +100,6 @@ class Notebook {
 
 export default class IpythonTerminal extends Morph {
     initialize() {
-        this.inputs = [];
-        this.outputs = [];
         this.input = null;
         this.windowTitle = "IpythonTerminal";
         this.get('#token').value = '0a6f547598efb69bc5cd6dbe2c133fe7ff23568e18feb464';
