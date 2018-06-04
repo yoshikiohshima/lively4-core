@@ -347,7 +347,7 @@ export default class IpythonTerminal extends Morph {
     addInput(optSource) {
       var that = this;
       (function() {
-        var text = document.createElement("input");
+        var text = document.createElement("textarea");
         if (optSource) {
           text.value = optSource;
         }
