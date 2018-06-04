@@ -101,17 +101,7 @@ class Notebook {
   setupComm() {
     var kernel = this.kernel;
     if (!kernel) {return;}
-    kernel.registerCommTarget('test2', (comm, commMsg) => {
-      if (commMsg.content.target_name !== 'test2') {return;}
-      comm.onMsg = (msg) => {
-        console.log(msg);  // 'hello'
-      };
-      comm.onClose = (msg) => {
-        console.log(msg);  // 'bye'
-      };
-    });
-
-   let code = `
+   var code = `
 from ipykernel.comm import Comm
 
 # Use comm to send a message from the kernel
