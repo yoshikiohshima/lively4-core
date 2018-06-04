@@ -114,7 +114,7 @@ my_comm.send({'foo': 2})
 def _recv(msg):
     # Use msg['content']['data'] for the data in the message
  `;
-     kernel.requestExecute({ code: code });
+     this.evaluate(code);
   }
   
   askComm() {
