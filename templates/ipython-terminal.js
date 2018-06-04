@@ -114,6 +114,17 @@ class Notebook {
     };
   });
 
+        kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+   comm.onOpen= (msg) => {
+        console.log('open', msg);
+        comm.send(msg); // echo
+    };
+    comm.onClose = (msg) => {
+      console.log(msg);  // 'bye'
+    };
+  });
+    
+
    var code = `
 from ipykernel.comm import Comm
 import numpy as np
@@ -131,18 +142,6 @@ def on_msg(comm, msg):
   }
   
   ask() {
-    var kernel = this.kernel;
-    if (!kernel) {return;}
-    kernel.registerCommTarget('mycomm', (comm, commMsg) => {
-   comm.onOpen= (msg) => {
-        console.log('open', msg);
-        comm.send(msg); // echo
-    };
-    comm.onClose = (msg) => {
-      console.log(msg);  // 'bye'
-    };
-  });
-    
   var code = `
 m_comm = Comm(target_name="mycomm", on_msg=on_msg)
 `;
