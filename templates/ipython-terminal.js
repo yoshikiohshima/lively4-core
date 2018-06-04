@@ -115,7 +115,7 @@ class Notebook {
   });
 
    kernel.registerCommTarget('mycomm', (comm, commMsg) => {
-        console.log('open', msg);
+        console.log('open', comm);
    comm.onOpen= (msg) => {
         console.log('open', msg);
         comm.send(msg); // echo
