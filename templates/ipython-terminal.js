@@ -114,7 +114,8 @@ class Notebook {
     };
   });
 
-        kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+   kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+        console.log('open', msg);
    comm.onOpen= (msg) => {
         console.log('open', msg);
         comm.send(msg); // echo
@@ -144,6 +145,7 @@ def on_msg(comm, msg):
   ask() {
   var code = `
 m_comm = Comm(target_name="mycomm", on_msg=on_msg)
+m_comm.send(")
 `;
      this.evaluate(code);
   }
