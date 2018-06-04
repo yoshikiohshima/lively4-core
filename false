@@ -1,9 +1,10 @@
-<lively-window class="global" tabindex="0" style="z-index: 101; position: absolute; left: 219.691px; top: 448.602px;" title="Inspect: undefined"><lively-inspector></lively-inspector></lively-window><lively-window class="global" tabindex="0" style="z-index: 103; position: absolute; left: 712.151px; top: 23.5623px; width: 973px; height: 926px;" title="ipython-terminal.js" active="true"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/templates/ipython-terminal.js" leftpane-flex="" rightpane-flex="" mode="edit"></lively-container></lively-window><lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 348.25px; top: 627.98px;" title="Inspect: undefined"><lively-inspector></lively-inspector></lively-window><lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none;"></lively-halo>
+<lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none;"></lively-halo>
     <!-- booting lively just came down to this one line -->
     <script src="src/client/boot.js" data-container="true"></script>
   
 <div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
-<lively-window class="global" tabindex="0" style="z-index: 102; position: absolute; left: 49.2341px; top: 197.328px; width: 1136.39px; height: 1000px;" title="Workspace" data-lively-expose-prev-position="absolute" data-lively-expose-prev-left="36.9688px" data-lively-expose-prev-top="6.21522px" data-lively-expose-prev-bottom="" data-lively-expose-prev-right="" data-lively-expose-prev-width="1356px" data-lively-expose-prev-height="900px" data-lively-expose-prev-cursor="" data-lively-expose-prev-transform="scale(0.4)" data-lively-expose-prev-transition=""><lively-code-mirror mode="text/jsx">
+
+<lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 49.2341px; top: 197.328px; width: 1136.39px; height: 1000px; transform-origin: 0px 0px 0px; transform: scale(0.4);" title="Workspace" data-lively-expose-prev-position="absolute" data-lively-expose-prev-left="36.9688px" data-lively-expose-prev-top="6.21522px" data-lively-expose-prev-bottom="" data-lively-expose-prev-right="" data-lively-expose-prev-width="1356px" data-lively-expose-prev-height="900px" data-lively-expose-prev-cursor="" data-lively-expose-prev-transform="scale(0.4)" data-lively-expose-prev-transition=""><lively-code-mirror mode="text/jsx">
 
 function setSettings() {
     var Request = window.Services.ServerConnection.defaultSettings.Request;
@@ -38,12 +39,8 @@ window.Services.Kernel.getSpecs(setSettings()).then(kernelSpecs =&gt; {
   console.log(kernelSpecs);
 })
 </lively-code-mirror></lively-window>
-
 <div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
-<lively-hand data-lively4-donotpersist="all" style="visibility: hidden; position: absolute; left: 1420.32px; top: 257.477px;"></lively-hand><lively-notification-list hidden=""></lively-notification-list><div class="lively-content" style="position: absolute; left: 1058px; top: 753px;"><a href="path: notebook.path,">
-          path: notebook.path,
-        </a></div><div class="lively-content" style="position: absolute; left: 1009px; top: 760px;"><a href="path: notebook.path,">
-          path: notebook.path,
-        </a></div><div class="lively-content" style="position: absolute; left: 1077px; top: 756px;"><a href="path: notebook.path,">
-          path: notebook.path,
-        </a></div><lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0.0011px; left: 0px; width: 708px; height: 438.812px; display: none;"></lively-halo><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 466.715px; top: 86.1289px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 466px; top: 86px;"></lively-menu>
+
+
+
+<lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0px; left: 0px; width: 293.344px; height: 93px; display: none;"></lively-halo><lively-notification-list hidden=""></lively-notification-list><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 980.371px; top: 927.902px; display: none;"></div><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 677.098px; top: 572.301px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 677px; top: 572px;"></lively-menu>
