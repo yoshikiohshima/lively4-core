@@ -147,7 +147,7 @@ debugger;
 m_comm = Comm(target_name="mycomm", on_msg=on_msg)
 `;
      this.evaluate(code);
-
+  }
 }
 
 export default class IpythonTerminal extends Morph {
