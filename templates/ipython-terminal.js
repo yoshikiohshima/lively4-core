@@ -357,7 +357,9 @@ export default class IpythonTerminal extends Morph {
     }
 
     addOutput(str) {
-        var text = document.createElement("textarea");
+      var text = document.createElement("textarea");
+      text.readOnly = true;
+    
         if (str) {
           var lines = str.split('\n').length;
           text.style.height = (20*lines+10)+'px';
