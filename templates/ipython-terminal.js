@@ -171,6 +171,7 @@ export default class IpythonTerminal extends Morph {
         this.setupChoices();
         this.setupNewButton();
         this.setupSaveButton();
+       this.setupAskButton();
 
         this.sessions = null;
     }
@@ -209,6 +210,13 @@ export default class IpythonTerminal extends Morph {
          var button = this.get('#saveNotebook');
         button.addEventListener("click", () => {
             this.saveNotebook();
+        });
+  }
+
+  setupAskButton() {
+         var button = this.get('#askNotebook');
+        button.addEventListener("click", () => {
+            this.notebook.ask();
         });
   }
 
