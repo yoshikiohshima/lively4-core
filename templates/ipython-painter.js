@@ -26,7 +26,6 @@ export default class IpythonPainter extends Morph {
   }
   
   send() {
-    debugger;
     var terminal = window.terminal;
     if (!terminal) {return;}
 
@@ -46,6 +45,7 @@ export default class IpythonPainter extends Morph {
     }
 
     var shape = new Uint32Array([28, 28]);
+    debugger;
     terminal.send('image', 'image', null, [shape, grayData]);
     terminal.runCommand("evaluator.predictLastData()");
   }
