@@ -26,6 +26,7 @@ export default class IpythonPainter extends Morph {
   }
   
   send() {
+    debugger;
     var terminal = window.terminal;
     if (!terminal) {return;}
 
