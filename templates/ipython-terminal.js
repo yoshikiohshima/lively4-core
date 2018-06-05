@@ -159,13 +159,13 @@ class Notebook {
    var kernel = this.kernel;
     if (!kernel) {return;}
     var ar = new Float32Array([1.5, 2.5 ,3.5, 4.5]);
-        kernel.connectToComm("mycomm").then(comm => {
+    var shape = new Uint32Array([2, 2]);
+    kernel.connectToComm("mycomm").then(comm => {
         comm.open('ack');
-        comm.send("hey", null, [ar]);
+        comm.send("hey", null, [shape, ar]);
         comm.onClose = (msg) => {};
     });
    }
-
 }
 
 export default class IpythonTerminal extends Morph {
