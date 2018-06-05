@@ -7,12 +7,20 @@ export default class IpythonPainter extends Morph {
     this.windowTitle = "IpythonPainter";
     this.initCanvas();
     this.setupClearButton();
+    this.setupSendButton();
   }
 
   setupClearButton() {
          var button = this.get('#clear');
         button.addEventListener("click", () => {
             this.clear();
+        });
+  }
+
+  setupSendButton() {
+         var button = this.get('#send');
+        button.addEventListener("click", () => {
+            this.send();
         });
   }
 
