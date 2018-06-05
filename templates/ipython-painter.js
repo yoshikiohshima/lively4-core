@@ -6,6 +6,7 @@ export default class IpythonPainter extends Morph {
   async initialize() {
     this.windowTitle = "IpythonPainter";
     this.initCanvas();
+    this.style.width = '200px';
   }
   initCanvas() {
     this.canvas = this.get('#canvas');
