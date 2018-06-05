@@ -155,6 +155,16 @@ class Notebook {
  */
   }
   
+  send(commName, data, metadata, buffers, then) {
+   var kernel = this.kernel;
+    if (!kernel) {return;}
+    kernel.connectToComm(commName).then(comm => {
+        comm.open('ack');
+        comm.send(data, metadata, buffers);
+        comm.onClose = (msg) => {then()};
+    });
+  }
+  
   ask() {
    var kernel = this.kernel;
     if (!kernel) {return;}
