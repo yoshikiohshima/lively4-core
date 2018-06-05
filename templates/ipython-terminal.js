@@ -158,11 +158,11 @@ class Notebook {
   ask() {
    var kernel = this.kernel;
     if (!kernel) {return;}
-          kernel.connectToComm("mycomm").then(comm => {
-      comm.open('ack');
-      comm.send("hey");
-     comm.onClose = (msg) => {};
-      });
+        kernel.connectToComm("mycomm").then(comm => {
+        comm.open('ack');
+        comm.send("hey");
+        comm.onClose = (msg) => {};
+    });
    }
 
 }
