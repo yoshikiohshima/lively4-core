@@ -49,7 +49,7 @@ export default class IpythonPainter extends Morph {
   }
   
  initScaledCanvas() {
-    this.scaledCanvas = this.get('#scaled');
+    this.scaledCanvas = this.get('#scaledCanvas');
     this.scaledCanvas.width = 28;
     this.scaledCanvas.height = 28;
     var ctx = this.scaledCanvas.getContext('2d');
