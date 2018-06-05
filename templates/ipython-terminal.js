@@ -98,6 +98,9 @@ class Notebook {
           }
     }
   
+  launchWeightsView(weights, weightsShape, bias, biasShape) {
+    
+  }
  
   setupComm() {
     var kernel = this.kernel;
