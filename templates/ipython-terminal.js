@@ -100,6 +100,9 @@ class Notebook {
   
   launchWeightsView(weights, weightsShape, bias, biasShape) {
     console.log('launchWeightsView');
+    if (window.tensorView) {
+      window.tensorView.showTensor(weights, weightsShape, bias, biasShape);
+    }
   }
  
   setupComm() {
