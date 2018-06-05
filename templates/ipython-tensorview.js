@@ -90,7 +90,7 @@ export default class IpythonTensorview extends Morph {
         v = bias[i];
         v = v / amax * 255;
         ctx.fillStyle = `rgb(${Math.floor(Math.max(0, -v))}, ${Math.floor(Math.max(v, 0))}, ${Math.floor(Math.max(v, 0))})`;
-        ctx.fillRect(i * (pixelW + 1) , biasShape[0] * (pixelH + 1) + 10, pixelW, pixelH);
+        ctx.fillRect(i * (pixelW + 1) , weightsShape[0] * (pixelH + 1) + 10, pixelW, pixelH);
     }
     this.wmax = wmax;
     this.wmin = wmin;
