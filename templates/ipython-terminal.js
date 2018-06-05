@@ -139,6 +139,18 @@ class Notebook {
     };
   });
   }
+  
+  ask() {
+   var kernel = this.kernel;
+    if (!kernel) {return;}
+      kernel.connectToComm("mycomm").then(comm => {
+      comm.open('ack');
+      comm.onMsg = (msg) => {
+        console.log(msg);
+      };
+      comm.onClose = (msg) => {};
+      });
+  }
 }
 
 export default class IpythonTerminal extends Morph {
