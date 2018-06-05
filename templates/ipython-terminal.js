@@ -380,7 +380,7 @@ export default class IpythonTerminal extends Morph {
         that.input = text;
         text.addEventListener("keyup", (event) => {
             if (event.keyCode === 13 && event.shiftKey) {
-                that.runCommand(text);
+                that.runCommand(text.value);
                 var lines = text.value.split('\n');
                 if (lines.length == 2 && lines[1] == "") {
                   text.value = lines[0]
@@ -426,7 +426,7 @@ export default class IpythonTerminal extends Morph {
       if (this.notebook.status) {
           // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
           // and test it accordingly
-          return this.notebook.evaluate(text.value, this);
+          return this.notebook.evaluate(text, this);
       }
   }
     
