@@ -2,26 +2,20 @@
 
 import Morph from 'src/components/widgets/lively-morph.js';
 
-function find(tensor, func, unit) {
-    if (typeof tensor == "object" && tensor.constructor == Array || tensor.constructor == Float32Array) {
-        var typical = tensor[0];
-        if (typeof typical == "object" && typical.constructor == Array || tensor.constructor == Float32Array) {
-            var vals = tensor.map((v) => find.call(null, v, func, unit));
-            return func.apply(null, vals);
-        } else if (typeof typical == "number") {
-            return func.apply(null, tensor);
-        }
-    } else {
-        return unit;
-    }
-}
-
 function findMax(tensor) {
-    return find(tensor, Math.max, -Infinity);
+    var v = -Infinity;
+    for (var i = 0; i < tensor.length; i++) {
+      v = Math.max(v, tensor[i]);
+    }
+    return v;
 }
 
 function findMin(tensor) {
-    return find(tensor, Math.min, Infinity);
+    var v = Infinity;
+    for (var i = 0; i < tensor.length; i++) {
+      v = Math.min(v, tensor[i]);
+    }
+    return v;
 }
 
 export default class IpythonTensorview extends Morph {
