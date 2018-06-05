@@ -161,10 +161,7 @@ class Notebook {
           kernel.connectToComm("mycomm").then(comm => {
       comm.open('ack');
       comm.send("hey");
-      comm.onMsg = (msg) => {
-        console.log(msg);
-      };
-      comm.onClose = (msg) => {};
+     comm.onClose = (msg) => {};
       });
    }
 
