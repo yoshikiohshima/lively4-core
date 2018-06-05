@@ -84,7 +84,6 @@ export default class IpythonTensorview extends Morph {
             ctx.fillRect(i * (pixelW + 1) , j * (pixelH + 1), pixelW, pixelH);
         }
     }
-    debugger;
 
     for (i = 0; i < biasShape[0]; i++) {
         v = bias[i];
