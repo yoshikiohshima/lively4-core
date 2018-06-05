@@ -146,7 +146,7 @@ class Notebook {
     };
     comm.onMsg= (msg) => {
         console.log("msg", msg);
-     /*   comm.send(msg); // echo*/
+        comm.send(msg); // echo*/
     };
     comm.onClose = (msg) => {
       console.log(msg);  // 'bye'
