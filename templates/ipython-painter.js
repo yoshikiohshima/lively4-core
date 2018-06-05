@@ -32,10 +32,11 @@ export default class IpythonPainter extends Morph {
 
     var m = this.cropAndPosition();
     var scaledCanvas = this.scaledCanvas;
+    var canvas = this.canvas;
 
     var scaledCtx = scaledCanvas.getContext('2d');
     scaledCtx.clearRect(0, 0, 100, 100);
-    scaledCtx.drawImage(drawCanvas, m.minX, m.minY, m.width, m.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
+    scaledCtx.drawImage(canvas, m.minX, m.minY, m.width, m.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
 
     var imageData = scaledCtx.getImageData(0, 0, scaledCanvas.width, scaledCanvas.height);
     var grayData = new Uint8Array(imageData.data.length/4);
