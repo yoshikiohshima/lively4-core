@@ -138,6 +138,16 @@ class Notebook {
     comm.onClose = (msg) => {
     };
   });
+         kernel.connectToComm("mycomm").then(comm => {
+        debugger;
+        console.log("comm", comm);
+      comm.open('ack');
+      comm.onMsg = (msg) => {
+        console.log(msg);
+      };
+      comm.onClose = (msg) => {};
+      });
+
   }
   
   ask() {
@@ -151,16 +161,7 @@ class Notebook {
       console.log(msg);  // 'bye'
     };
   });
-      kernel.connectToComm("mycomm").then(comm => {
-        debugger;
-        console.log("comm", comm);
-      comm.open('ack');
-      comm.onMsg = (msg) => {
-        console.log(msg);
-      };
-      comm.onClose = (msg) => {};
-      });
-  }
+   }
 }
 
 export default class IpythonTerminal extends Morph {
