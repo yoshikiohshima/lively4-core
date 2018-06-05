@@ -140,14 +140,6 @@ class Notebook {
     };
   });
   }
-  
-  ask() {
-  var code = `
-m_comm = Comm(target_name="mycomm", on_msg=on_msg)
-m_comm.send('hi')
-`;
-     this.evaluate(code);
-  }
 }
 
 export default class IpythonTerminal extends Morph {
