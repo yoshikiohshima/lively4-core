@@ -31,12 +31,12 @@ export default class IpythonTensorview extends Morph {
     window.tensorView = this;
   }
   
-  showTensor() {
+  showTensor(weights, weightsShape, bias, biasShape) {
     var canvas = this.canvas;
     var ctx = canvas.getContext('2d');
     var holder = this;
     var rect = holder.getBoundingClientRect();
-    if (!this.values) {
+    if (!weights) {
         canvas.width = rect.width;
         canvas.height = rect.height;
         canvas.style.width = rect.width + 'px';
@@ -50,19 +50,10 @@ export default class IpythonTensorview extends Morph {
         return;
     }
 
-    var weights = this.values.weights;
-    var bias = this.values.bias;
-    var params;
-
-    if (params.typeName !== "Dense") {
-        return;
-    }
-    var shape = this.weightShape;
-
     var pixelH = 5;
     this.pixelH = pixelH;
 
-    var maybeWidth = rect.width / shape[1];
+    var maybeWidth = rect.width / weightsShape[1];
     var pixelW;
     if (maybeWidth > pixelH * 3) {
         pixelW = pixelH * 3;
@@ -74,8 +65,8 @@ export default class IpythonTensorview extends Morph {
 
     this.pixelW = pixelW;
 
-    var width = (pixelW + 1) * shape[1] + 1;
-    var height = (pixelH + 1) * shape[0] + 10 + pixelH + 1;
+    var width = (pixelW + 1) * weightsShape[1] + 1;
+    var height = (pixelH + 1) * weightsShape[0] + 10 + pixelH + 1;
 
     canvas.width = width;
     canvas.height = height;
@@ -91,20 +82,20 @@ export default class IpythonTensorview extends Morph {
     var amax = Math.max(Math.abs(wmax), Math.abs(wmin));
 
     var i, v;
-    for (var j = 0; j < shape[0]; j++) {
-        for (i = 0; i < shape[1]; i++) {
-            v = weights[j][i];
+    for (var j = 0; j < weightsShape[0]; j++) {
+        for (i = 0; i < weightsShape[1]; i++) {
+            v = weights[j * weightsShape[1] + i];
             v = v / amax * 255;
             ctx.fillStyle = `rgb(${Math.floor(Math.max(0, -v))}, ${Math.floor(Math.max(v, 0))}, ${Math.floor(Math.max(v, 0))})`;
             ctx.fillRect(i * (pixelW + 1) , j * (pixelH + 1), pixelW, pixelH);
         }
     }
 
-    for (i = 0; i < shape[1]; i++) {
+    for (i = 0; i < biasShape[0]; i++) {
         v = bias[i];
         v = v / amax * 255;
         ctx.fillStyle = `rgb(${Math.floor(Math.max(0, -v))}, ${Math.floor(Math.max(v, 0))}, ${Math.floor(Math.max(v, 0))})`;
-        ctx.fillRect(i * (pixelW + 1) , shape[0] * (pixelH + 1) + 10, pixelW, pixelH);
+        ctx.fillRect(i * (pixelW + 1) , biasShape[0] * (pixelH + 1) + 10, pixelW, pixelH);
     }
     this.wmax = wmax;
     this.wmin = wmin;
