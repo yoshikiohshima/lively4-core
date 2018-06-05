@@ -28,6 +28,7 @@ export default class IpythonTensorview extends Morph {
   async initialize() {
     this.windowTitle = "IpythonTensorview";
     this.canvas = this.get('#canvas');
+    window.tensorView = this;
   }
   
   showTensor() {
@@ -56,7 +57,7 @@ export default class IpythonTensorview extends Morph {
     if (params.typeName !== "Dense") {
         return;
     }
-    var shape = [params.input_shape[0], params.output_shape[0]];
+    var shape = this.weightShape;
 
     var pixelH = 5;
     this.pixelH = pixelH;
