@@ -336,7 +336,7 @@ export default class IpythonTerminal extends Morph {
         if (optSource) {
           text.value = optSource;
           var lines = optSource.split('\n').length;
-          text.style.height = (20*lines + 10)+'px';
+          text.style.height = (20*lines + 14)+'px';
         }
         text.classList.add('terminalIn');
         text.setAttribute("type", "text");
@@ -365,7 +365,7 @@ export default class IpythonTerminal extends Morph {
     
         if (str) {
           var lines = str.split('\n').length;
-          text.style.height = (20*lines+10)+'px';
+          text.style.height = (20*lines+14)+'px';
         }
         text.classList.add('terminalOut');
         text.innerHTML = this.escape(str);
