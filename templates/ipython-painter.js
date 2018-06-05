@@ -25,7 +25,6 @@ export default class IpythonPainter extends Morph {
   }
   drawEvent(evt) {
     var canvas = this.canvas;
-    if (this.peers['network'].example != "mnist") {return;}
     var rect = this.dom.getBoundingClientRect();
     var left = rect.left;
     var top = rect.top;
