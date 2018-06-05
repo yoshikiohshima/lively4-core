@@ -431,6 +431,13 @@ export default class IpythonTerminal extends Morph {
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
     }
+  
+  send(commName, data, metadata, buffers, then) {
+   if (!this.notebook) {return;}
+    this.notebook.send(commName, data, metadata, buffers, then);
+   }
+  
+
 
   runCommand(text) {
       if (!this.notebook) {return;}
