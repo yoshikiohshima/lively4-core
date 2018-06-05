@@ -152,6 +152,7 @@ class Notebook {
     };
   });
       kernel.connectToComm("mycomm").then(comm => {
+        console.log("comm", comm);
       comm.open('ack');
       comm.onMsg = (msg) => {
         console.log(msg);
