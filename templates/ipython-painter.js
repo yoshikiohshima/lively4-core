@@ -5,60 +5,69 @@ import Morph from 'src/components/widgets/lively-morph.js';
 export default class IpythonPainter extends Morph {
   async initialize() {
     this.windowTitle = "IpythonPainter";
-    this.registerButtons()
+  }
+  initCanvas() {
+    this.canvas = this.get('#canvas');
+    var canvas = this.canvas;
+    canvas.width = 224;
+    canvas.height = 224;
+    this.penDown = false;
+    this.strokes = []; // [[[x, y]]]
+    this.stroke = null;
 
-    lively.html.registerKeys(this); // automatically installs handler for some methods
+    canvas.getContext('2d').fillStyle = 'white';
+    canvas.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+
+    canvas.addEventListener('mouseup', this.drawEvent.bind(this), true);
+    canvas.addEventListener('mousemove', this.drawEvent.bind(this), true);
+    canvas.addEventListener('mousedown', this.drawEvent.bind(this), true);
+  }
+  drawEvent(evt) {
+    var canvas = this.canvas;
+    if (this.peers['network'].example != "mnist") {return;}
+    var rect = this.dom.getBoundingClientRect();
+    var left = rect.left;
+    var top = rect.top;
+    var x = evt.offsetX;
+    var y = evt.offsetY;
+    var type = evt.type;
+
+    var scale = canvas.width / canvas.offsetWidth;
+
+    x = scale * x;
+    y = scale * y;
     
-    lively.addEventListener("template", this, "dblclick", 
-      evt => this.onDblClick(evt))
-    // #Note 1
-    // ``lively.addEventListener`` automatically registers the listener
-    // so that the the handler can be deactivated using:
-    // ``lively.removeEventListener("template", this)``
-    // #Note 1
-    // registering a closure instead of the function allows the class to make 
-    // use of a dispatch at runtime. That means the ``onDblClick`` method can be
-    // replaced during development
-  }
-  
-  // this method is autmatically registered through the ``registerKeys`` method
-  onKeyDown(evt) {
-    lively.notify("Key Down!" + evt.charCode)
-  }
-  
-  // this method is automatically registered as handler through ``registerButtons``
-  onFirstButton() {
-    lively.notify("hello")
-  }
+    if (evt.type == "mousedown") {
+        this.penDown = true;
+        this.stroke = [[x, y]]
+        this.strokes.push(this.stroke);
+    } else if (evt.type == "mousemove") {
+        if (this.penDown) {
+            this.sampleUsed = null;
+            this.stroke.push([x, y]);
+            var ctx = canvas.getContext("2d");
 
-  /* Lively-specific API */
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  livelyPreMigrate() {
-    // is called on the old object before the migration
-  }
-  
-  livelyMigrate(other) {
-    // whenever a component is replaced with a newer version during development
-    // this method is called on the new object during migration, but before initialization
-    this.someJavaScriptProperty = other.someJavaScriptProperty
-  }
-  
-  livelyInspect(contentNode, inspector) {
-    // do nothing
-  }
-  
-  livelyPrepareSave() {
-    
-  }
-  
-  
-  async livelyExample() {
-    // this customizes a default instance to a pretty example
-    // this is used by the 
-    this.style.backgroundColor = "red"
-    this.someJavaScriptProperty = 42
-    this.appendChild(<div>This is my content</div>)
-  }
-  
-  
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 16;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            ctx.beginPath();
+
+            this.strokes.forEach((points) => {
+                ctx.moveTo(points[0][0], points[0][1]);
+                for (var i = 1; i < points.length; i++) {
+                    ctx.lineTo(points[i][0], points[i][1]);
+                }
+                ctx.stroke();
+            });
+        }
+    } else if (evt.type == "mouseup") {
+        this.penDown = false;
+    }
+}
+
 }
