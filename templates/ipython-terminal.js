@@ -191,7 +191,6 @@ export default class IpythonTerminal extends Morph {
        this.setupAskButton();
 
         this.sessions = null;
-      window.terminal = this;
     }
 
   initTerminal() {
@@ -288,7 +287,8 @@ export default class IpythonTerminal extends Morph {
         this.notebook = new Notebook();
         this.initTerminal();
         this.notebook.open(file, this.token, () => {this.updateModel(true)});
-    }
+     window.terminal = this;
+     }
   
     saveNotebook() {
       if (!this.notebook) {return;}
