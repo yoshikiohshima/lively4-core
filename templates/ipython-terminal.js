@@ -99,7 +99,7 @@ class Notebook {
     }
   
   launchWeightsView(weights, weightsShape, bias, biasShape) {
-    
+    console.log('launchWeightsView');
   }
  
   setupComm() {
