@@ -26,7 +26,6 @@ export default class IpythonTensorview extends Morph {
   }
   
   showTensor(weights, weightsShape, bias, biasShape) {
-    debugger;
     var canvas = this.canvas;
     var ctx = canvas.getContext('2d');
     var holder = this;
@@ -85,6 +84,7 @@ export default class IpythonTensorview extends Morph {
             ctx.fillRect(i * (pixelW + 1) , j * (pixelH + 1), pixelW, pixelH);
         }
     }
+    debugger;
 
     for (i = 0; i < biasShape[0]; i++) {
         v = bias[i];
