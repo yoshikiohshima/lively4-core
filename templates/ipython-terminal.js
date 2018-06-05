@@ -104,6 +104,7 @@ class Notebook {
 
     kernel.registerCommTarget('weights', (comm, commMsg) => {
     comm.onMsg = (msg) => {
+      debugger;
       console.log(msg);  // 'hello'
       console.log(msg.buffers[0].buffer);
       var ar = new Float32Array(msg.buffers[0].buffer);
@@ -128,22 +129,6 @@ class Notebook {
         comm.send(msg); // echo
     };
   });
-    
-
-   var code = `
-from ipykernel.comm import Comm
-import numpy as np
-
-def sendTensor():
-  comm = Comm(target_name='weights')
-  comm.send(data='test', buffers=[memoryview(np.array((1.5, 2.5), dtype='float32'))])
-  comm.close()
-
-def on_msg(comm, msg):
-  print(msg)
-
-`;
-     this.evaluate(code);
   }
   
   ask() {
