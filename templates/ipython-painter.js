@@ -5,6 +5,7 @@ import Morph from 'src/components/widgets/lively-morph.js';
 export default class IpythonPainter extends Morph {
   async initialize() {
     this.windowTitle = "IpythonPainter";
+    initCanvas();
   }
   initCanvas() {
     this.canvas = this.get('#canvas');
