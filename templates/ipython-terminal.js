@@ -138,21 +138,8 @@ class Notebook {
     comm.onClose = (msg) => {
     };
   });
-         kernel.connectToComm("mycomm").then(comm => {
-        console.log("comm", comm);
-      comm.open('ack');
-      comm.onMsg = (msg) => {
-        console.log(msg);
-      };
-      comm.onClose = (msg) => {};
-      });
 
-  }
-  
-  ask() {
-   var kernel = this.kernel;
-    if (!kernel) {return;}
-  kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+      kernel.registerCommTarget('mycomm', (comm, commMsg) => {
     comm.onOpen= (msg) => {
         comm.send(msg); // echo
     };
@@ -160,7 +147,23 @@ class Notebook {
       console.log(msg);  // 'bye'
     };
   });
+
+ 
+  }
+  
+  ask() {
+   var kernel = this.kernel;
+    if (!kernel) {return;}
+          kernel.connectToComm("mycomm").then(comm => {
+        console.log("comm", comm);
+      comm.open('ack');
+      comm.onMsg = (msg) => {
+        console.log(msg);
+      };
+      comm.onClose = (msg) => {};
+      });
    }
+
 }
 
 export default class IpythonTerminal extends Morph {
