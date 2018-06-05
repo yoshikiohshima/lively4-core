@@ -346,6 +346,7 @@ export default class IpythonTerminal extends Morph {
         text.addEventListener("keyup", (event) => {
             if (event.keyCode === 13 && event.shiftKey) {
                 that.runCommand(text);
+              return true;
             }
         });
         text.addEventListener("click", (event) => {
