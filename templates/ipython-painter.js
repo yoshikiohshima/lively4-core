@@ -6,6 +6,7 @@ export default class IpythonPainter extends Morph {
   async initialize() {
     this.windowTitle = "IpythonPainter";
     this.initCanvas();
+    this.initScaledCanvas();
     this.setupClearButton();
     this.setupSendButton();
   }
@@ -23,6 +24,42 @@ export default class IpythonPainter extends Morph {
             this.send();
         });
   }
+  
+  send() {
+    var terminal = window.terminal;
+    if (!terminal) {return;}
+    
+
+    var m = this.cropAndPosition();
+    var scaledCanvas = this.scaledCanvas;
+
+    var scaledCtx = scaledCanvas.getContext('2d');
+    scaledCtx.clearRect(0, 0, 100, 100);
+    scaledCtx.drawImage(drawCanvas, m.minX, m.minY, m.width, m.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
+
+    var imageData = scaledCtx.getImageData(0, 0, scaledCanvas.width, scaledCanvas.height);
+    var grayData = new Uint8Array(imageData.data.length/4);
+    for (var i = 0; i < grayData.length; i++) {
+        var val = 255 - imageData.data[i*4+1];
+        grayData[i] = val;
+    }
+
+    var shape = new Uint32Array([28, 28]);
+    terminal.send('image', 'image', null, [shape, grayData]);
+    terminal.runCommand("evaluator.predictLastData()");
+  }
+  
+ initScaledCanvas() {
+    this.scaledCanvas = this.get('#scaled');
+    this.scaledCanvas.width = 28;
+    this.scaledCanvas.height = 28;
+    var ctx = this.scaledCanvas.getContext('2d');
+
+    ctx.mozImageSmoothingEnabled = true;
+    ctx.webkitImageSmoothingEnabled = true;
+    ctx.msImageSmoothingEnabled = true;
+    ctx.imageSmoothingEnabled = true;
+}
 
   initCanvas() {
     this.canvas = this.get('#canvas');
