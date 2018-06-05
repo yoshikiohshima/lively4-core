@@ -159,6 +159,7 @@ class Notebook {
    var kernel = this.kernel;
     if (!kernel) {return;}
           kernel.connectToComm("mycomm").then(comm => {
+      comm.open('ack');
             comm.send("hey");
       comm.onMsg = (msg) => {
         console.log(msg);
