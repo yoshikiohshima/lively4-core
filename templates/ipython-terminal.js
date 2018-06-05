@@ -158,9 +158,10 @@ class Notebook {
   ask() {
    var kernel = this.kernel;
     if (!kernel) {return;}
+    var ar = new Float32Array([1.5, 2.5 ,3.5, 4.5]);
         kernel.connectToComm("mycomm").then(comm => {
         comm.open('ack');
-        comm.send("hey");
+        comm.send("hey", null, [ar]);
         comm.onClose = (msg) => {};
     });
    }
