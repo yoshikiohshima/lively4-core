@@ -28,7 +28,6 @@ export default class IpythonPainter extends Morph {
   send() {
     var terminal = window.terminal;
     if (!terminal) {return;}
-    
 
     var m = this.cropAndPosition();
     var scaledCanvas = this.scaledCanvas;
