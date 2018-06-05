@@ -26,7 +26,6 @@ export default class IpythonTensorview extends Morph {
   }
   
   showTensor(weights, weightsShape, bias, biasShape) {
-    debugger;
     var canvas = this.canvas;
     var ctx = canvas.getContext('2d');
     var holder = this;
