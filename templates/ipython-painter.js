@@ -25,7 +25,7 @@ export default class IpythonPainter extends Morph {
   }
   drawEvent(evt) {
     var canvas = this.canvas;
-    var rect = this.dom.getBoundingClientRect();
+    var rect = canvas.getBoundingClientRect();
     var left = rect.left;
     var top = rect.top;
     var x = evt.offsetX;
