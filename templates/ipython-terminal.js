@@ -143,6 +143,14 @@ class Notebook {
   ask() {
    var kernel = this.kernel;
     if (!kernel) {return;}
+  kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+    comm.onOpen= (msg) => {
+        comm.send(msg); // echo
+    };
+    comm.onClose = (msg) => {
+      console.log(msg);  // 'bye'
+    };
+  });
       kernel.connectToComm("mycomm").then(comm => {
       comm.open('ack');
       comm.onMsg = (msg) => {
