@@ -7,6 +7,14 @@ export default class IpythonPainter extends Morph {
     this.windowTitle = "IpythonPainter";
     this.initCanvas();
   }
+
+  setupClearButton() {
+         var button = this.get('#clear');
+        button.addEventListener("click", () => {
+            this.clear();
+        });
+  }
+
   initCanvas() {
     this.canvas = this.get('#canvas');
     var canvas = this.canvas;
@@ -68,6 +76,58 @@ export default class IpythonPainter extends Morph {
     } else if (evt.type == "mouseup") {
         this.penDown = false;
     }
+  }
+  
+  cropAndPosition() {
+    var canvas = this.canvas;
+
+    var imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+
+    var minX = 100;
+    var maxX = -100;
+    var minY = 100;
+    var maxY = -100;
+
+    var totalMassX = 0;
+    var totalMassY = 0;
+
+    var totalP = 0;
+
+    for (var j = 0; j < canvas.height; j++) {
+        for (var i = 0; i < canvas.width; i++) {
+            var p = 255 - imageData.data[(j * canvas.width + i)*4+1];
+            if (p > 0) {
+                minX = minX < i ? minX : i;
+                minY = minY < j ? minY : j;
+                maxX = maxX > i ? maxX : i;
+                maxY = maxY > j ? maxY : j;
+            }
+            totalP += p
+            totalMassX += (p * i);
+            totalMassY += (p * j);
+        }
+    }
+
+    var centerX = totalMassX / totalP;
+    var centerY = totalMassY / totalP;
+
+    var left = centerX - minX;
+    var right = maxX - centerX;
+    var top = centerY - minY;
+    var bottom = maxY - centerY;
+
+    var m = Math.max(left, right, top, bottom);
+
+    m = m * 1.0;
+
+    var realMinX = centerX - m;
+    var realMaxX = centerX + m;
+    var realMinY = centerY - m;
+    var realMaxY = centerY + m;
+
+    return {minX: realMinX, maxX: realMaxX, minY: realMinY, maxY: realMaxY, width: m * 2, height: m * 2}
 }
+
+
 
 }
