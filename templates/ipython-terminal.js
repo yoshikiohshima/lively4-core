@@ -139,7 +139,7 @@ class Notebook {
     };
   });
 
-      kernel.registerCommTarget('mycomm', (comm, commMsg) => {
+ /*     kernel.registerCommTarget('mycomm', (comm, commMsg) => {
         console.log("commMsg", commMsg);
     comm.onOpen= (msg) => {
         console.log("open", msg);
@@ -152,7 +152,7 @@ class Notebook {
     };
   });
 
- 
+ */
   }
   
   ask() {
