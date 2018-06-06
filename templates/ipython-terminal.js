@@ -292,6 +292,7 @@ export default class IpythonTerminal extends Morph {
     }
   
     parseCells(cells) {
+      debugger;
       for (var i = 0; i < cells.length; i++) {
         var cell = cells[i];
         switch (cell.cell_type) {
