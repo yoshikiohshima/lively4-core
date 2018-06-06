@@ -497,6 +497,11 @@ export default class IpythonTerminal extends Morph {
           return this.notebook.evaluate(text, this);
       }
   }
+  
+  addListener(name, widget, callback) {
+    if (!this.notebook) {return;}
+    this.notebook.addListener(name, widget, callback);
+  }
     
   /* Lively-specific API */
 
