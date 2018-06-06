@@ -84,6 +84,7 @@ class Notebook {
   async initialize() {
     this.session = null;       // session
     this.kernel = null;   // real kernel
+    this.dispatcher = null; // Dispatcher
   }
 
     status() {
