@@ -24,6 +24,15 @@ export default class IpythonPainter extends Morph {
             this.send();
         });
   }
+
+  clear() {
+    var canvas = this.canvas;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    this.strokes = [];
+  }
   
   send() {
     var terminal = window.terminal;
