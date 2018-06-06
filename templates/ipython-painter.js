@@ -64,9 +64,9 @@ def handle_open(comm, msg):
    comm.on_msg(receive_image)
 get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 ''')`
-    
     terminal.runCommand(py);
   }
+
   send() {
     var terminal = window.terminal;
     if (!terminal) {return;}
