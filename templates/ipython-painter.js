@@ -88,7 +88,6 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 
     var shape = new Uint32Array([28, 28]);
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData]);
-    debugger;
     terminal.insertAndRunCommand("evaluate_last_image()");
   }
   
