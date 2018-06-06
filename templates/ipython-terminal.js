@@ -15,15 +15,63 @@ function iPythonSettings(token) {
 
 class Dispatcher {
   initialize() {
-    this.listeners = {} // {comm name: [listeners]}
+    this.listeners = {} // {comm name: [listener: obj, callback: callable]}
+  }
+  setNotebook(notebook) {
+    this.notebook = notebook;
+  }
+  
+  addListener(name, obj, callback) {
+    var that = this;
+    function has(name, obj, callback) {
+      var ary = that.listeners[name];
+      if (!ary) {return false;}
+      for (var i = 0; i < ary.length; i++) {
+        var v = ary[i];
+        if (v.listener === obj) {
+          return true;
+        }
+      }
+      return false;
+    }
+    if (has(name, obj, callback)) {
+      return;
+    }
+    if (!this.listeners[name]) {
+      this.listeners[name] = [];
+    }
+    var ary = this.listeners[name];
+    ary.push({listener: obj, callback: callback});    
+  }
+
+  removeListener(name, obj) {
+    var ary = this.listeners[name];
+    if (!ary) {return;}
+    for (var i = 0; i < ary.length; i++) {
+      var v = ary[i];
+      if (v.listener === obj) {
+        ary.splice(i, 1);
+        return;
+      }
+    }
+  }
+
+  receive(name, msg) {
+    var ary = this.listeners[name];
+    if (!ary) {return;}
+    for (var i = 0; i < ary.length; i++) {
+      var f = ary[i].callback;
+      f(msg);
+    }
   }
 }
 
 class Notebook {
-    initialize() {
-        this.session = null;       // session
-        this.kernel = null;   // real kernel
-    }
+  async initialize() {
+    this.session = null;       // session
+    this.kernel = null;   // real kernel
+    this.dispatcher = new Dispatcher();
+  }
 
     status() {
         if (!this.kernel) {return "unknown";}
