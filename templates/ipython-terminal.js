@@ -217,6 +217,10 @@ class Notebook {
         comm.onClose = (msg) => {then()};
     });
   }
+  
+  addListener(name, widget, callback) {
+    this.dispatcher.addListener(name, widget, callback);
+  }
 }
 
 export default class IpythonTerminal extends Morph {
