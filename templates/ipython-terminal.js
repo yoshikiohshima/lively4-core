@@ -251,7 +251,6 @@ export default class IpythonTerminal extends Morph {
    newNotebook() {
     this.notebook = new Notebook(this.token, this);
     this.initTerminal();
-    this.addInput();
     this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {
       this.updateModel(true)
       this.addInput();
