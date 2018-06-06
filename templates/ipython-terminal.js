@@ -16,9 +16,10 @@ function iPythonSettings(token) {
 class Dispatcher {
   initialize() {
     this.listeners = {} // {comm name: [listener: obj, callback: callable]}
+    this.kernel = null;
   }
-  setNotebook(notebook) {
-    this.notebook = notebook;
+  setKernel(kernel) {
+    this.kernel = kernel;
   }
   
   addListener(name, obj, callback) {
@@ -40,8 +41,21 @@ class Dispatcher {
     if (!this.listeners[name]) {
       this.listeners[name] = [];
     }
-    var ary = this.listeners[name];
-    ary.push({listener: obj, callback: callback});    
+    (function() {
+      var n = name;
+      var kernel = that.kernel;
+      kernel.registerCommTarget(name, (comm, commMsg) => {
+        comm.onMsg = (msg) => {
+          var ary = that.listeners[n];
+          for (var i = 0; i < ary.length; i++) {
+            var f = ary[i].callback;
+            f(msg);
+          }
+        }
+        comm.onClose = (msg) => {};
+      });
+    })();
+    this.listeners[name].push({listener: obj, callback: callback});    
   }
 
   removeListener(name, obj) {
