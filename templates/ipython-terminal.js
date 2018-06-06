@@ -160,7 +160,6 @@ export default class IpythonTerminal extends Morph {
         this.setupChoices();
         this.setupNewButton();
         this.setupSaveButton();
-       this.setupAskButton();
 
         this.sessions = null;
     }
