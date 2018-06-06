@@ -184,7 +184,6 @@ class Notebook {
 
     kernel.registerCommTarget('weights', (comm, commMsg) => {
       comm.onMsg = (msg) => {
-      
        if (msg.content.data === 'dense') {
          var weights = new Float32Array(msg.buffers[0].buffer);
          var weightsShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[1].buffer)))
