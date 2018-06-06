@@ -33,7 +33,40 @@ export default class IpythonPainter extends Morph {
 
     this.strokes = [];
   }
-  
+
+  register() {
+    var terminal = window.terminal;
+    if (!terminal) {return;}
+var py = `
+loader.load('mnist_image', '''
+from ipykernel.comm import Comm
+import numpy as np
+
+evaluator = None
+last_image = None
+def evaluate_last_image():
+  if lastImage is None or evaluator is None:
+    return
+
+  prediction, confidence = evaluator.predict(lastImage)
+  print('prediction', prediction)
+  print('confidence', confidence)
+
+def receive_image(msg):
+  global lastImage
+  #shape = np.frombuffer(msg['buffers'][0], dtype=np.int32)
+  ary = np.frombuffer(msg['buffers'][1], dtype=np.uint8)
+  floatData = ary.astype('float32') / 255.0
+  floatData = floatData.reshape([-1, 28, 28, 1])
+  lastImage = floatData
+
+def handle_open(comm, msg):
+   comm.on_msg(receive_image)
+get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
+''')`
+    
+    terminal.runCommand(py);
+  }
   send() {
     var terminal = window.terminal;
     if (!terminal) {return;}
