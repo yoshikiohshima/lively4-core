@@ -138,21 +138,6 @@ class Notebook {
     comm.onClose = (msg) => {
     };
   });
-
- /*     kernel.registerCommTarget('mycomm', (comm, commMsg) => {
-        console.log("commMsg", commMsg);
-    comm.onOpen= (msg) => {
-        console.log("open", msg);
-    };
-    comm.onMsg= (msg) => {
-        console.log("msg", msg);
-    };
-    comm.onClose = (msg) => {
-      console.log(msg);  // 'bye'
-    };
-  });
-
- */
   }
   
   send(commName, data, metadata, buffers, then) {
