@@ -70,7 +70,6 @@ class Notebook {
   async initialize() {
     this.session = null;       // session
     this.kernel = null;   // real kernel
-    this.dispatcher = new Dispatcher();
   }
 
     status() {
@@ -95,6 +94,7 @@ class Notebook {
           window.Services.Session.startNew(options, settings).then((session) => {
           this.session = session;
           this.kernel = session.kernel;
+          this.dispatcher = new Dispatcher();
           this.setupComm();
           if (optCallback) {
             optCallback();
@@ -109,6 +109,7 @@ class Notebook {
             this.session = null;
             this.sessionModel = null;
             this.kernel = null;
+            this.dispatcher = null;
         });
     }
 
