@@ -38,7 +38,8 @@ export default class IpythonPainter extends Morph {
     var terminal = window.terminal;
     if (!terminal) {return;}
 var py = `
-loader.load('mnist_image', '''
+import loader
+mnist_image = loader.load('mnist_image', '''
 from ipykernel.comm import Comm
 import numpy as np
 
