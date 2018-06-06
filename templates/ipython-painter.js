@@ -54,8 +54,8 @@ export default class IpythonPainter extends Morph {
     }
 
     var shape = new Uint32Array([28, 28]);
-    debugger;
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData]);
+    debugger;
     terminal.runCommand("evaluate_last_image()");
   }
   
@@ -87,6 +87,7 @@ export default class IpythonPainter extends Morph {
     canvas.addEventListener('mousemove', this.drawEvent.bind(this), true);
     canvas.addEventListener('mousedown', this.drawEvent.bind(this), true);
   }
+
   drawEvent(evt) {
     var canvas = this.canvas;
     var rect = canvas.getBoundingClientRect();
