@@ -56,7 +56,7 @@ export default class IpythonPainter extends Morph {
     var shape = new Uint32Array([28, 28]);
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData]);
     debugger;
-    terminal.runCommand("evaluate_last_image()");
+    terminal.insertAndRunCommand("evaluate_last_image()");
   }
   
  initScaledCanvas() {
