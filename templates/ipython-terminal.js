@@ -437,6 +437,11 @@ export default class IpythonTerminal extends Morph {
     this.notebook.send(commName, data, metadata, buffers, then);
   }
 
+  insertAndRunCommand(text) {
+    this.input.value = text;
+    this.runCommand(text);
+  }
+
   runCommand(text) {
       if (!this.notebook) {return;}
       if (this.notebook.status) {
