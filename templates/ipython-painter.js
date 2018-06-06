@@ -90,7 +90,7 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 
     var shape = new Uint32Array([28, 28]);
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData]);
-    terminal.insertAndRunCommand("evaluate_last_image()");
+    terminal.insertAndRunCommand("mnist_image.evaluate_last_image()");
   }
   
  initScaledCanvas() {
