@@ -107,7 +107,6 @@ class Notebook {
         this.session.shutdown().then(() => {
             console.log('session closed');
             this.session = null;
-            this.sessionModel = null;
             this.kernel = null;
             this.dispatcher = null;
         });
