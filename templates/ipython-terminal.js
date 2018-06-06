@@ -172,7 +172,6 @@ export default class IpythonTerminal extends Morph {
     while ( this.terminal .firstChild) {
      this.terminal .removeChild( this.terminal .firstChild);
     }
-    this.addInput();
   }
  
     setupTokenField() {
@@ -251,16 +250,17 @@ export default class IpythonTerminal extends Morph {
     }
   
    newNotebook() {
-        this.notebook = new Notebook(this.token, this);
-        this.initTerminal();
-        this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {this.updateModel(true)});
+    this.notebook = new Notebook(this.token, this);
+    this.initTerminal();
+    this.addInput();
+    this.notebook.newUntitled(() => {this.listNotebooks(this.token)}, this.token, () => {this.updateModel(true)});
     }
 
     openNotebook(file) {
-      debugger;
-        this.notebook = new Notebook();
-        this.initTerminal();
-        this.notebook.open(file, this.token, () => {this.updateModel(true)});
+      this.notebook = new Notebook();
+      this.initTerminal();
+      this.addInput();
+      this.notebook.open(file, this.token, () => {this.updateModel(true)});
      window.terminal = this;
      }
   
@@ -297,11 +297,13 @@ export default class IpythonTerminal extends Morph {
         var cell = cells[i];
         switch (cell.cell_type) {
           case "code":
-            this.addInput(cell.source);
-            for (var j = 0; j < cell.outputs.length; j++) {
-              var output = cell.outputs[j];
-              if (output && output.data && output.data['text/plain']) {
-                this.addOutput(output.data['text/plain']);
+            if (typeof(cell.source) == "string" && cell.source.length > 0) {
+              this.addInput(cell.source);
+              for (var j = 0; j < cell.outputs.length; j++) {
+                var output = cell.outputs[j];
+                if (output && output.data && output.data['text/plain']) {
+                  this.addOutput(output.data['text/plain']);
+                }
               }
             }
             break;
