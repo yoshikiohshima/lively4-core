@@ -264,7 +264,6 @@ export default class IpythonTerminal extends Morph {
       this.notebook.open(file, this.token, () => {
        debugger;
        this.updateModel(true)
-        this.addInput();
       });
      window.terminal = this;
      }
@@ -293,6 +292,7 @@ export default class IpythonTerminal extends Morph {
           this.model = model;
           if (optUpdateCells) {
             this.parseCells(model.content.cells);
+            this.addInput();
           }
         });
     }
