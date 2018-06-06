@@ -129,7 +129,6 @@ class Notebook {
 
     kernel.registerCommTarget('layers', (comm, commMsg) => {
       comm.onMsg = (msg) => {
-      debugger;
        if (msg.content.data === 'names') {
          var names = msg.buffer.map((b) => new TextDecoder('ascii').decode(new Uint8Array(b.buffer)));
       }
