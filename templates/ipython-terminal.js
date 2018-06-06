@@ -179,8 +179,9 @@ class Notebook {
     if (!kernel) {return;}
     
     function parseTuple(str) {
-    return eval(str.replace('(', '[').replace(')', ']'));
-  }
+      return eval(str.replace('(', '[').replace(')', ']'));
+    }
+
     kernel.registerCommTarget('weights', (comm, commMsg) => {
       comm.onMsg = (msg) => {
       
