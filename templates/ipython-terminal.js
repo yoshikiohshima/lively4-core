@@ -13,6 +13,12 @@ function iPythonSettings(token) {
             Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
 }
 
+class Dispatcher {
+  initialize() {
+    this.listeners = {} // {comm name: [listeners]}
+  }
+}
+
 class Notebook {
     initialize() {
         this.session = null;       // session
