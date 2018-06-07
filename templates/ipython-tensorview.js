@@ -88,6 +88,7 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
   }
 
   receive_tensor(msg) {
+    debugger;
     function parseTuple(str) {
       return eval(str.replace('(', '[').replace(')', ']'));
     }
