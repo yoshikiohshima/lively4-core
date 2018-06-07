@@ -23,6 +23,7 @@ class Dispatcher {
   }
   
   addHandler(name, obj, callback) {
+    debugger;
     var that = this;
     function has(name, obj, callback) {
       var ary = that.handlers[name];
