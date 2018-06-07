@@ -89,7 +89,7 @@ class Notebook {
 
     status() {
         if (!this.kernel) {return "unknown";}
-        return this.kernel.status();
+        return this.kernel.status;
     }
 
     newUntitled(then, token, optCallback) {
