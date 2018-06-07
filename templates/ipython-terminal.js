@@ -215,7 +215,9 @@ class Notebook {
     });
   }
   addHandler(name, widget, callback) {
-    this.dispatcher.addHandler(name, widget, callback);
+    if (this.dispatcher) {
+      this.dispatcher.addHandler(name, widget, callback);
+    }
   }
 }
 
