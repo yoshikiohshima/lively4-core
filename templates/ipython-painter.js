@@ -59,10 +59,10 @@ def receive_image(msg):
   floatData = ary.astype('float32') / 255.0
   floatData = floatData.reshape([-1, 28, 28, 1])
   last_image = floatData
+  comm.send(data, metadata, buffers).
 
 def handle_open(comm, msg):
   comm.on_msg(receive_image)
-  comm.close()
 get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 ''')`
     terminal.runCommand(py);
