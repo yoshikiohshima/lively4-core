@@ -15,7 +15,7 @@ function iPythonSettings(token) {
 
 class Dispatcher {
   initialize() {
-    this.listeners = {} // {comm name: [listener: obj, callback: callable]}
+    this.handlers = {} // {comm name: [handler: obj, callback: callable]}
     this.kernel = null;
   }
   setKernel(kernel) {
@@ -25,7 +25,7 @@ class Dispatcher {
   addHandler(name, obj, callback) {
     var that = this;
     function has(name, obj, callback) {
-      var ary = that.listeners[name];
+      var ary = that.handlers[name];
       if (!ary) {return false;}
       for (var i = 0; i < ary.length; i++) {
         var v = ary[i];
@@ -38,15 +38,15 @@ class Dispatcher {
     if (has(name, obj, callback)) {
       return;
     }
-    if (!this.listeners[name]) {
-      this.listeners[name] = [];
+    if (!this.handlers[name]) {
+      this.handlers[name] = [];
     }
     (function() {
       var n = name;
       var kernel = that.kernel;
       kernel.registerCommTarget(name, (comm, commMsg) => {
         comm.onMsg = (msg) => {
-          var ary = that.listeners[n];
+          var ary = that.handlers[n];
           for (var i = 0; i < ary.length; i++) {
             var f = ary[i].callback;
             f(msg);
@@ -55,15 +55,15 @@ class Dispatcher {
         comm.onClose = (msg) => {};
       });
     })();
-    this.listeners[name].push({listener: obj, callback: callback});    
+    this.handlers[name].push({handler: obj, callback: callback});    
   }
 
   removeHandler(name, obj) {
-    var ary = this.listeners[name];
+    var ary = this.handlers[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
       var v = ary[i];
-      if (v.listener === obj) {
+      if (v.handler === obj) {
         ary.splice(i, 1);
         return;
       }
@@ -71,7 +71,7 @@ class Dispatcher {
   }
 
   receive(name, msg) {
-    var ary = this.listeners[name];
+    var ary = this.handler[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
       var f = ary[i].callback;
@@ -220,8 +220,8 @@ class Notebook {
         };
     });
   }
-  addListener(name, widget, callback) {
-    this.dispatcher.addListener(name, widget, callback);
+  addHandler(name, widget, callback) {
+    this.dispatcher.addHandler(name, widget, callback);
   }
 }
 
@@ -504,9 +504,9 @@ export default class IpythonTerminal extends Morph {
       }
   }
   
-  addListener(name, widget, callback) {
+  addHandler(name, widget, callback) {
     if (!this.notebook) {return;}
-    this.notebook.addListener(name, widget, callback);
+    this.notebook.addHandler(name, widget, callback);
   }
     
   /* Lively-specific API */
