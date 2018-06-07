@@ -502,6 +502,7 @@ export default class IpythonTerminal extends Morph {
   }
   
   addHandler(name, widget, callback) {
+    debugger;
     if (!this.notebook) {return;}
     this.notebook.addHandler(name, widget, callback);
   }
