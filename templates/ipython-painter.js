@@ -54,7 +54,7 @@ def evaluate_last_image(evaluator):
 
 def receive_image(msg):
   with open("foo.txt", "w") as file:
-     file.write(msg.__dict__.__str__())
+     file.write(msg.__str__())
   global last_image
   #shape = np.frombuffer(msg['buffers'][0], dtype=np.int32)
   ary = np.frombuffer(msg['buffers'][1], dtype=np.uint8)
