@@ -171,25 +171,6 @@ class Notebook {
   setupComm() {
     var kernel = this.kernel;
     if (!kernel) {return;}
-    
-    function parseTuple(str) {
-      return eval(str.replace('(', '[').replace(')', ']'));
-    }
-
-    kernel.registerCommTarget('weights', (comm, commMsg) => {
-      comm.onMsg = (msg) => {
-       if (msg.content.data === 'dense') {
-         var weights = new Float32Array(msg.buffers[0].buffer);
-         var weightsShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[1].buffer)))
-         var bias = new Float32Array(msg.buffers[2].buffer);
-         var biasShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[3].buffer)))
-       }
-      this.launchWeightsView(weights, weightsShape, bias, biasShape);
-    };
-    comm.onClose = (msg) => {
-    };
-  });
-
     kernel.registerCommTarget('layers', (comm, commMsg) => {
       comm.onMsg = (msg) => {
        if (msg.content.data === 'names') {
