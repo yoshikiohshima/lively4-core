@@ -14,7 +14,7 @@ function iPythonSettings(token) {
 }
 
 class Dispatcher {
-  initialize() {
+  constructor() {
     this.handlers = {} // {comm name: [handler: obj, callback: callable]}
     this.kernel = null;
   }
