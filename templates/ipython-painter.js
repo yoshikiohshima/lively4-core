@@ -61,7 +61,8 @@ def receive_image(msg):
   last_image = floatData
 
 def handle_open(comm, msg):
-   comm.on_msg(receive_image)
+  comm.on_msg(receive_image)
+  comm.close()
 get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 ''')`
     terminal.runCommand(py);
