@@ -58,7 +58,7 @@ class Dispatcher {
     this.listeners[name].push({listener: obj, callback: callback});    
   }
 
-  removeListener(name, obj) {
+  removeHandler(name, obj) {
     var ary = this.listeners[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
