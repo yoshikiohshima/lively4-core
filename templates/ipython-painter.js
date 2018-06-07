@@ -59,7 +59,6 @@ def receive_image(msg):
   floatData = ary.astype('float32') / 255.0
   floatData = floatData.reshape([-1, 28, 28, 1])
   last_image = floatData
-  comm.close()
 
 def handle_open(comm, msg):
   comm.on_msg(receive_image)
