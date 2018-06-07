@@ -44,10 +44,9 @@ mnist_image = loader.load('mnist_image', '''
 from ipykernel.comm import Comm
 import numpy as np
 
-evaluator = None
 last_image = None
-def evaluate_last_image():
-  if last_image is None or evaluator is None:
+def evaluate_last_image(evaluator):
+  if last_image is None:
     return
 
   prediction, confidence = evaluator.predict(last_image)
@@ -90,7 +89,7 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 
     var shape = new Uint32Array([28, 28]);
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData]);
-    terminal.insertAndRunCommand("mnist_image.evaluate_last_image()");
+    terminal.insertAndRunCommand("mnist_image.evaluate_last_image(evaluator)");
   }
   
  initScaledCanvas() {
