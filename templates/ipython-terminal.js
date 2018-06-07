@@ -215,7 +215,7 @@ class Notebook {
         comm.open('ack');
         comm.send(data, metadata, buffers);
         comm.onClose = (msg) => {
-          console.log('closed'); then()};
+          console.log('comm closed'); then()};
     });
   }
   addListener(name, widget, callback) {
