@@ -37,7 +37,6 @@ export default class IpythonPainter extends Morph {
   register() {
     var terminal = window.terminal;
     if (!terminal) {return;}
-    debugger;
 var py = `
 import loader
 mnist_image = loader.load('mnist_image', '''
