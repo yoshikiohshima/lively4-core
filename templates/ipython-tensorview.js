@@ -93,7 +93,6 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     }
   
   showTensor(weights, weightsShape, bias, biasShape) {
-    debugger;
     var canvas = this.canvas;
     var ctx = canvas.getContext('2d');
     var holder = this;
