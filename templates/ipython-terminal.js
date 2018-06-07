@@ -491,6 +491,7 @@ export default class IpythonTerminal extends Morph {
 
   runCommand(text) {
       if (!this.notebook) {return;}
+    debugger;
       if (this.notebook.status) {
           // status should be: Status = 'unknown' | 'starting' | 'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
           // and test it accordingly
