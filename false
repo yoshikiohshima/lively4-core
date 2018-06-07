@@ -1,44 +1,9 @@
-<lively-window class="global" tabindex="0" active="true" style="z-index: 101; position: absolute; left: 483.641px; top: 66.1367px; width: 950px; height: 600px;" title="README.md"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/README.md" leftpane-flex="" rightpane-flex=""><lively-markdown class="presentation">&lt;lively-import src="doc/_navigation.html"&gt;&lt;/lively-import&gt;
-
-# &lt;img alt="Lively 4" style="position:relative; top: 25px" src="media/lively4_logo_smooth_100.png" /&gt;
-
-A Self-supporting, Web-based Development Environment
-
-[![Build Status](https://travis-ci.org/LivelyKernel/lively4-core.svg)](https://travis-ci.org/LivelyKernel/lively4-core)
-
-
-
-## Getting Started
-
-Directly start developing in your Chrome by visiting [lively4](https://lively-kernel.org/lively4/lively4-core/start.html) and follow the [Getting Started Guide](./doc/tutorial/index.md). Through checking out and serving git repositories with the [lively4-server](doc/lively4-server.md), we can directly edit and use the environment in a self-supporting way. 
-
-A project or branch of a project on Github can be checked out in multiple directories at once. Working on the same URL allows to collaborate in a very tight way, working in a separate directory provides more distance. 
-
-- [lively4-core](https://lively-kernel.org/lively4/lively4-core/start.html)
-- [lively4-stable](https://lively-kernel.org/lively4/lively4-stable/start.html)
-- [lively4-jens](https://lively-kernel.org/lively4/lively4-jens/start.html)
-- ...
-
-The livel4 server and github sync tools can check out arbitrary projects, such as the code of [lively4-server](https://lively-kernel.org/lively4/lively4-server/) itself, or the source of a [paper](https://lively-kernel.org/lively4/Lively4DevelopmentExperience/content/Introduction.md)
-hosted by overleaf. 
-
-# Authors / Contributors
-
-- [Sofware Architecture Group](https://www.hpi.uni-potsdam.de/hirschfeld/), [Hasso Plattner Institute](https://www.hpi.de),  2015-2018 [MIT LICENSE](LICENSE)
-- Jens Lincke, Stefan Ramson, Tim Felgentreff, Fabio Niephaus, Robert Hirschfeld, Marcel Taeumel
-- Seminars
-  - Software Design  [SWD 2015](doc/SWD2015/index.md) 
-   [SWD 2016](doc/SWD2015/index.md)
-  - Web-based Development [WebDev 2016](doc/WebDev2016/index.md), [WebDev 2017/18](doc/WebDev2017/index.md)
-  - Programming Experience [PX 2018](doc/PX2018/index.md)
-  - Reactive Programming [RP 2018](doc/RP2018/index.md)</lively-markdown></lively-container></lively-window><lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none;"></lively-halo>
+<lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 435.332px; top: 39.4023px;" title="IpythonTerminal"><ipython-terminal></ipython-terminal></lively-window><lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none;"></lively-halo>
     <!-- booting lively just came down to this one line -->
     <script src="src/client/boot.js" data-container="true"></script>
   
-<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
-
-
-<lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 105.586px; top: 89.6836px; width: 1136.39px; height: 1000px;" title="Workspace" data-lively-expose-prev-position="absolute" data-lively-expose-prev-left="36.9688px" data-lively-expose-prev-top="6.21522px" data-lively-expose-prev-bottom="" data-lively-expose-prev-right="" data-lively-expose-prev-width="1356px" data-lively-expose-prev-height="900px" data-lively-expose-prev-cursor="" data-lively-expose-prev-transform="scale(0.4)" data-lively-expose-prev-transition=""><lively-code-mirror mode="text/jsx">
+<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div><lively-window class="global" tabindex="0" style="z-index: 101; position: absolute; left: 259.915px; top: 11.6484px; width: 982px; height: 828px;" title="ipython-painter.js"><lively-container tabindex="0" src="http://localhost:9005/lively4-core/templates/ipython-painter.js" leftpane-flex="" rightpane-flex="" mode="edit"></lively-container></lively-window>
+<lively-window class="global" tabindex="0" style="z-index: 102; position: absolute; left: 105.586px; top: 89.6836px; width: 1136.39px; height: 1000px;" title="Workspace" data-lively-expose-prev-position="absolute" data-lively-expose-prev-left="36.9688px" data-lively-expose-prev-top="6.21522px" data-lively-expose-prev-bottom="" data-lively-expose-prev-right="" data-lively-expose-prev-width="1356px" data-lively-expose-prev-height="900px" data-lively-expose-prev-cursor="" data-lively-expose-prev-transform="scale(0.4)" data-lively-expose-prev-transition=""><lively-code-mirror mode="text/jsx">
 
 function setSettings() {
     var Request = window.Services.ServerConnection.defaultSettings.Request;
@@ -83,4 +48,4 @@ var a = lively.create('ipython-painter')
 
 a</lively-code-mirror></lively-window>
 <div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
-<lively-hand data-lively4-donotpersist="all" style="visibility: hidden; position: absolute; left: 873.641px; top: 465.703px;"></lively-hand><lively-notification-list hidden=""></lively-notification-list><div style="position: absolute; left: 287px; top: 235px;"><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"><br class="Apple-interchange-newline"></div><div style="position: absolute; left: 426px; top: 251px;"><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"><br class="Apple-interchange-newline"></div><div style="position: absolute; left: 481px; top: 301px;"><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"><br class="Apple-interchange-newline"></div><div style="position: absolute; left: 297px; top: 214px;"><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"><br class="Apple-interchange-newline"></div><div id="progressContainer" style="z-index: 1000; position: absolute; left: 50px; top: 50px;"></div><lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0.01px; left: 0px; width: 71.2031px; height: 86px; display: none;"></lively-halo><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 409.059px; top: 64.7031px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 409px; top: 64px;"></lively-menu>
+<lively-notification-list hidden=""></lively-notification-list><lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0px; left: 0px; width: 964px; height: 140px; display: none;"></lively-halo><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 45.2656px; top: 125.039px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 45px; top: 125px;"></lively-menu>
