@@ -96,6 +96,4 @@ export default class IpythonTensorview extends Morph {
 
   }
 
-  /* Lively-specific API */
-
 }
