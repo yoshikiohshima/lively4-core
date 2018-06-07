@@ -111,6 +111,7 @@ class Notebook {
           this.session = session;
           this.kernel = session.kernel;
           this.dispatcher = new Dispatcher();
+          this.dispatcher.setKernel(this.kernel);
           this.setupComm();
           if (optCallback) {
             optCallback();
