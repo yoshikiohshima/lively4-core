@@ -67,7 +67,9 @@ def send_tensor(ev, name):
 
 def receive_weight_request(msg):
   s = msg['buffers'][0].tobytes()
-
+  with open('foo.txt', 'w') as file:
+    file.write(s)
+  send_tensor(None, s)
 
 def handle_open(comm, msg):
   comm.on_msg(receive_weight_request)
