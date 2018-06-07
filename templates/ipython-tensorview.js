@@ -25,6 +25,63 @@ export default class IpythonTensorview extends Morph {
     window.tensorView = this;
   }
   
+  register() {
+    var terminal = window.terminal;
+    if (!terminal) {return;}
+    var py = `
+import loader
+weight_tensor = loader.load('weight_tensor', '''
+from ipykernel.comm import Comm
+import numpy as np
+
+def send_tensor(evaluator, name):
+  if evaluator is not None:
+   weights = evaluator.get_weights(name)
+   typeName = weights[0]
+   if typeName == "Dense":
+     data = weights[1]
+     weightPair = data[0]
+     biasPair = data[1]
+     ws = weightPair[0]
+     weightShape = weightPair[1]
+     bs = biasPair[0]
+     biasShape = biasPair[1]
+
+     comm = Comm(target_name='weight_tensor')
+     comm.send(data='dense', buffers=[memoryview(ws),
+                                      memoryview(bytearray(str(weightShape), 'ascii')),
+                                      memoryview(bs),
+                                      memoryview(bytearray(str(biasShape), 'ascii'))])
+     comm.close()
+
+def receive_weight_request(msg):
+  with open("foo.txt", "w") as file:
+     file.write(msg.__str__())
+  global last_image
+  #shape = np.frombuffer(msg['buffers'][0], dtype=np.int32)
+  ary = np.frombuffer(msg['buffers'][1], dtype=np.uint8)
+  floatData = ary.astype('float32') / 255.0
+  floatData = floatData.reshape([-1, 28, 28, 1])
+  last_image = floatData
+
+def handle_open(comm, msg):
+  comm.on_msg(receive_weight_request)
+get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
+''')`
+    terminal.runCommand(py);
+    terminal.addHandler('weight_tensor', this, this.receive_tensor.bind(this));
+  }
+
+  receive_tensor(msg) {
+    if (msg.content.data === 'dense') {
+      var weights = new Float32Array(msg.buffers[0].buffer);
+      var weightsShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[1].buffer)))
+      var bias = new Float32Array(msg.buffers[2].buffer);
+      var biasShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[3].buffer)))
+       }
+      this.showTensor(weights, weightsShape, bias, biasShape);
+    }
+  
   showTensor(weights, weightsShape, bias, biasShape) {
     var canvas = this.canvas;
     var ctx = canvas.getContext('2d');
