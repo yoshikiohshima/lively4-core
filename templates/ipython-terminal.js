@@ -214,10 +214,10 @@ class Notebook {
     kernel.connectToComm(commName).then(comm => {
         comm.open('ack');
         comm.send(data, metadata, buffers);
-        comm.onClose = (msg) => {then()};
+        comm.onClose = (msg) => {
+          console.log('closed'); then()};
     });
   }
-  
   addListener(name, widget, callback) {
     this.dispatcher.addListener(name, widget, callback);
   }
