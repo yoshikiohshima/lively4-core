@@ -84,7 +84,6 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
 
 
     if (msg.content.data === 'dense') {
-    debugger;
       var weights = new Float32Array(msg.buffers[0].buffer);
       var weightsShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[1].buffer)))
       var bias = new Float32Array(msg.buffers[2].buffer);
@@ -94,6 +93,7 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     }
   
   showTensor(weights, weightsShape, bias, biasShape) {
+    debugger;
     var canvas = this.canvas;
     var ctx = canvas.getContext('2d');
     var holder = this;
