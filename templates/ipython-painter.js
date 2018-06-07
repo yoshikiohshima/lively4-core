@@ -36,6 +36,7 @@ export default class IpythonPainter extends Morph {
 
   register() {
     var terminal = window.terminal;
+    debugger;
     if (!terminal) {return;}
 var py = `
 import loader
