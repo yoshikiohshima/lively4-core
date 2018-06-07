@@ -49,8 +49,6 @@ def send_tensor(ev, name):
   if evaluator is not None:
    weights = evaluator.get_weights(name)
    typeName = weights[0]
-   with open('bar.txt', 'w') as file:
-     file.write(typeName)
    if typeName == "Dense":
      data = weights[1]
      weightPair = data[0]
@@ -68,7 +66,7 @@ def send_tensor(ev, name):
      comm.close()
 
 def receive_weight_request(msg):
-  s = msg['buffers'][0].tobytes())
+  s = msg['buffers'][0].tobytes()
 
 
 def handle_open(comm, msg):
