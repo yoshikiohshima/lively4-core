@@ -52,7 +52,7 @@ def send_tensor(ev, name):
     return
   weights = evaluator.get_weights(name)
   typeName = weights[0]
-  with open('bar.txt', 'w') as file:
+  with open('baz.txt', 'w') as file:
     file.write(evaluator.__str__())
    if typeName == "Dense":
     data = weights[1]
