@@ -84,15 +84,23 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
       return eval(str.replace('(', '[').replace(')', ']'));
     }
 
-
     if (msg.content.data === 'dense') {
       var weights = new Float32Array(msg.buffers[0].buffer);
       var weightsShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[1].buffer)))
       var bias = new Float32Array(msg.buffers[2].buffer);
       var biasShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[3].buffer)))
-       }
-      this.showTensor(weights, weightsShape, bias, biasShape);
     }
+    this.showTensor(weights, weightsShape, bias, biasShape);
+  }
+  
+  ask(name) {
+    var terminal = window.terminal;
+    if (!terminal) {return;}
+    var enc = new TextEncoder('ascii');
+    var encoded = enc.encode(name);
+    console.log(encoded);
+    terminal.send('weight_tensor', 'weight_tensor', null, [encoded])
+  }
   
   showTensor(weights, weightsShape, bias, biasShape) {
     var canvas = this.canvas;
