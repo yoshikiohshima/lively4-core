@@ -73,6 +73,11 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
   }
 
   receive_tensor(msg) {
+    function parseTuple(str) {
+      return eval(str.replace('(', '[').replace(')', ']'));
+    }
+
+
     if (msg.content.data === 'dense') {
       var weights = new Float32Array(msg.buffers[0].buffer);
       var weightsShape = parseTuple(new TextDecoder('ascii').decode(new Uint8Array(msg.buffers[1].buffer)))
