@@ -47,20 +47,20 @@ import numpy as np
 evaluator = None
 last_image = None
 def evaluate_last_image():
-  if lastImage is None or evaluator is None:
+  if last_image is None or evaluator is None:
     return
 
-  prediction, confidence = evaluator.predict(lastImage)
+  prediction, confidence = evaluator.predict(last_image)
   print('prediction', prediction)
   print('confidence', confidence)
 
 def receive_image(msg):
-  global lastImage
+  global last_image
   #shape = np.frombuffer(msg['buffers'][0], dtype=np.int32)
   ary = np.frombuffer(msg['buffers'][1], dtype=np.uint8)
   floatData = ary.astype('float32') / 255.0
   floatData = floatData.reshape([-1, 28, 28, 1])
-  lastImage = floatData
+  last_image = floatData
 
 def handle_open(comm, msg):
    comm.on_msg(receive_image)
