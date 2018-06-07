@@ -213,6 +213,7 @@ class Notebook {
     if (!kernel) {return;}
     kernel.connectToComm(commName).then(comm => {
         comm.open('ack');
+      debugger;
         comm.send(data, metadata, buffers).then(then);
         comm.onClose = (msg) => {
           console.log('comm closed');};
