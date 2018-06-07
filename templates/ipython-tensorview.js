@@ -35,7 +35,17 @@ weight_tensor = loader.load('weight_tensor', '''
 from ipykernel.comm import Comm
 import numpy as np
 
-def send_tensor(evaluator, name):
+my_evaluator = None
+
+def set_evaluator(ev):
+  global my_evaluator
+  my_evaluator = ev
+
+def send_tensor(ev, name):
+  if ev is None:
+    evaluator = my_evaluator
+  else:
+    evaluator = ev
   if evaluator is not None:
    weights = evaluator.get_weights(name)
    typeName = weights[0]
@@ -58,14 +68,8 @@ def send_tensor(evaluator, name):
      comm.close()
 
 def receive_weight_request(msg):
-  with open("foo.txt", "w") as file:
-     file.write(msg.__str__())
-  global last_image
-  #shape = np.frombuffer(msg['buffers'][0], dtype=np.int32)
-  ary = np.frombuffer(msg['buffers'][1], dtype=np.uint8)
-  floatData = ary.astype('float32') / 255.0
-  floatData = floatData.reshape([-1, 28, 28, 1])
-  last_image = floatData
+  s = msg['buffers'][0].tobytes())
+
 
 def handle_open(comm, msg):
   comm.on_msg(receive_weight_request)
