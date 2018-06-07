@@ -30,7 +30,7 @@ class Dispatcher {
       if (!ary) {return false;}
       for (var i = 0; i < ary.length; i++) {
         var v = ary[i];
-        if (v.listener === obj) {
+        if (v.handler === obj) {
           return true;
         }
       }
