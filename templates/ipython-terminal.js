@@ -22,7 +22,7 @@ class Dispatcher {
     this.kernel = kernel;
   }
   
-  addListener(name, obj, callback) {
+  addHandler(name, obj, callback) {
     var that = this;
     function has(name, obj, callback) {
       var ary = that.listeners[name];
