@@ -36,7 +36,6 @@ export default class IpythonPainter extends Morph {
 
   register() {
     var terminal = window.terminal;
-    debugger;
     if (!terminal) {return;}
 var py = `
 import loader
@@ -88,6 +87,7 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
     }
 
     var shape = new Uint32Array([28, 28]);
+    debugger;
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData], ()=> {
       terminal.insertAndRunCommand("mnist_image.evaluate_last_image(evaluator)");
     });
