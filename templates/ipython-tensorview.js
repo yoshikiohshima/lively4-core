@@ -22,6 +22,7 @@ export default class IpythonTensorview extends Morph {
   async initialize() {
     this.windowTitle = "IpythonTensorview";
     this.canvas = this.get('#canvas');
+    this.canva.getContext('2d').fillRect(0, 0, 100, 100);
     window.tensorView = this;
   }
   
