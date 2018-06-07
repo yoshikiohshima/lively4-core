@@ -54,7 +54,7 @@ def send_tensor(ev, name):
   typeName = weights[0]
   with open('baz.txt', 'w') as file:
     file.write(evaluator.__str__())
-   if typeName == "Dense":
+  if typeName == "Dense":
     data = weights[1]
     weightPair = data[0]
     biasPair = data[1]
