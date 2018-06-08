@@ -186,6 +186,38 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
 
   }
 
+  message(value, i, j) {
+    var range = this.wmax - this.wmin;
+    var message;
+    var direction;
+    var scaled;
+    if (value >= 0) {
+        scaled = value  / this.wmax;
+        direction = "promotes";
+    } else {
+        scaled = value  / this.wmin;
+        direction = "inhibits";
+    }
+    if (scaled > 0.6) {
+        message = 'strongly';
+    } else if (scaled > 0.2) {
+        message = 'moderately';
+    } else {
+        message = 'slightly';
+    }
+    var suffix;
+    if (i === 1) {
+        suffix = 'st';
+    } else if (i === 2) {
+        suffix = 'nd';
+    } else {
+        suffix = 'th';
+    }
+    return `node #${j}: ${direction} the ${i}${suffix} output ${message} (${value.toFixed(6)}) `;
+}
+
+
+
   weightEvent(evt) {
     var x = evt.offsetX;
     var y = evt.offsetY;
