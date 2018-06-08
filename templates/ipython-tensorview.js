@@ -30,7 +30,7 @@ export default class IpythonTensorview extends Morph {
 
     window.tensorView = this;
   }
-  
+
   register() {
     var terminal = window.terminal;
     if (!terminal) {return;}
