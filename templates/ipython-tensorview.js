@@ -209,13 +209,13 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
         suffix = 'st';
     } else if (i === 2) {
         suffix = 'nd';
+    } else if (i === 3) {
+        suffix = 'rd';
     } else {
         suffix = 'th';
     }
     return `node #${j}: ${direction} the ${i}${suffix} output ${message} (${value.toFixed(6)}) `;
-}
-
-
+  }
 
   weightEvent(evt) {
     var x = evt.offsetX;
