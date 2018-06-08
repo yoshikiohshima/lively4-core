@@ -23,6 +23,11 @@ export default class IpythonTensorview extends Morph {
     this.windowTitle = "IpythonTensorview";
     this.canvas = this.get('#canvas');
     this.canvas.getContext('2d').fillRect(0, 0, 100, 100);
+
+    this.canvas.addEventListener("mouseover", this.weightEvent.bind(this));
+    this.canvas.addEventListener("mousemove", this.weightEvent.bind(this));
+    this.canvas.addEventListener("mouseout", this.weightEvent.bind(this));
+
     window.tensorView = this;
   }
   
@@ -180,4 +185,28 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     this.wmin = wmin;
 
   }
+
+  weightEvent(evt) {
+    var x = evt.offsetX;
+    var y = evt.offsetY;
+
+    var pixelW = this.pixelW;
+    var pixelH = this.pixelH;
+    var shape = this.shape;
+
+    if (evt.type == "mouseover" || evt.type == "mousemove") {
+        var i = Math.floor(x / (pixelW + 1));
+        var j = Math.floor(y / (pixelH + 1));
+
+        if (0 <= i && i < shape[1] &&
+            0 <= j && j < shape[0]) {
+            var value = this.values.weights[j][i];
+            tooltipMouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 200, 30);
+        }
+    } else if (evt.type == "mouseout") {
+        tooltipMouseout(x, y);
+    }
+}
+
+
 }
