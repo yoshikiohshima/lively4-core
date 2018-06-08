@@ -33,7 +33,7 @@ export default class IpythonList extends Morph {
       };
       link.addEventListener('contextmenu', (evt) => {
         if (!evt.shiftKey) {
-          this.onContextMenu(evt, otherUrl)
+          this.onContextMenu(evt, name)
           evt.stopPropagation();
           evt.preventDefault();
           return true;
