@@ -187,7 +187,6 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
   }
 
   message(value, i, j) {
-    var range = this.wmax - this.wmin;
     var message;
     var direction;
     var scaled;
