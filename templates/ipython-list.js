@@ -46,6 +46,25 @@ export default class IpythonList extends Morph {
     }
   }
 
+  onContextMenu(evt) {
+/*    if (this.targetObject && !evt.shiftKey) { 
+      evt.preventDefault();
+      evt.stopPropagation();
+      if (this.targetObject instanceof Array) {
+        var menu = new ContextMenu(this, [
+              ["inspect as table", () => Inspector.inspectArrayAsTable(this.targetObject)],
+            ]);
+        menu.openIn(document.body, evt, this);
+      } else if (this.targetObject.tagName) {
+        // for all html elements
+        lively.openContextMenu(document.body, evt, this.selection || this.targetObject);
+        return true
+      }
+	    return false;
+    } 
+    */
+  }
+
   itemSelected(url) {
     console.log('url', url);
   }
