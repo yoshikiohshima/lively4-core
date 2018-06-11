@@ -82,5 +82,9 @@ export default class IpythonList extends Morph {
     }
     this.itemSelected(link);
   }
+  
+  async livelyExample() {
+    this.setList(["abc", "def"]);
+  }
 
 }
