@@ -24,6 +24,7 @@ export default class IpythonList extends Morph {
   setList(names) {
     this.clear();
     this.names = names;
+    var origin = window.location.origin;
     var list = this.get('#list');
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
@@ -32,7 +33,7 @@ export default class IpythonList extends Morph {
 
       var icon = '<i class="fa fa-file"></i>';
       link.innerHTML =  icon + name;
-      link.href=name;
+      link.href=origin + '/' + name;
 
       if (this.lastSelection && this.lastSelection.includes(name)) {
         element.classList.add("selected");
@@ -76,7 +77,8 @@ export default class IpythonList extends Morph {
   itemSelected(a) {
     console.log('sss', a);
     if (this.listener) {
-      this.listener(a.name)
+      var len = window.location.origin.length + 1;
+     this.listener(a.href.slice(len));
     }
   }
 
