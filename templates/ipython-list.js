@@ -72,7 +72,7 @@ export default class IpythonList extends Morph {
   }
 
   itemSelected(url) {
-    console.log('ss', url);
+    console.log('sss', url);
   }
 
   onItemClick(link, evt) {
