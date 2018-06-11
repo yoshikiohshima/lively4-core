@@ -74,6 +74,7 @@ export default class IpythonList extends Morph {
   itemSelected(url) {
     console.log('url', url);
   }
+
   onItemClick(link, evt) {
     if (evt.shiftKey) {
       this.lastSelection = this.getSelection()     
