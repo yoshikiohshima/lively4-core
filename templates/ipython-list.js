@@ -54,7 +54,7 @@ export default class IpythonList extends Morph {
     } else {
       this.lastSelection = []
     }
-    this.itemSelected(link.href );
+    this.itemSelected(link);
   }
 
 }
