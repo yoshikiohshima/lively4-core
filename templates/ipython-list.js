@@ -73,8 +73,11 @@ export default class IpythonList extends Morph {
     */
   }
 
-  itemSelected(url) {
-    console.log('sss', url);
+  itemSelected(a) {
+    console.log('sss', a);
+    if (this.listener) {
+      this.listener(a.name)
+    }
   }
 
   onItemClick(link, evt) {
@@ -83,7 +86,6 @@ export default class IpythonList extends Morph {
     } else {
       this.lastSelection = []
     }
-    this.listener = 
     this.itemSelected(link);
   }
 
