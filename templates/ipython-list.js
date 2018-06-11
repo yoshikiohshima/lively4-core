@@ -87,6 +87,7 @@ export default class IpythonList extends Morph {
       this.lastSelection = this.getSelection()     
     } else {
       this.lastSelection = []
+      debugger;
       element.classList.add("selected");
     }
     this.itemSelected(element.firstChild);
