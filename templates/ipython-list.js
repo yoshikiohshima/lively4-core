@@ -24,6 +24,7 @@ export default class IpythonList extends Morph {
 
       var icon = '<i class="fa fa-file"></i>';
       link.innerHTML =  icon + name;
+      link.href=name;
 
       if (this.lastSelection && this.lastSelection.includes(name)) {
         element.classList.add("selected");
