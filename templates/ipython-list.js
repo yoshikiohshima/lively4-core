@@ -41,7 +41,6 @@ export default class IpythonList extends Morph {
           var e = list.childNodes[i];
           e.classList.remove("selected");
         }
-        debugger;
         evt.target.parentNode.classList.add("selected");
         this.onItemClick(element, evt); 
         return false
@@ -87,8 +86,7 @@ export default class IpythonList extends Morph {
   }
 
   onItemClick(element, evt) {
-      this.lastSelection = []
-      element.classList.add("selected");
+    this.lastSelection = []
     this.itemSelected(element.firstChild);
   }
 
