@@ -36,9 +36,6 @@ export default class IpythonList extends Morph {
       link.innerHTML =  icon + name;
       link.href=origin + '/' + name;
 
-      if (this.lastSelection && this.lastSelection.includes(name)) {
-        element.classList.add("selected");
-      }
       link.onclick = (evt) => {
         for (var i = 0; i < list.childNodes.length; i++) {
           var e = list.childNodes[i];
