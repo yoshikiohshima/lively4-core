@@ -6,6 +6,7 @@ export default class IpythonList extends Morph {
   async initialize() {
     this.windowTitle = "IpythonList";
     this.list = this.get('#list')
+    this.lastSelection = [];
   }
 
   clear() {
