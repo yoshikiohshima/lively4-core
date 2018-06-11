@@ -85,6 +85,7 @@ export default class IpythonList extends Morph {
   }
 
  livelyMigrate(other) {
+   debugger;
     // whenever a component is replaced with a newer version during development
     // this method is called on the new object during migration, but before initialization
     this.setList(other.getList());
