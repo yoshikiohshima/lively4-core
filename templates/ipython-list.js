@@ -13,7 +13,7 @@ export default class IpythonList extends Morph {
     list.innerHTML = '';
   }
 
-  setNames(names) {
+  setList(names) {
     this.clear();
     var list = this.get('#list');
     for (var i = 0; i < names.length; i++) {
@@ -42,6 +42,15 @@ export default class IpythonList extends Morph {
       element.appendChild(link);
       list.appendChild(element);
     }
+  }
+
+  onItemClick(link, evt) {
+    if (evt.shiftKey) {
+      this.lastSelection = this.getSelection()     
+    } else {
+      this.lastSelection = []
+    }
+    this.followPath(link.href );
   }
 
 }
