@@ -20,6 +20,7 @@ export default class IpythonList extends Morph {
     for (var i = 0; i < nodes.length; i++) {
       result.push(nodes[i].firstChild.href)
     }
+    return result;
   }
 
   setList(names) {
