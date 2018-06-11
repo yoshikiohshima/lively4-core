@@ -6,25 +6,22 @@ export default class IpythonList extends Morph {
   async initialize() {
     this.windowTitle = "IpythonList";
     this.lastSelection = [];
+    this.names = [];
   }
 
   clear() {
     var list = this.get('#list');
     list.innerHTML = '';
+    this.names = [];
   }
   
   getList() {
-    var result = [];
-    var list = this.get('#list');
-    var nodes = list.childNodes;
-    for (var i = 0; i < nodes.length; i++) {
-      result.push(nodes[i].firstChild.href)
-    }
-    return result;
+    return this.names;
   }
 
   setList(names) {
     this.clear();
+    this.names = names;
     var list = this.get('#list');
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
