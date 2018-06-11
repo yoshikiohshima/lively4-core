@@ -5,7 +5,7 @@ import Morph from 'src/components/widgets/lively-morph.js';
 export default class IpythonList extends Morph {
   async initialize() {
     this.windowTitle = "IpythonList";
-    this.lastSelection = [];
+    this.lastSelection = this.lastSelection;
     if (!this.names) {
       this.names = [];
     }
@@ -15,6 +15,7 @@ export default class IpythonList extends Morph {
     var list = this.get('#list');
     list.innerHTML = '';
     this.names = [];
+    this.lastSelection = null;
   }
   
   getList() {
@@ -38,7 +39,12 @@ export default class IpythonList extends Morph {
       if (this.lastSelection && this.lastSelection.includes(name)) {
         element.classList.add("selected");
       }
-      link.onclick = (evt) => { 
+      link.onclick = (evt) => {
+        for (var i = 0; i < list.childNodes.length; i++) {
+          var e = list.childNodes[i];
+          e.classList.remove("selected");
+        }
+        evt.target.parentNode.classList.add("selected");
         this.onItemClick(element, evt); 
         return false
       };
