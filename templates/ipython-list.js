@@ -83,6 +83,12 @@ export default class IpythonList extends Morph {
     }
     this.itemSelected(link);
   }
+
+ livelyMigrate(other) {
+    // whenever a component is replaced with a newer version during development
+    // this method is called on the new object during migration, but before initialization
+    this.setList(other.getList());
+  }
   
   async livelyExample() {
     this.setList(["abc", "def"]);
