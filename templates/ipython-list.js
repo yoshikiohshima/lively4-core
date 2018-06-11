@@ -39,7 +39,7 @@ export default class IpythonList extends Morph {
         element.classList.add("selected");
       }
       link.onclick = (evt) => { 
-        this.onItemClick(link, evt); 
+        this.onItemClick(element, evt); 
         return false
       };
       link.addEventListener('contextmenu', (evt) => {
@@ -82,13 +82,13 @@ export default class IpythonList extends Morph {
     }
   }
 
-  onItemClick(link, evt) {
+  onItemClick(element, evt) {
     if (evt.shiftKey) {
       this.lastSelection = this.getSelection()     
     } else {
       this.lastSelection = []
     }
-    this.itemSelected(link);
+    this.itemSelected(element.firstChild);
   }
 
  livelyMigrate(other) {
