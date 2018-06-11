@@ -4,10 +4,11 @@ import Morph from 'src/components/widgets/lively-morph.js';
 
 export default class IpythonList extends Morph {
   async initialize() {
-   debugger;
     this.windowTitle = "IpythonList";
     this.lastSelection = [];
-    this.names = [];
+    if (!this.names) {
+      this.names = [];
+    }
   }
 
   clear() {
