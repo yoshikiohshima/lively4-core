@@ -89,13 +89,8 @@ export default class IpythonList extends Morph {
   }
 
   onItemClick(element, evt) {
-    if (evt.shiftKey) {
-      this.lastSelection = this.getSelection()     
-    } else {
       this.lastSelection = []
-      debugger;
       element.classList.add("selected");
-    }
     this.itemSelected(element.firstChild);
   }
 
