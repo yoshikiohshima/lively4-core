@@ -226,7 +226,6 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     var shape = this.shape;
     
     var tip = window.tooptip;
-    debugger;
     if (!tip) {return;}
 
     if (evt.type == "mouseover" || evt.type == "mousemove") {
