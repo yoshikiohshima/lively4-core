@@ -9,7 +9,7 @@ export default class IpythonTooltip extends Morph {
       .attr("class", "tooltip")
       .style("opacity", 0);
     window.tooltip = this;
- }
+  }
 
   mouseover(x, y, html, width, height) {
     this.tip.style.width = width + 'px';
