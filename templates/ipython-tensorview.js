@@ -245,7 +245,5 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     } else if (evt.type == "mouseout") {
         tip.mouseout(x, y);
     }
-}
-
-
+  }
 }
