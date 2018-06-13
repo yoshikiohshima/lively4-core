@@ -20,4 +20,11 @@ export default class IpythonTooltip extends Morph {
         .style("left", x + "px")
         .style("top", y + "px");
   }
+
+  mouseout() {
+    this.tip.transition()
+        .duration(500)
+        .style("opacity", 0);
+  
+  }
 }
