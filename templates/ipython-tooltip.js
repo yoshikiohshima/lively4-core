@@ -8,6 +8,7 @@ export default class IpythonTooltip extends Morph {
     this.tip = d3.select(this.get('#tip'))
       .attr("class", "tooltip")
       .style("opacity", 0);
+    window.tooltip = this;
  }
 
   mouseover(x, y, html, width, height) {
