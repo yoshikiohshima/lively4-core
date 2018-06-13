@@ -5,8 +5,7 @@ import d3 from "src/external/d3.v5.js"
 
 export default class IpythonTooltip extends Morph {
   async initialize() {
-    this.windowTitle = "IpythonTooltip";
-    this.tip = d3.select("body").append("div")
+    this.tip = d3.select(this.get('#tip'))
       .attr("class", "tooltip")
       .style("opacity", 0);
  }
