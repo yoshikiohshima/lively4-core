@@ -224,6 +224,9 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     var pixelW = this.pixelW;
     var pixelH = this.pixelH;
     var shape = this.shape;
+    
+    var tip = window.tooptip;
+    if (!tip) {return;}
 
     if (evt.type == "mouseover" || evt.type == "mousemove") {
         var i = Math.floor(x / (pixelW + 1));
@@ -232,10 +235,10 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
         if (0 <= i && i < shape[1] &&
             0 <= j && j < shape[0]) {
             var value = this.values.weights[j][i];
-            tooltipMouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 200, 30);
+            tip.mouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 200, 30);
         }
     } else if (evt.type == "mouseout") {
-        tooltipMouseout(x, y);
+        tip.mouseout(x, y);
     }
 }
 
