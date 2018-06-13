@@ -28,4 +28,8 @@ export default class IpythonTooltip extends Morph {
         .duration(500)
         .style("opacity", 0);
   }
+  
+  livelyExample() {
+    this.mouseover(100, 100, "<span>abc</span>", 100, 50);
+  }
 }
