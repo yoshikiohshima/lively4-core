@@ -226,7 +226,12 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     var shape = this.shape;
     
     var tip = window.tooptip;
-    if (!tip) {return;}
+    if (!tip) {
+      tip = this.get('#tip');
+    }
+    if (!tip) {
+      return;
+    }
 
     if (evt.type == "mouseover" || evt.type == "mousemove") {
         var i = Math.floor(x / (pixelW + 1));
