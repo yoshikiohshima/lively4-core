@@ -25,6 +25,5 @@ export default class IpythonTooltip extends Morph {
     this.tip.transition()
         .duration(500)
         .style("opacity", 0);
-  
   }
 }
