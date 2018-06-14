@@ -243,7 +243,8 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
             var value = this.values.weights[j][i];
             tip.mouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 200, 30);
         } else {
-            tip.mouseover(evt.pageX + 10, evt.pageY, "<span>unknown</span>", 200, 30);
+          debugger;
+            tip.mouseover(evt.pageX + 10, evt.pageY, "r<span>unknown</span>", 200, 30);
         }
     } else if (evt.type == "mouseout") {
         tip.mouseout(x, y);
