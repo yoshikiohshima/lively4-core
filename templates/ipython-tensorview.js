@@ -239,9 +239,9 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
         if (0 <= i && i < shape[1] &&
             0 <= j && j < shape[0]) {
             var value = this.values.weights[j * shape[1] + i];
-            tip.mouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 200, 30);
+            tip.mouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 300, 30);
         } else {
-            tip.mouseover(evt.pageX + 10, evt.pageY, "<span>unknown</span>", 200, 30);
+            tip.mouseover(evt.pageX + 10, evt.pageY, "<span>unknown</span>", 300, 30);
         }
     } else if (evt.type == "mouseout") {
         tip.mouseout(x, y);
