@@ -226,6 +226,7 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     var shape = this.shape;
     
     var tip = document.getElementsByTagName('ipython-tooltip');
+    debugger;
     if (!tip) {
       return;
     }
