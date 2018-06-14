@@ -225,7 +225,7 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     var pixelH = this.pixelH;
     var shape = this.shape;
     
-    var tip = document.getElementsByTagName('ipython-tooltip');
+    var tip = document.getElementsByTagName('ipython-tooltip')[0];
     debugger;
     if (!tip) {
       return;
