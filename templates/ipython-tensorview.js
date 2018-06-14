@@ -183,6 +183,9 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     }
     this.wmax = wmax;
     this.wmin = wmin;
+    debugger;
+    this.shape = weightsShape;
+    this.values = {weights: weights, bias: bias};
 
   }
 
@@ -236,7 +239,6 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
 
         if (0 <= i && i < shape[1] &&
             0 <= j && j < shape[0]) {
-          debugger;
             var value = this.values.weights[j][i];
             tip.mouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 200, 30);
         } else {
