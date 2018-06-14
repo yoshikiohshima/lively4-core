@@ -46,6 +46,7 @@ class Dispatcher {
       var kernel = that.kernel;
       kernel.registerCommTarget(name, (comm, commMsg) => {
         comm.onMsg = (msg) => {
+          debugger;
           var ary = that.handlers[n];
           for (var i = 0; i < ary.length; i++) {
             var f = ary[i].callback;
