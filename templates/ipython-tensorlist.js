@@ -51,5 +51,9 @@ get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
   receive_layer_names(msg) {
     console.log('layer_names', msg);
   }
+  
+  livelyExample() {
+    this.setList(['abc', 'def'])
+  }
 
 }
