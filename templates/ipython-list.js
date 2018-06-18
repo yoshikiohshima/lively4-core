@@ -114,9 +114,6 @@ def send_layer_names(ev):
   if evaluator is None:
     return
   names = "\n".join(evaluator.get_layer_names())
-  comm = Comm(target_name="layer_names")
-  comm.send(data="dense", buffers=[memoryview(bytearray(names), "ascii")])
-  comm.close()
 
 def receive_layer_names_request(msg):
   send_layer_names(None)
