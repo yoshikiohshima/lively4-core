@@ -48,6 +48,9 @@ get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
     terminal.addHandler('layer_names', this, this.receive_layer_names.bind(this));
 
   }
-  
+
+  receive_layer_names(msg) {
+    console.log('layer_names', msg);
+  }
 
 }
