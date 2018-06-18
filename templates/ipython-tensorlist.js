@@ -6,7 +6,6 @@ import IpythonList from 'src/templates/ipython-list.js';
 export default class IpythonTensorlist extends IpythonList {
   async initialize() {
     super.initialize();
-    debugger;
  }
 
   register() {
