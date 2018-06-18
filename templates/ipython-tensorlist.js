@@ -44,8 +44,10 @@ def handle_open(comm, msg):
 get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
 ''')`
     terminal.runCommand(py);
-    terminal.addHandler('mnist_image', this, this.ready.bind(this));
+    terminal.insertAndRunCommand('layer_names.set_evaluator(evaluator)');
+    terminal.addHandler('weight_tensor', this, this.receive_tensor.bind(this));
+
   }
   
-  
+
 }
