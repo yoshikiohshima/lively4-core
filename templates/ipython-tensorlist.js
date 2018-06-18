@@ -45,7 +45,7 @@ get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
 ''')`
     terminal.runCommand(py);
     terminal.insertAndRunCommand('layer_names.set_evaluator(evaluator)');
-    terminal.addHandler('layer_names', this, this.receive_tensor.bind(this));
+    terminal.addHandler('layer_names', this, this.receive_layer_names.bind(this));
 
   }
   
