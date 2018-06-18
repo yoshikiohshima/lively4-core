@@ -226,6 +226,9 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     var pixelW = this.pixelW;
     var pixelH = this.pixelH;
     var shape = this.shape;
+    var values = this.values;
+    
+    if (!values || !shape) {return;}
     
     var tip = document.getElementsByTagName('ipython-tooltip')[0];
     if (!tip) {
@@ -238,7 +241,7 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
 
         if (0 <= i && i < shape[1] &&
             0 <= j && j < shape[0]) {
-            var value = this.values.weights[j * shape[1] + i];
+            var value = values.weights[j * shape[1] + i];
             tip.mouseover(evt.pageX + 10, evt.pageY, this.message(value, i, j), 300, 30);
         } else {
             tip.mouseover(evt.pageX + 10, evt.pageY, "<span>unknown</span>", 300, 30);
