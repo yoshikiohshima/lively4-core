@@ -1,63 +1,50 @@
 "enable aexpr";
 
 import Morph from 'src/components/widgets/lively-morph.js';
+import IpythonList from 'src/tempates/ipython-list.js';
 
-export default class IpythonTensorlist extends Morph {
+export default class IpythonTensorlist extends IpythonList {
   async initialize() {
-    this.windowTitle = "IpythonTensorlist";
-    this.registerButtons()
-
-    lively.html.registerKeys(this); // automatically installs handler for some methods
     
-    lively.addEventListener("template", this, "dblclick", 
-      evt => this.onDblClick(evt))
-    // #Note 1
-    // ``lively.addEventListener`` automatically registers the listener
-    // so that the the handler can be deactivated using:
-    // ``lively.removeEventListener("template", this)``
-    // #Note 1
-    // registering a closure instead of the function allows the class to make 
-    // use of a dispatch at runtime. That means the ``onDblClick`` method can be
-    // replaced during development
-  }
-  
-  // this method is autmatically registered through the ``registerKeys`` method
-  onKeyDown(evt) {
-    lively.notify("Key Down!" + evt.charCode)
-  }
-  
-  // this method is automatically registered as handler through ``registerButtons``
-  onFirstButton() {
-    lively.notify("hello")
-  }
+ }
 
-  /* Lively-specific API */
+  register() {
+    var terminal = window.terminal;
+    if (!terminal) {return;}
+var py = `
+import loader
+layer_names = loader.load('layer_names', '''
+from ipykernel.comm import Comm
+import numpy as np
 
-  livelyPreMigrate() {
-    // is called on the old object before the migration
-  }
-  
-  livelyMigrate(other) {
-    // whenever a component is replaced with a newer version during development
-    // this method is called on the new object during migration, but before initialization
-    this.someJavaScriptProperty = other.someJavaScriptProperty
-  }
-  
-  livelyInspect(contentNode, inspector) {
-    // do nothing
-  }
-  
-  livelyPrepareSave() {
-    
-  }
-  
-  
-  async livelyExample() {
-    // this customizes a default instance to a pretty example
-    // this is used by the 
-    this.style.backgroundColor = "red"
-    this.someJavaScriptProperty = 42
-    this.appendChild(<div>This is my content</div>)
+my_evaluator = None
+
+def set_evaluator(ev):
+  global my_evaluator
+  my_evaluator = ev
+
+def send_layer_names(ev):
+  if ev is None:
+    evaluator = my_evaluator
+  else:
+    evaluator = ev
+  if evaluator is None:
+    return
+  names = '\n'.join(evaluator.get_layer_names())
+  comm = Comm(target_name='layer_names')
+  comm.send(data='dense', buffers=[memoryview(bytearray(names), 'ascii')])
+  comm.close()
+
+def receive_layer_names_request(msg):
+  send_layer_names(None)
+
+def handle_open(comm, msg):
+  comm.on_msg(receive_layer_names_request)
+
+get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
+''')`
+    terminal.runCommand(py);
+    terminal.addHandler('mnist_image', this, this.ready.bind(this));
   }
   
   
