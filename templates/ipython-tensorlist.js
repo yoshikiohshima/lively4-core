@@ -4,9 +4,7 @@ import Morph from 'src/components/widgets/lively-morph.js';
 import IpythonList from 'src/templates/ipython-list.js';
 
 export default class IpythonTensorlist extends IpythonList {
-  async initialize() {
-    debugger;
-    
+  async initialize() {    
  }
 
   register() {
