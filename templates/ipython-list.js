@@ -9,7 +9,10 @@ export default class IpythonList extends Morph {
     if (!this.names) {
       this.names = [];
     }
+    this.listener = (arg) => {console.log('select', arg)};
   }
+  
+  
 
   clear() {
     var list = this.get('#list');
