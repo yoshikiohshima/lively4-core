@@ -91,7 +91,7 @@ export default class IpythonList extends Morph {
   onItemClick(evt) {
     this.lastSelection = [];
     console.log(evt.target);
-    this.itemSelected(evt.target.firstChild);
+    this.itemSelected(evt.target);
   }
 
  
