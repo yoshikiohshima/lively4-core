@@ -132,7 +132,6 @@ get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
   }
 
   receive_layer_names(msg) {
-    console.log('layer_names', msg);
     var list = new TextDecoder("utf-8").decode(new Uint8Array(msg.buffers[0].buffer));
     list = list.split('\n');
     this.setList(list);
