@@ -45,7 +45,7 @@ export default class IpythonList extends Morph {
           e.classList.remove("selected");
         }
         evt.target.parentNode.classList.add("selected");
-        this.onItemClick(element, evt); 
+        this.onItemClick(evt); 
         return false
       };
       link.addEventListener('contextmenu', (evt) => {
@@ -88,10 +88,10 @@ export default class IpythonList extends Morph {
     }
   }
 
-  onItemClick(element, evt) {
+  onItemClick(evt) {
     this.lastSelection = [];
-    console.log(element);
-    this.itemSelected(element.firstChild);
+    console.log(evt.target);
+    this.itemSelected(evt.target.firstChild);
   }
 
  
