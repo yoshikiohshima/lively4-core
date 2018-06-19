@@ -146,5 +146,4 @@ get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
   async livelyExample() {
     this.setList(["abc", "def"]);
   }
-
 }
