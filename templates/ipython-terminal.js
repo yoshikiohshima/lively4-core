@@ -13,6 +13,12 @@ function iPythonSettings(token) {
             Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
 }
 
+class Announcer {
+  constructor() {
+    this.handlers = {};
+  }
+}
+
 class Dispatcher {
   constructor() {
     this.handlers = {} // {comm name: [handler: obj, callback: callable]}
