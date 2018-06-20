@@ -18,7 +18,36 @@ class Announcer {
     this.handlers = {};
   }
   
-  addHandler(name, func) {}
+  addHandler(name, obj, callback) {
+    var that = this;
+    function has(name, obj, callback) {
+      var ary = that.handlers[name];
+      if (!ary) {return false;}
+      for (var i = 0; i < ary.length; i++) {
+        var v = ary[i];
+        if (v.handler === obj) {
+          return true;
+        }
+      }
+      return false;
+    }
+    if (has(name, obj, callback)) {
+      return;
+    }
+    if (!this.handlers[name]) {
+      this.handlers[name] = [];
+    }
+    this.handlers[name].push({handler: obj, callback: callback});    
+  }
+
+  announce(sender, name, obj) {
+    var n = name;
+    var ary = this.handlers[name];
+    for (var i = 0; i < ary.length; i++) {
+      var f = ary[i].callback;
+      f(obj);
+    }
+  }
 }
 
 class Dispatcher {
