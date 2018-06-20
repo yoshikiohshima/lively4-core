@@ -264,6 +264,7 @@ export default class IpythonTerminal extends Morph {
         this.setupSaveButton();
 
         this.sessions = null;
+         this.announcer = new Announcer(); // Dispatcher
     }
 
   initTerminal() {
