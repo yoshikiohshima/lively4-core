@@ -17,6 +17,8 @@ class Announcer {
   constructor() {
     this.handlers = {};
   }
+  
+  addHandler(name, func) {}
 }
 
 class Dispatcher {
