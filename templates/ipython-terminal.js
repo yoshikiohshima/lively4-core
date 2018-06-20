@@ -40,14 +40,28 @@ class Announcer {
     this.handlers[name].push({handler: obj, callback: callback});    
   }
 
-  announce(sender, name, obj) {
-    var n = name;
+  announce(sender, name, arg) {
     var ary = this.handlers[name];
+    if (!ary){return;}
     for (var i = 0; i < ary.length; i++) {
       var f = ary[i].callback;
-      f(obj);
+      var o = ary[i].handler;
+      f.call(o, arg);
     }
   }
+
+  removeHandler(name, obj) {
+    var ary = this.handlers[name];
+    if (!ary) {return;}
+    for (var i = 0; i < ary.length; i++) {
+      var v = ary[i];
+      if (v.handler === obj) {
+        ary.splice(i, 1);
+        return;
+      }
+    }
+  }
+
 }
 
 class Dispatcher {
@@ -83,7 +97,6 @@ class Dispatcher {
       var kernel = that.kernel;
       kernel.registerCommTarget(name, (comm, commMsg) => {
         comm.onMsg = (msg) => {
-          debugger;
           var ary = that.handlers[n];
           for (var i = 0; i < ary.length; i++) {
             var f = ary[i].callback;
