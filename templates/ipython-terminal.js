@@ -44,9 +44,17 @@ class Announcer {
     var ary = this.handlers[name];
     if (!ary){return;}
     for (var i = 0; i < ary.length; i++) {
-      var f = ary[i].callback;
-      var o = ary[i].handler;
-      f.call(o, arg);
+      var p = new Promise(function(resolve, fail) {
+        var o = ary[i].handler;
+        var f = ary[i].callback;
+        var result;
+        try {
+          result = f.call(o, arg);
+        } catch (e) {
+          fail(e);
+        }
+        resolve(result);
+      });
     }
   }
 
