@@ -51,8 +51,6 @@ def send_tensor(ev, name):
     evaluator = my_evaluator
   else:
     evaluator = ev
-  with open('bar.txt', 'w') as file:
-    file.write(name)
   if evaluator is None:
     return
   weights = evaluator.get_weights(name)
