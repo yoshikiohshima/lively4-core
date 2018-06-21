@@ -92,6 +92,10 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     terminal.addHandler('weight_tensor', this, this.receive_tensor.bind(this));
   }
 
+  receive_layer_selected(obj) {
+    this.ask(obj)
+  }
+
   receive_tensor(msg) {
     function parseTuple(str) {
       return eval(str.replace('(', '[').replace(')', ']'));
