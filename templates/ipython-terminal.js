@@ -538,7 +538,7 @@ export default class IpythonTerminal extends Morph {
     this.notebook.addHandler(name, widget, callback);
   }
 
-  addBroadcast(name, obj, callback) {
+  addBroadcastReceiver(name, obj, callback) {
     this.announcer.addHandler(name, obj, callback)
   }
   
