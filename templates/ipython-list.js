@@ -15,6 +15,7 @@ export default class IpythonList extends Morph {
     this.console.log('select', arg);
     var terminal = window.terminal;
     if (!terminal) {return;}
+    debugger;
     terminal.announce('layer_selected', arg);
   }
 
