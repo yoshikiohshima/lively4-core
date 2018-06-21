@@ -90,10 +90,8 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
     terminal.runCommand(py);
     terminal.insertAndRunCommand('weight_tensor.set_evaluator(evaluator)');
     terminal.addHandler('weight_tensor', this, this.receive_tensor.bind(this));
-  }
 
-  receive_layer_selected(obj) {
-    this.ask(obj)
+    terminal.addBroadcastReceiver('layer_selected', this, this.ask);
   }
 
   receive_tensor(msg) {
