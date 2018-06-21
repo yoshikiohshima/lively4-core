@@ -15,7 +15,7 @@ export default class IpythonList extends Morph {
     console.log('select', arg);
     var terminal = window.terminal;
     if (!terminal) {return;}
-    terminal.announce('layer_selected', arg);
+    terminal.announce(this, 'layer_selected', arg);
   }
 
   clear() {
