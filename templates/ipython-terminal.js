@@ -336,6 +336,7 @@ export default class IpythonTerminal extends Morph {
     this.setupSaveButton();
 
     if (this.notebook) {
+      this.initTerminal();
       this.updateCells();
     }
 
@@ -354,7 +355,7 @@ export default class IpythonTerminal extends Morph {
     field.addEventListener("keyup", (event) => {
       if (event.keyCode === 13) {
         this.token = field.value;
-	this.settings = iPythonSettings(this.token);
+        this.settings = iPythonSettings(this.token);
         var promise = this.listNotebooks(this.settings);
       }
     });
