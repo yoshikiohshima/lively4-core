@@ -132,6 +132,7 @@ class Dispatcher {
   }
 
   receive(name, msg) {
+    debugger;
     var ary = this.handler[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
