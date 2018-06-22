@@ -270,8 +270,9 @@ class Notebook {
 
   save(settings, optCallback) {
     var cells = this.cells;
+    this.model.content.cells = this.cells;
     var contents = new window.Services.ContentsManager({serverSettings: settings});      
-    contents.save(this.session.path, cells);
+    contents.save(this.session.path, this.model);
     if (optCallback) {
       optCallback();
     }
