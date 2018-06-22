@@ -224,6 +224,8 @@ class Notebook {
 
   evaluate(code, terminal) {
     console.log('python evaluate', code);
+
+    if (terminal) {this.addInput(code);}
     var future = this.kernel.requestExecute({code: code});
     future.onReply = (reply) => {
       console.log("execution reply", reply);
@@ -427,8 +429,6 @@ export default class IpythonTerminal extends Morph {
   
   saveNotebook() {
     if (!this.notebook) {return;}
-    var cells = this.makeCells();
-    this.model.content.cells = cells;
     this.notebook.save(this.settings, () => {this.updateCells(false)});
   }
   
