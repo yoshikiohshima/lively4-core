@@ -107,7 +107,7 @@ class Dispatcher {
         comm.onMsg = (msg) => {
           var ary = that.handlers[n];
           for (var i = 0; i < ary.length; i++) {
-            var objName = any[i];
+            var objName = ary[i];
             var o = document.get('#' + objName);
             var f = o.callback;
             f(msg);
@@ -132,7 +132,6 @@ class Dispatcher {
   }
 
   receive(name, msg) {
-    debugger;
     var ary = this.handler[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
