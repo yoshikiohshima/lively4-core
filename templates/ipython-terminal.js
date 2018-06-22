@@ -339,7 +339,6 @@ export default class IpythonTerminal extends Morph {
       this.updateCells();
     }
 
-
   }
 
   initTerminal() {
