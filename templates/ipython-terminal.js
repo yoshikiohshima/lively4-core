@@ -18,7 +18,7 @@ class Announcer {
     this.handlers = {};
   }
   
-  addHandler(name, obj, callback) {
+  addHandler(name, objName, callback) {
     var that = this;
     function has(name, obj, callback) {
       var ary = that.handlers[name];
@@ -31,13 +31,13 @@ class Announcer {
       }
       return false;
     }
-    if (has(name, obj, callback)) {
+    if (has(name, objName, callback)) {
       return;
     }
     if (!this.handlers[name]) {
       this.handlers[name] = [];
     }
-    this.handlers[name].push({handler: obj, callback: callback});    
+    this.handlers[name].push({handler: objName, callback: callback});    
   }
 
   announce(sender, name, arg) {
@@ -45,7 +45,8 @@ class Announcer {
     if (!ary){return;}
     for (var i = 0; i < ary.length; i++) {
       var p = new Promise(function(resolve, fail) {
-        var o = ary[i].handler;
+        var objName = ary[i].handler;
+        var o = document.get('#' + objName);
         var f = ary[i].callback;
         var result;
         try {
@@ -58,12 +59,12 @@ class Announcer {
     }
   }
 
-  removeHandler(name, obj) {
+  removeHandler(name, objName) {
     var ary = this.handlers[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
       var v = ary[i];
-      if (v.handler === obj) {
+      if (v.handler === objName) {
         ary.splice(i, 1);
         return;
       }
@@ -80,20 +81,20 @@ class Dispatcher {
     this.kernel = kernel;
   }
   
-  addHandler(name, obj, callback) {
+  addHandler(name, objName, callback) {
     var that = this;
-    function has(name, obj, callback) {
+    function has(name, objName) {
       var ary = that.handlers[name];
       if (!ary) {return false;}
       for (var i = 0; i < ary.length; i++) {
         var v = ary[i];
-        if (v.handler === obj) {
+        if (v.handler === objName) {
           return true;
         }
       }
       return false;
     }
-    if (has(name, obj, callback)) {
+    if (has(name, objName)) {
       return;
     }
     if (!this.handlers[name]) {
@@ -106,22 +107,24 @@ class Dispatcher {
         comm.onMsg = (msg) => {
           var ary = that.handlers[n];
           for (var i = 0; i < ary.length; i++) {
-            var f = ary[i].callback;
+            var objName = any[i];
+            var o = document.get('#' + objName);
+            var f = o.callback;
             f(msg);
           }
         }
         comm.onClose = (msg) => {};
       });
     })();
-    this.handlers[name].push({handler: obj, callback: callback});    
+    this.handlers[name].push({handler: objName, callback: callback});    
   }
 
-  removeHandler(name, obj) {
+  removeHandler(name, objName) {
     var ary = this.handlers[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
       var v = ary[i];
-      if (v.handler === obj) {
+      if (v.handler === objName) {
         ary.splice(i, 1);
         return;
       }
@@ -132,8 +135,19 @@ class Dispatcher {
     var ary = this.handler[name];
     if (!ary) {return;}
     for (var i = 0; i < ary.length; i++) {
+      
+    var p = new Promise(function(resolve, fail) {
+      var objName = ary[i].handler;
+      var o = document.get('#' + objName);
       var f = ary[i].callback;
-      f(msg);
+      var result;
+      try {
+        result = f(msg);
+      } catch (e) {
+        fail(e);
+      }
+        resolve(result);
+      });
     }
   }
 }
