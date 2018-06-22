@@ -336,9 +336,11 @@ export default class IpythonTerminal extends Morph {
     this.setupSaveButton();
 
     if (this.notebook) {
+      this.settings = iPythonSettings(this.token);
       this.initTerminal();
       this.updateCells();
-    }
+      var promise = this.listNotebooks(this.settings);
+     }
 
   }
 
@@ -587,6 +589,7 @@ export default class IpythonTerminal extends Morph {
     // whenever a component is replaced with a newer version during development
     // this method is called on the new object during migration, but before initialization
     this.notebook = other.notebook;
+    this.token = other.token;
   }
   
   livelyInspect(contentNode, inspector) {
