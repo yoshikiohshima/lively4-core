@@ -194,7 +194,7 @@ class Notebook {
       contents.get(file).then((model) => {
         this.model = model;
         debugger;
-        this.cells = model.cells;
+        this.cells = model.content.cells;
       });
 
       if (optCallback) {
