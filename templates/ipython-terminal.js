@@ -542,7 +542,7 @@ export default class IpythonTerminal extends Morph {
        // Status = 'unknown' | 'starting' |
        //    'reconnecting' | 'idle' | 'busy' | 'restarting' | 'dead' | 'connected';
        // and test it accordingly
-      return this.notebook.evaluate(text, optHide);
+      return this.notebook.evaluate(text, optHide? null : this);
     }
   }
   
