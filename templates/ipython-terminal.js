@@ -526,7 +526,7 @@ export default class IpythonTerminal extends Morph {
     text.innerHTML = this.escape(str);
     this.terminal.appendChild(text);
   }
-
+ 
   oneStep(str) {
     this.addOutput(str);
     this.addInput();
