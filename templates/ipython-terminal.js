@@ -419,7 +419,8 @@ export default class IpythonTerminal extends Morph {
     this.notebook = new Notebook();
     this.initTerminal();
     this.notebook.open(file, this.settings, () => {
-      this.updateCells(true)
+      this.updateCells(true);
+      this.addInput();
     });
     window.terminal = this;
   }
