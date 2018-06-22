@@ -194,11 +194,10 @@ class Notebook {
       contents.get(file).then((model) => {
         this.model = model;
         this.cells = model.content.cells;
+        if (optCallback) {
+          optCallback();
+        }
       });
-
-      if (optCallback) {
-        optCallback();
-      }
     });
   }
 
