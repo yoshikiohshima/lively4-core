@@ -240,6 +240,7 @@ class Notebook {
       } else if (type === "execute_input") {
       } else if (type === "execute_result") {
         console.log("execution result", reply);
+        debugger;
         if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
           if (terminal) {terminal.addOutput(reply.content.data['text/plain']);}
         }
