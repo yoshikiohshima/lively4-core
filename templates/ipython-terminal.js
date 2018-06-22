@@ -374,7 +374,6 @@ export default class IpythonTerminal extends Morph {
     });
   }
 
-  
   setupSaveButton() {
     var button = this.get('#saveNotebook');
       button.addEventListener("click", () => {
@@ -413,7 +412,7 @@ export default class IpythonTerminal extends Morph {
       option.text = file;
       choices.add(option);
     }
-    if (firstFile) {
+    if (firstFile && !this.notebook) {
       this.sessionSelected(firstFile);
     }
   }
