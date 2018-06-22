@@ -496,6 +496,7 @@ export default class IpythonTerminal extends Morph {
   }
 
   addOutput(str) {
+    debugger;
     var text = document.createElement("textarea");
     text.readOnly = true;
 
