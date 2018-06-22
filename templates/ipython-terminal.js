@@ -225,7 +225,12 @@ class Notebook {
   evaluate(code, terminal) {
     console.log('python evaluate', code);
 
-    if (terminal) {this.addInput(code);}
+    if (terminal) {
+      this.addInput(code);
+    } else {
+      this.lastInput = -1;
+    }
+    
     var future = this.kernel.requestExecute({code: code});
     future.onReply = (reply) => {
       console.log("execution reply", reply);
@@ -244,6 +249,9 @@ class Notebook {
         console.log("execution result", reply);
         if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
           if (terminal) {terminal.addOutput(reply.content.data['text/plain']);}
+          if (this.lastInput >= 0) {
+            
+          }
         }
       } else if (type === "stream") {
         console.log(reply.content.name, reply.content.text);
@@ -278,17 +286,15 @@ class Notebook {
     this.cells.push(cell);
   }
 
-  addOutputs(outputs) {
+  addOutput(str) {
     var outputs = this.cells[this.lastInput].outputs;
-    outputs.forEach((out) => {
       var output = {
         output_type: "execute_result",
         metadata: {},
         execution_count: 1,
-        data: {'text/plain': out}
+        data: {'text/plain': str}
       };
       outputs.push(output);
-    });
   }
 
   send(commName, data, metadata, buffers, then) {
