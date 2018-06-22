@@ -87,7 +87,6 @@ export default class IpythonList extends Morph {
   itemSelected(a) {
     var len = window.location.origin.length + 1;
     console.log('sss', a.href.slice(len));
-    debugger;
     if (this.listener) {
      this.listener(a.href.slice(len));
     }
