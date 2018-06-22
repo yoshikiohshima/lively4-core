@@ -67,7 +67,7 @@ def send_tensor(ev, name):
     buffers =[memoryview(ws),
                 memoryview(bytearray(str(weightShape), 'ascii')),
                 memoryview(bs),
-                memoryview(bytearray(str(biasShape), 'ascii'))
+                memoryview(bytearray(str(biasShape), 'ascii'))]
 
   comm = Comm(target_name='weight_tensor')
   comm.send(data='dense', )
