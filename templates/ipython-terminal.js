@@ -138,7 +138,7 @@ class Dispatcher {
       
     var p = new Promise(function(resolve, fail) {
       var objName = ary[i].handler;
-      var o = document.get('#' + objName);
+      var o = document.getElementById(objName);
       var f = ary[i].callback;
       var result;
       try {
