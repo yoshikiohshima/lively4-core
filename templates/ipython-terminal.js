@@ -440,6 +440,7 @@ export default class IpythonTerminal extends Morph {
   }
 
   updateCells() {
+    debugger;
     var cells = this.notebook.cells;
     this.parseCells(cells);
   }
