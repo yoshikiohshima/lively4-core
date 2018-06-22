@@ -193,6 +193,7 @@ class Notebook {
       var contents = new window.Services.ContentsManager({serverSettings: settings});
       contents.get(file).then((model) => {
         this.model = model;
+        this.cells = model.cells;
       });
 
       if (optCallback) {
