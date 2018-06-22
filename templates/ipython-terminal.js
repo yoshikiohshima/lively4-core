@@ -108,7 +108,7 @@ class Dispatcher {
           var ary = that.handlers[n];
           for (var i = 0; i < ary.length; i++) {
             var objName = ary[i];
-            var o = document.get('#' + objName);
+            var o = document.getElementById(objName);
             var f = o.callback;
             f(msg);
           }
