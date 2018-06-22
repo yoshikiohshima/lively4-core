@@ -324,6 +324,7 @@ class Notebook {
 
 export default class IpythonTerminal extends Morph {
   initialize() {
+
     this.input = null;
     this.windowTitle = "IpythonTerminal";
     this.get('#token').value = '651dd093e2051a8be3c487301cd589f94b2ebd9d0baed528';
@@ -334,7 +335,11 @@ export default class IpythonTerminal extends Morph {
     this.setupNewButton();
     this.setupSaveButton();
 
-    this.sessions = null;
+    if (this.notebook) {
+      this.updateCells();
+    }
+
+
   }
 
   initTerminal() {
@@ -582,9 +587,6 @@ export default class IpythonTerminal extends Morph {
     // whenever a component is replaced with a newer version during development
     // this method is called on the new object during migration, but before initialization
     this.notebook = other.notebook;
-    if (this.notebook) {
-      this.updateCells();
-    }
   }
   
   livelyInspect(contentNode, inspector) {
