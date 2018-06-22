@@ -158,8 +158,9 @@ class Notebook {
     this.session = null;       // session
     this.kernel = null;   // real kernel
     this.model = null;    // model
+
     this.dispatcher = null; // Dispatcher
-    this.settings = null; // the result of iPythonSettings()
+    this.announcer = new Announcer(); // Announcer
 
     // the view of cells
     this.cells = []; // cells structure
@@ -188,6 +189,12 @@ class Notebook {
       this.kernel = session.kernel;
       this.dispatcher = new Dispatcher();
       this.dispatcher.setKernel(this.kernel);
+      var file = session.path;
+      var contents = new window.Services.ContentsManager({serverSettings: settings});
+      contents.get(file).then((model) => {
+        this.model = model;
+      });
+
       if (optCallback) {
         optCallback();
       }
@@ -314,8 +321,6 @@ export default class IpythonTerminal extends Morph {
     this.setupSaveButton();
 
     this.sessions = null;
-    this.announcer = new Announcer(); // Dispatcher
-   
   }
 
   initTerminal() {
