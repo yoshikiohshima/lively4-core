@@ -3,14 +3,14 @@
 import Morph from 'src/components/widgets/lively-morph.js';
 
 function iPythonSettings(token) {
-    var Request = window.Services.ServerConnection.defaultSettings.Request;
-    var Headers = window.Services.ServerConnection.defaultSettings.Headers;
-    var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
-    // var fetch = window.Services.ServerConnection.defaultSettings.fetch;
-    var fetch = window.originalFetch;
-    return {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: token,
-            init: {cache: 'no-store', credentials: "same-origin"},
-            Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+  var Request = window.Services.ServerConnection.defaultSettings.Request;
+  var Headers = window.Services.ServerConnection.defaultSettings.Headers;
+  var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
+  // var fetch = window.Services.ServerConnection.defaultSettings.fetch;
+  var fetch = window.originalFetch;
+  return {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: token,
+           init: {cache: 'no-store', credentials: "same-origin"},
+          Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
 }
 
 class Announcer {
