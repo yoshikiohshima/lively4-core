@@ -55,9 +55,7 @@ def send_tensor(ev, name):
     return
   weights = evaluator.get_weights(name)
   typeName = weights[0]
-  with open('baz.txt', 'w') as file:
-    file.write('t')
-    file.write(typeName)
+  buffers = None
   if typeName == "Dense":
     data = weights[1]
     weightPair = data[0]
@@ -66,13 +64,14 @@ def send_tensor(ev, name):
     weightShape = weightPair[1]
     bs = biasPair[0]
     biasShape = biasPair[1]
+    buffers =[memoryview(ws),
+                memoryview(bytearray(str(weightShape), 'ascii')),
+                memoryview(bs),
+                memoryview(bytearray(str(biasShape), 'ascii'))
 
-    comm = Comm(target_name='weight_tensor')
-    comm.send(data='dense', buffers=[memoryview(ws),
-                                      memoryview(bytearray(str(weightShape), 'ascii')),
-                                      memoryview(bs),
-                                      memoryview(bytearray(str(biasShape), 'ascii'))])
-    comm.close()
+  comm = Comm(target_name='weight_tensor')
+  comm.send(data='dense', )
+  comm.close()
 
 def receive_weight_request(msg):
   s = msg['buffers'][0].tobytes()
