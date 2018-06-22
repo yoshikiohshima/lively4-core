@@ -582,7 +582,6 @@ export default class IpythonTerminal extends Morph {
   livelyMigrate(other) {
     // whenever a component is replaced with a newer version during development
     // this method is called on the new object during migration, but before initialization
-    debugger;
     this.notebook = other.notebook;
     this.someJavaScriptProperty = other.someJavaScriptProperty
   }
