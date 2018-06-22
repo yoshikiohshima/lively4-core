@@ -247,17 +247,22 @@ class Notebook {
       } else if (type === "execute_input") {
       } else if (type === "execute_result") {
         console.log("execution result", reply);
-        if (reply.content.data && reply.content.data['text/plain'] !== undefined) {
-          if (terminal) {terminal.addOutput(reply.content.data['text/plain']);}
+        var out = reply.content.data['text/plain'];
+        if (reply.content.data && out !== undefined) {
+          if (terminal) {terminal.addOutput(out);}
           if (this.lastInput >= 0) {
-            
+            this.addOutput(out);
           }
         }
       } else if (type === "stream") {
+        var out = reply.content.text;
         console.log(reply.content.name, reply.content.text);
-        if (terminal) {terminal.addOutput(reply.content.text);}
+        if (terminal) {terminal.addOutput(out);}
+        if (this.lastInput >= 0) {this.addOutput(out);}
       } else if (type === "error") {
-        if (terminal) {terminal.addOutput(reply.content.evalue);}
+        var out = reply.content.evalue;
+        if (terminal) {terminal.addOutput(out);}
+        if (this.lastInput >= 0) {this.addOutput(out);}
       }
     };
     return future.done;
