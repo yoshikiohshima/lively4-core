@@ -219,7 +219,6 @@ get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
   }
 
   weightEvent(evt) {
-    debugger;
     var x = evt.offsetX;
     var y = evt.offsetY;
 
