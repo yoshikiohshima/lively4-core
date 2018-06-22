@@ -269,7 +269,6 @@ class Notebook {
   }
 
   save(settings, optCallback) {
-    debugger;
     var cells = this.cells;
     var contents = new window.Services.ContentsManager({serverSettings: settings});      
     contents.save(this.session.path, cells);
