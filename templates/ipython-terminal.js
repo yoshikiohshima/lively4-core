@@ -184,7 +184,6 @@ class Notebook {
           this.kernel = session.kernel;
           this.dispatcher = new Dispatcher();
           this.dispatcher.setKernel(this.kernel);
-          this.setupComm();
           if (optCallback) {
             optCallback();
           }
@@ -240,22 +239,7 @@ class Notebook {
             optCallback();
           }
     }
- 
-  setupComm() {
-    var kernel = this.kernel;
-    if (!kernel) {return;}
-    kernel.registerCommTarget('layers', (comm, commMsg) => {
-      comm.onMsg = (msg) => {
-       if (msg.content.data === 'names') {
-         var names = msg.buffer.map((b) => new TextDecoder('ascii').decode(new Uint8Array(b.buffer)));
-      }
-      this.layerNames(names);
-    };
-    comm.onClose = (msg) => {
-    };
-  });
-  }
-  
+
   send(commName, data, metadata, buffers, then) {
    var kernel = this.kernel;
     if (!kernel) {return;}
