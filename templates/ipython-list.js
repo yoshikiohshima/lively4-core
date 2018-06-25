@@ -140,7 +140,7 @@ get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
     terminal.runCommand(py);
     terminal.insertAndRunCommand(`
 layer_names.set_evaluator(evaluator)
-layer_names_send_layer_names(None)
+
 ` , true);
   }
 
