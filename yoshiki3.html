@@ -1,0 +1,66 @@
+<lively-window class="global" style="width: 821px; height: 619px; z-index: 100; position: absolute; left: 131.367px; top: 148.763px;" tabindex="0" title="Workspace" active="true"><lively-code-mirror mode="text/jsx" overscroll="contain">
+
+function setSettings() {
+    var Request = window.Services.ServerConnection.defaultSettings.Request;
+    var Headers = window.Services.ServerConnection.defaultSettings.Headers;
+    var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
+   // var fetch = window.Services.ServerConnection.defaultSettings.fetch;
+    var fetch = window.originalFetch;
+    return {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: '0a6f547598efb69bc5cd6dbe2c133fe7ff23568e18feb464',
+               init: {cache: 'no-store', credentials: "same-origin"},
+               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
+    
+  }
+
+var session = window.Services.Session.listRunning(setSettings()).then(sessionModels =&gt; {
+   console.log('sessionModels', sessionModels);
+    window.Services.Session.connectTo(sessionModels[0], setSettings()).then((session) =&gt; {
+    console.log(session.kernel);
+  })});
+
+
+var contents = new window.Services.ContentsManager( {serverSettings: setSettings()})
+
+var mymodel;
+
+contents.get("1.png").then((model) =&gt; {
+  mymodel = model;
+  console.log('files: ', model)});
+
+mymodel
+
+window.Services.Kernel.getSpecs(setSettings()).then(kernelSpecs =&gt; {
+  console.log(kernelSpecs);
+})
+
+var a;
+lively.openComponentInWindow("ipython-painter").then(comp =&gt; {
+  a = comp;
+  a.register();
+})
+
+var b;
+lively.openComponentInWindow("ipython-tensorview").then(comp =&gt; {
+  b = comp;
+  b.register();
+})
+
+var c ;
+lively.openComponentInWindow("ipython-list").then(comp =&gt; {
+  c = comp;
+  c.register();
+})
+
+
+</lively-code-mirror></lively-window>
+    <!-- booting lively just came down to this one line -->
+    <script src="src/client/boot.js" data-container="true"></script>
+  
+<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
+
+
+<lively-notification-list hidden=""></lively-notification-list><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 320.176px; top: 548.164px; display: none;"></div><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 304.93px; top: 311.973px; display: none;"></div>
+
+<lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0px; left: 0px; width: 311.375px; height: 61.375px; display: none;"></lively-halo><div style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 184.773px; top: 24.0078px; display: none;" data-is-meta="true"></div>
+<div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
+<lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0px; left: 0px; width: 311.375px; height: 61.375px; display: none;"></lively-halo><div style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 313.078px; top: 37.8867px; display: none;" data-is-meta="true"></div><lively-menu tabindex="0" style="position: absolute; left: 313px; top: 37px;"></lively-menu>
