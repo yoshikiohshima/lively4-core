@@ -570,11 +570,11 @@ export default class IpythonTerminal extends Morph {
   }
 
   addBroadcastReceiver(name, obj, callback) {
-    this.announcer.addHandler(name, obj, callback)
+    this.notebook.announcer.addHandler(name, obj, callback)
   }
   
   announce(sender, name, arg) {
-    this.announcer.announce(sender, name, arg);
+    this.notebook.announcer.announce(sender, name, arg);
   }
     
   /* Lively-specific API */
