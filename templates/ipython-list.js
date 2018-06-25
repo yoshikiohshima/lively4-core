@@ -133,13 +133,15 @@ def handle_open(comm, msg):
   comm.on_msg(receive_layer_names_request)
 
 get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
-''')`
+''')`;
+
+    terminal.addHandler('layer_names', this, this.receive_layer_names.bind(this));
+
     terminal.runCommand(py);
     terminal.insertAndRunCommand(`
 layer_names.set_evaluator(evaluator)
 layer_names_send_layer_names(None)
 ` , true);
-    terminal.addHandler('layer_names', this, this.receive_layer_names.bind(this));
   }
 
   receive_layer_names(msg) {
