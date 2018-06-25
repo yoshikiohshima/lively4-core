@@ -1,44 +1,4 @@
-<lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none; top: 0px; left: 0px;"></lively-halo>
-    <!-- booting lively just came down to this one line -->
-    <script src="src/client/boot.js" data-container="true"></script>
-  
-<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
-<lively-window class="global" tabindex="0" style="z-index: 102; position: absolute; left: 589.136px; top: 13.8305px; width: 990px; height: 765px; transform-origin: 0px 0px 0px; transform: scale(0.4);" title="Workspace" active="true"><lively-code-mirror mode="text/jsx">
-
-function setSettings() {
-    var Request = window.Services.ServerConnection.defaultSettings.Request;
-    var Headers = window.Services.ServerConnection.defaultSettings.Headers;
-    var WebSocket = window.Services.ServerConnection.defaultSettings.WebSocket;
-   // var fetch = window.Services.ServerConnection.defaultSettings.fetch;
-    var fetch = window.originalFetch;
-    return {baseUrl: 'http://localhost:8888', pageUrl:"", wsUrl: "ws://localhost:8888", token: '0a6f547598efb69bc5cd6dbe2c133fe7ff23568e18feb464',
-               init: {cache: 'no-store', credentials: "same-origin"},
-               Request: Request, Headers: Headers, WebSocket: WebSocket, fetch: fetch};
-    
-  }
-
-var session = window.Services.Session.listRunning(setSettings()).then(sessionModels =&gt; {
-   console.log('sessionModels', sessionModels);
-    window.Services.Session.connectTo(sessionModels[0], setSettings()).then((session) =&gt; {
-    console.log(session.kernel);
-  })});
-
-
-var contents = new window.Services.ContentsManager( {serverSettings: setSettings()})
-
-var mymodel;
-
-contents.get("1.png").then((model) =&gt; {
-  mymodel = model;
-  console.log('files: ', model)});
-
-mymodel
-
-window.Services.Kernel.getSpecs(setSettings()).then(kernelSpecs =&gt; {
-  console.log(kernelSpecs);
-})
-
-var a;
+<lively-window class="global" tabindex="0" active="true" style="z-index: 100; position: absolute; left: 440.07px; top: 588.5px; width: 631px; height: 336px;" title="Workspace"><lively-code-mirror mode="text/jsx" overscroll="contain">var a;
 lively.openComponentInWindow("ipython-painter").then(comp =&gt; {
   a = comp;
   a.register();
@@ -57,6 +17,9 @@ lively.openComponentInWindow("ipython-list").then(comp =&gt; {
 })
 
 
-</lively-code-mirror></lively-window>
-<div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
-<lively-notification-list hidden=""></lively-notification-list><lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 320.176px; top: 548.164px; display: none;"></div><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 304.93px; top: 311.973px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 304px; top: 311px;"></lively-menu>
+</lively-code-mirror></lively-window><lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none; top: 0px; left: 0px;"></lively-halo>
+    <!-- booting lively just came down to this one line -->
+    <script src="src/client/boot.js" data-container="true"></script>
+  
+<div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div><div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
+<lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-menu tabindex="0" style="position: absolute; left: 451px; top: 126px;"></lively-menu>
