@@ -33,7 +33,13 @@ class DropOnBodyHandler {
     
     const element = this.handler(dt.getData(this.mimeType));
     if(element) {
-      appendToBodyAt(element, evt);
+      if(element.then) {
+        element.then( r => {
+          appendToBodyAt(r, evt);  
+        })
+      } else {
+        appendToBodyAt(element, evt);
+      }
       return true;
     } else {
       return false;
@@ -176,10 +182,21 @@ const dropOnDocumentBehavior = {
           return true;
         }
       },
+
+      new DropOnBodyHandler('text/uri-list', urlString => {
+        if (!urlString.match(/^plex:\//)) { return false; }
+        var existing = document.body.querySelector(`plex-link[src="${urlString}"]`)
+        if (existing) {
+          existing.remove()
+        }
+        lively.notify("dropped " + urlString)
+        return <plex-link src={urlString}></plex-link>
+      }),
+
       
       new DropOnBodyHandler('text/uri-list', urlString => {
         var link = <div class="lively-content"><a  href={urlString}>
-          {urlString.replace(/.*\//,"")}
+          {urlString.replace(/\/$/,"").replace(/.*\//,"")}
         </a></div>;
         // register the event... to be able to remove it again...
         lively.addEventListener("link", link, "click", evt => {

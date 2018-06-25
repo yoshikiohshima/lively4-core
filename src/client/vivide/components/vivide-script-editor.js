@@ -1,86 +1,183 @@
 import Morph from 'src/components/widgets/lively-morph.js';
+import { uuid } from 'utils';
 
 export default class VivideScriptEditor extends Morph {
-  static get vivideScriptId() { return 'vivide_script_id'; }
+  static get vivideScript() { return 'vivide_script_id'; }
   
   get editorList() { return this.get('#editor-list'); }
   get inspector() { return this.get('#inspector'); }
-  get scriptURLString() {
-    return this.getAttribute(VivideScriptEditor.vivideScriptId);
-  }
-  set scriptURLString(scriptURLString) {
-    this.setAttribute(VivideScriptEditor.vivideScriptId, scriptURLString);
-    return scriptURLString;
+  
+  setView(view) {
+    this.view = view;
+    return view;
   }
   
   async initialize() {
     this.windowTitle = "VivideScriptEditor";
+    this.inspector.hideWorkspace();
+    this.registerButtons();
     
-    // this.cm = await lively.create("lively-code-mirror");
-    // this.cm.setOption('viewportMargin', Infinity);
-    // this.cm.value = 'Initializing Script...';
-    // this.cm.doSave = text => this.scriptSaved(text)
-    // this.editorList.appendChild(this.cm);
-    //this.setScriptURLString('src/client/vivide/scripts/scripts/test.json');
-    this.inspector.hideWorkspace()
+    // Show script type dialog at mouse position
+    this.get('#addScript').addEventListener("mousedown", event => {
+      this.addScriptX = event.clientX;
+      this.addScriptY = event.clientY;
+    });
+    
+    this.container = this.get('#container');
+    this.createTypeMenu();
+    this.settingLoopStart = false;
+    this.newScriptPosition = null;
   }
   
   initialFocus() {
-    lively.error('#TODO: implement this');
+    
   }
   
-  async setScriptURLString(urlString) {
-    this.scriptURLString = urlString;
-    let json = await fetch(urlString).then(res => res.json());
+  onAddScript() {
+    this.showTypeMenu(this.addScriptX, this.addScriptY);
+  }
+  
+  onSetLoopStart() {
+    this.settingLoopStart = true;
+  }
+  
+  onRemoveLoop() {
+    if (!this.script) return;
     
-    let createStepEditorFor = url => {
-      let stepEditor = document.createElement('vivide-step-editor');
-      stepEditor.setScriptEditor(this);
-      stepEditor.setStepURLString(url);
-      
-      this.editorList.appendChild(stepEditor);
+    let script = this.script;
+    while (!script.lastScript && script.nextScript) {
+      script = script.nextScript;
     }
+    
+    script.nextScript = null;
+    this.get('#loop-marker').style.display = "none";
+    this.script.update();
+  }
+  
+  showTypeMenu(posX, posY, position = null) {
+    this.newScriptPosition = position;
+    this.typeMenu.style.left = posX + "px";
+    this.typeMenu.style.top = posY + "px";
+    this.container.insertBefore(this.typeMenu, this.editorList);
+  }
+  
+  /**
+   * Creates and initializes the context menu used to add
+   * additional scripts.
+   */
+  createTypeMenu() {
+    this.typeMenu = document.createElement('div');
+    this.typeMenu.classList = "type-menu";
 
-    this.editorList.innerHTML = '';
-    json.forEach(level => {
-      this.editorList.appendChild(<span>Next Level</span>);
-      this.editorList.appendChild(<span>-- transform --</span>);
-      level.transform.forEach(createStepEditorFor);
-      this.editorList.appendChild(<span>-- extract --</span>);
-      level.extract.forEach(createStepEditorFor);
-      if(level.descent) {
-        this.editorList.appendChild(<span>-- descent --</span>);
-        createStepEditorFor(level.descent);
-      }
+    let list = document.createElement('ul');
+    let createListItem = (type) => {
+      let listItem = document.createElement('li');
+      listItem.setAttribute('data-type', type.toLowerCase());
+      listItem.innerHTML = type;
+      listItem.addEventListener("mousedown", () => {
+        this.typeMenu.chosenType = listItem.dataset.type;
+      });
+      
+      return listItem;
+    }
+    list.appendChild(createListItem('Transform'));
+    list.appendChild(createListItem('Extract'));
+    list.appendChild(createListItem('Descent'));
+
+    this.typeMenu.appendChild(list);
+    this.typeMenu.addEventListener("mousedown", () => {
+      this.typeMenu.remove();
+      this.appendStepEditor(this.typeMenu.chosenType);
     });
   }
   
-  async scriptSaved(text) {
-    if(!this.scriptURLString) {
-      lively.warn('No file set for this editor.');
-      return;
+  removeScript(stepEditor, removedScript) {
+    var script = this.script;
+    var lastScript = null
+    
+    while (!script.lastScript && script.nextScript) {
+      if (removedScript === script) break;
+      lastScript = script;
+      script = script.nextScript;
     }
     
-    await lively.unloadModule(this.scriptURLString);
-    await lively.files.saveFile(this.scriptURLString, text);    
+    stepEditor.previousSibling.remove();
+    stepEditor.remove();
     
-    this.broadcastChange(this.scriptURLString);
-  }
-  broadcastChange(urlString) {
-    Array.from(document.querySelectorAll('vivide-view'))
-      .forEach(vivideView => {
-        vivideView.scriptGotUpdated(urlString);
-      });
-  }
-  stepChanged(editor, stepURLString) {
-    if(this.scriptURLString) {
-      this.broadcastChange(this.scriptURLString);
+    if (lastScript) {
+      lastScript.nextScript = script.nextScript;
     } else {
-      lively.warn('No url for script editor given.');
+      // First script was removed
+      this.script = removedScript.nextScript;
+    }
+    
+    if (this.script) {
+      this.script.update();
     }
   }
   
-  livelyMigrate(other) {
-    this.setScriptURLString(other.scriptURLString);
+  async appendStepEditor(scriptType) {
+    let position = this.newScriptPosition != null ? this.newScriptPosition.script : null;
+    let script = await this.view.insertScript(scriptType, position);
+
+    if (script.lastScript) {
+      this.lastScript = script;
+    }
+    
+    this.createStepEditorFor(script);
+    this.updateLoopState();
+  }
+  
+  updateLoopState() {
+    let editorListContent = this.editorList.children;
+    let loopStart = this.lastScript.nextScript;
+    for (let element of editorListContent) {
+      if (element.localName != 'vivide-step-editor') continue;
+      if (!element.containsScript(loopStart)) continue;
+      
+      let loopmarker = this.get('#loop-marker');
+      loopmarker.style.display = "inline-block";
+      loopmarker.style.top = element.offsetTop + "px";
+      loopmarker.style.height = element.offsetHeight + "px";
+    }
+  }
+  
+  async setScripts(script) {    
+    this.editorList.innerHTML = '';
+    this.script = script;
+    
+    await this.createStepEditorFor(script);
+    while (script.nextScript != null) {
+      script = script.nextScript;
+      await this.createStepEditorFor(script);
+      
+      if (script.lastScript) break;
+    }
+    
+    this.lastScript = script;
+    this.updateLoopState();
+  }
+  
+  async createStepEditorFor(script) {
+    let stepEditor = await (<vivide-step-editor></vivide-step-editor>);
+    stepEditor.setStepScript(script);
+    stepEditor.setScriptEditor(this);
+    stepEditor.addEventListener("mousedown", () => {
+      if (!this.settingLoopStart) return;
+      
+      stepEditor.setToLoopStart();
+      this.updateLoopState();
+      this.script.update();
+      this.settingLoopStart = false;
+    });
+    
+    if (this.newScriptPosition) {
+      this.editorList.insertBefore(stepEditor, this.newScriptPosition.editor.nextSibling);
+      this.editorList.insertBefore(<span>-- {script.type} --</span>, this.newScriptPosition.editor.nextSibling);
+      this.newScriptPosition = null;
+    } else {
+      this.editorList.appendChild(<span>-- {script.type} --</span>);
+      this.editorList.appendChild(stepEditor);
+    }
   }
 }

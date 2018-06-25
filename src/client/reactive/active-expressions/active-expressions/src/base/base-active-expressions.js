@@ -1,3 +1,5 @@
+import Annotations from 'src/client/reactive/active-expressions/active-expressions/src/annotations.js';
+
 // TODO: this is use to keep SystemJS from messing up scoping
 // (BaseActiveExpression would not be defined in aexpr)
 const HACK = {};
@@ -15,6 +17,9 @@ export class BaseActiveExpression {
     this.lastValue = this.getCurrentValue();
     this.callbacks = [];
     this._isDisposed = false;
+    this._shouldDisposeOnLastCallbackDetached = false;
+    
+    this._annotations = new Annotations();
   }
 
   /**
@@ -42,6 +47,9 @@ export class BaseActiveExpression {
     var index = this.callbacks.indexOf(callback);
     if (index > -1) {
       this.callbacks.splice(index, 1);
+    }
+    if (this._shouldDisposeOnLastCallbackDetached && this.callbacks.length === 0) {
+      this.dispose();
     }
 
     return this;
@@ -121,6 +129,10 @@ export class BaseActiveExpression {
   dispose() {
     this._isDisposed = true;
   }
+  
+  isDisposed() {
+    return this._isDisposed;
+  }
 
   /**
    * #TODO: implement
@@ -130,7 +142,17 @@ export class BaseActiveExpression {
    * (only triggers, when a callback is detached; not initially, if there are no callbacks)
    */
   disposeOnLastCallbackDetached() {
-    throw new Error('Not yet implemented.')
+    this._shouldDisposeOnLastCallbackDetached = true;
+    return this;
+  }
+  
+  meta(annotation) {
+    if(annotation) {
+      this._annotations.add(annotation);
+      return this;
+    } else {
+      return this._annotations;
+    }
   }
 }
 

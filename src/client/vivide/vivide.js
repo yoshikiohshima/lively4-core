@@ -1,24 +1,31 @@
 import { uuid } from 'utils';
 import { stepFolder, scriptFolder } from './utils.js';
-import { pt } from 'src/client/graphics.js'
+import { pt } from 'src/client/graphics.js';
+import Script from 'src/client/vivide/script.js';
 
-async function newScriptFromTemplate() {
-  async function copyStep(type) {
-    let transformStepURL = new URL(uuid() + '.js', stepFolder);
-    let stepTemplateURL = new URL(type + '-step-template.js', stepFolder);
+export async function newScriptFromTemplate(type) {
+  let stepTemplateURL = new URL(type + '-step-template.js', stepFolder);
+  let stepTemplate = await fetch(stepTemplateURL).then(r => r.text());
+  let script = new Script(stepTemplate, type);
 
-    await lively.files.copyURLtoURL(stepTemplateURL, transformStepURL);
-    
-    return transformStepURL;
-  }
+  return script;
+}
+
+export async function initialScriptsFromTemplate() {  
+  let scripts = [];
+  let transform = await newScriptFromTemplate('transform');
+  let extract = await newScriptFromTemplate('extract');
+  let descent = await newScriptFromTemplate('descent');
   
-  let scriptURL = new URL(uuid() + '.json', scriptFolder);
-  await lively.files.saveFile(scriptURL, JSON.stringify([{
-    transform: [(await copyStep('transform')).href],
-    extract: [(await copyStep('extract')).href]
-  }]));
+  transform.nextScript = extract;
+  extract.nextScript = descent;
+  descent.lastScript = true;
   
-  return scriptURL.href;
+  scripts.push(transform);
+  scripts.push(extract);
+  scripts.push(descent);
+  
+  return transform;
 }
 
 export async function createScriptEditorFor(view) {
@@ -29,14 +36,14 @@ export async function createScriptEditorFor(view) {
 
   let scriptEditor = await lively.openComponentInWindow('vivide-script-editor', pos);
 
-  let scriptURLString = view.getScriptURLString();
-  scriptEditor.setScriptURLString(scriptURLString);
+  scriptEditor.setView(view);
+  let firstScript = view.getFirstScript();
+  scriptEditor.setScripts(firstScript);
 
   return scriptEditor;
 }
 
 export async function letsScript(object, evt, sourceView) {
-
   let pos;
   if(evt) {
     pos = lively.getPosition(evt);
@@ -44,8 +51,8 @@ export async function letsScript(object, evt, sourceView) {
 
   let view = await lively.openComponentInWindow('vivide-view', pos);
 
-  let scriptURLString = await newScriptFromTemplate();
-  view.setScriptURLString(scriptURLString);
+  let firstScript = await initialScriptsFromTemplate();
+  view.setFirstScript(firstScript);
   view.newDataFromUpstream(object);
 
   if(evt && evt.shiftKey) {

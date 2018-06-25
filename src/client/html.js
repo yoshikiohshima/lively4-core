@@ -2,6 +2,7 @@ import Preferences from "src/client/preferences.js"
 import _ from 'src/external/underscore.js'
 import Rasterize from "src/client/rasterize.js"
 import {pt} from 'src/client/graphics.js'
+import Strings from 'src/client/strings.js'
 
 /*
  * Kitchensink for all HTML manipulation utilities
@@ -158,22 +159,6 @@ export default class HTML {
     Array.prototype.forEach.call(nodes, node => {
       if (node.getAttribute) {
         var href = node.getAttribute("href")
-        if (href && node.classList.contains("play")) {
-          var filename = href.replace(lively4url.replace(/[^\/]*$/,""),"")
-          console.log("fix play link " + filename)
-          node.onclick = () => {
-            lively.notify("play " + filename)
-            fetch(lively4url + "/_meta/play", {
-              headers: new Headers({ 
-                filepath: filename
-              })
-            }).then(r => r.text()).then(t => {
-                console.log("play: " + t)
-            })
-            return false
-          }
-          return
-        } 
         if (href) {
           // #TODO load inplace....
           var path;
@@ -187,7 +172,7 @@ export default class HTML {
             // $(node).click(() => { 
             //   alert("eval " + code)
             // })
-          } else if (href.match(/([A-Za-z]+):\/\/.+/)) {
+          } else if (href.match(/([A-Za-z]+):\/\/.*/)) {
             // console.log("ignore "  + href);
             path = href;
           } else if (href.match(/^\//)) {
@@ -256,7 +241,11 @@ export default class HTML {
 
   static saveCurrentPage() {
     var url = lively.preferences.getURLParameter("page");
-    this.savePageAs(url)
+    if (!url) {
+      lively.confirm("Could not save this page...")
+    } else {
+      this.savePageAs(url)
+    }
   }
   
   static savePageAs(url) {
@@ -301,7 +290,7 @@ export default class HTML {
             node.dataset.lively4Donotpersist == 'all');
   }
   
-  static async loadHTMLFromURL(url) {
+  static async loadHTMLFromURL(url, zoom=1) {
     var html = await fetch(url).then(r => {
       if (r.status != 200) {
         throw new Error("Could not load HTML from " + url + " due to status " + r.status)
@@ -309,7 +298,7 @@ export default class HTML {
       return r.text()
     })
     var tmp = await lively.create("div")
-    tmp.style.transform = "scale(2)"
+    tmp.style.transform = `scale(${zoom})`
     lively.setGlobalPosition(tmp, pt(0,0))
     try {
       lively.clipboard.pasteHTMLDataInto(html, tmp)
@@ -322,11 +311,12 @@ export default class HTML {
   static async saveAsPNG(url) {
     if (url.match(/\.html$/)) {
       var saveAsURL = url.replace(/html$/, "png")
-      var element = await this.loadHTMLFromURL(url)
+      var zoom = 2
+      var element = await this.loadHTMLFromURL(url, zoom)
       document.body.appendChild(element)
       // await lively.sleep(100)
       try {
-        await Rasterize.elementToURL(element, saveAsURL)      
+        await Rasterize.elementToURL(element, saveAsURL, zoom)      
       } finally {
         element.remove()
       }
@@ -334,5 +324,26 @@ export default class HTML {
     return saveAsURL
   }
 
+  
+ static async registerAttributeObservers(obj) {
+    obj._attrObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {  
+        if(mutation.type == "attributes") { 
+          console.log('mutation ' + mutation.attributeName )
+          var methodName = "on" + Strings.toUpperCaseFirst(mutation.attributeName) + "Changed"
+          if (obj[methodName]) {
+            console.log("found " + methodName)
+            obj[methodName](
+              mutation.target.getAttribute(mutation.attributeName),
+              mutation.oldValue)
+          } else {
+             console.log("NOT found: " + methodName)
+          }
+        }
+      });
+    });
+    obj._attrObserver.observe(obj, { attributes: true });  
+  }
+  
 }
 

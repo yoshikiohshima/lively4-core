@@ -4,7 +4,7 @@ import Morph from 'src/components/widgets/lively-morph.js';
 
 export default class TestTest extends Morph {
   async initialize() {
-    this.windowTitle = "TestTest";
+    this.windowTitle = "TestTes2t";
     this.registerButtons()
 
     lively.html.registerKeys(this); // automatically installs handler for some methods
@@ -28,7 +28,7 @@ export default class TestTest extends Morph {
   
   // this method is automatically registered as handler through ``registerButtons``
   onFirstButton() {
-    lively.notify("hello")
+    lively.notify("hello2")
   }
 
   /* Lively-specific API */
@@ -40,7 +40,6 @@ export default class TestTest extends Morph {
   livelyMigrate(other) {
     // whenever a component is replaced with a newer version during development
     // this method is called on the new object during migration, but before initialization
-    this.someJavaScriptProperty = other.someJavaScriptProperty
   }
   
   livelyInspect(contentNode, inspector) {
@@ -55,9 +54,7 @@ export default class TestTest extends Morph {
   async livelyExample() {
     // this customizes a default instance to a pretty example
     // this is used by the 
-    this.style.backgroundColor = "red"
-    this.someJavaScriptProperty = 42
-    this.appendChild(<div>This is my content</div>)
+    this.appendChild(<div>This is my second ceontent</div>)
   }
   
   

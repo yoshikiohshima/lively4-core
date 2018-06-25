@@ -11,6 +11,10 @@
   - currently we have different entry points we should unify
  */
 
+
+// #BUG the browser cache API blocks (promises does not resolve) sometimes?
+// #BUG the performance, in our alternative to use IndexedDB can quickly degrate when DB gets to big...
+// window.localStorage["livel4systemjscache"] = false
 window.lively4plugincache = window.localStorage["livel4systemjscache"] == "true";
 
 async function invalidateFileCaches()  {
@@ -20,7 +24,7 @@ async function invalidateFileCaches()  {
       return
     }
     var offlineFirstCache = await caches.open("offlineFirstCache")
-    var url = lively4url + "/" 
+    var url = lively4url + "/"
     var json = await Promise.race([
       new Promise(r => {
         setTimeout(() => r(false), 5000) // give the server 5secs ... might be an old one or somthing, anyway keep going!
@@ -48,19 +52,19 @@ async function invalidateFileCaches()  {
   } catch(e) {
     console.log("PROBLEM invalidateFileCaches " + e)
     return
-  } 
+  }
 
   if (!json) {
     console.log('[boot] invalidateFileCaches: could not invalidate flash... should we clean it all?')
     return
   }
   var list = json.contents
-  
+
   for(let ea of list) {
-    if (!ea.name) continue; 
+    if (!ea.name) continue;
     var fileURL = url + ea.name.replace(/^.\//,"")
     var cached  = await offlineFirstCache.match(fileURL)
-    
+
     if (cached) {
       var cachedModified = cached.headers.get("modified")
       if (ea.modified > cachedModified) {
@@ -68,7 +72,7 @@ async function invalidateFileCaches()  {
         offlineFirstCache.delete(fileURL) // we could start loading it again?
       } else {
         // console.log("keep " + ea.modified)
-      }   
+      }
     }
   }
 }
@@ -87,9 +91,9 @@ if (window.lively && window.lively4url) {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      
+
       zIndex: '10000',
-      
+
       backgroundColor: 'white',
       border: 'black 1px solid',
       padding: '5px',
@@ -99,7 +103,7 @@ if (window.lively && window.lively4url) {
 <span style="font-size: large;font-family:arial">Booting:</span>
 <div style="font-family:arial" id="lively-booting-message"></div>`;
     document.body.appendChild(livelyBooting);
-    
+
     function groupedMessage(part, numberOfSteps, message) {
       console.group(`${part}/${numberOfSteps}: ${message}.`);
 
@@ -108,7 +112,7 @@ if (window.lively && window.lively4url) {
         messageDiv.innerHTML = `<span>${part}</span>/<span>${numberOfSteps}</span>: <span>${message}.</span>`;
       }
     }
-    
+
     function groupedMessageEnd() {
       console.groupEnd();
     }
@@ -132,12 +136,12 @@ if (window.lively && window.lively4url) {
           lively4performance.last = newLast
           return (t.toFixed(3) + "s ")
         }
-      })  
+      })
     } catch(e) {
       console.error(e)
     }
 
-    var loadContainer = script.getAttribute("data-container"); // some simple configuration 
+    var loadContainer = script.getAttribute("data-container"); // some simple configuration
 
     console.log("lively4url: " + lively4url);
 
@@ -229,6 +233,7 @@ if (window.lively && window.lively4url) {
           'babel-plugin-transform-function-bind': lively4url + '/src/external/babel-plugin-transform-function-bind.js',
           'babel-plugin-syntax-do-expressions': lively4url + '/src/external/babel-plugin-syntax-do-expressions.js',
           'babel-plugin-syntax-function-bind': lively4url + '/src/external/babel-plugin-syntax-function-bind.js',
+          'babel-plugin-syntax-async-generators': lively4url + '/src/external/babel-plugin-syntax-async-generators.js',
 
           // support for doits
           'babel-plugin-doit-result': lively4url + '/src/external/babel-plugin-doit-result.js',
@@ -261,6 +266,7 @@ if (window.lively && window.lively4url) {
             'babel-plugin-jsx-lively',
             'babel-plugin-transform-do-expressions',
             'babel-plugin-transform-function-bind',
+            'babel-plugin-syntax-async-generators',
             'babel-plugin-locals', // #TODO: remove this plugin from here
             'babel-plugin-var-recorder'
           ]
@@ -276,6 +282,7 @@ if (window.lively && window.lively4url) {
             'babel-plugin-jsx-lively',
             'babel-plugin-transform-do-expressions',
             'babel-plugin-transform-function-bind',
+            'babel-plugin-syntax-async-generators',
             'babel-plugin-var-recorder',
             ['babel-plugin-aexpr-source-transformation', {
               enableViaDirective: true
@@ -292,7 +299,7 @@ if (window.lively && window.lively4url) {
           /* FILE-BASED */
           // plugins are not transpiled with other plugins, except for SystemJS-internal plugins
           [lively4url + '/src/external/babel-plugin-*.js']: moduleOptionsNon,
-          [lively4url + '/src/external/ContextJS/src/*.js']: moduleOptionsNon,
+          [lively4url + '/src/client/ContextJS/src/*.js']: moduleOptionsNon,
           // blacklist all projects included for active expressions
           [lively4url + '/src/client/reactive/*.js']: moduleOptionsNon,
           [lively4url + '/src/external/aexpr/*.js']: moduleOptionsNon,
@@ -307,7 +314,7 @@ if (window.lively && window.lively4url) {
           // default for all .js files (not just lively4)
           [lively4url + "/src/client/*.js"]: aexprViaDirective,
           [lively4url + "/src/components/*.js"]: aexprViaDirective,
-          
+
           // blacklist all projects included for active expressions
           [lively4url + "/src/client/reactive/*.js"]: moduleOptionsNon,
           [lively4url + "/src/client/reactive/reactive-jsx/*.js"]: liveES7,
@@ -333,6 +340,7 @@ if (window.lively && window.lively4url) {
                 'babel-plugin-jsx-lively',
                 'babel-plugin-transform-do-expressions',
                 'babel-plugin-transform-function-bind',
+                'babel-plugin-syntax-async-generators',
                 'babel-plugin-locals',
                 'babel-plugin-doit-result',
                 'babel-plugin-doit-this-ref',
@@ -351,6 +359,7 @@ if (window.lively && window.lively4url) {
                 'babel-plugin-jsx-lively',
                 'babel-plugin-transform-do-expressions',
                 'babel-plugin-transform-function-bind',
+                'babel-plugin-syntax-async-generators',
                 'babel-plugin-locals',
                 'babel-plugin-doit-result',
                 'babel-plugin-doit-this-ref',
@@ -368,11 +377,12 @@ if (window.lively && window.lively4url) {
                 'babel-plugin-jsx-lively',
                 'babel-plugin-transform-do-expressions',
                 'babel-plugin-transform-function-bind',
+                'babel-plugin-syntax-async-generators',
                 'babel-plugin-locals',
                 'babel-plugin-doit-result',
                 'babel-plugin-doit-this-ref',
                 'babel-plugin-var-recorder',
-                'babel-plugin-doit-async', 
+                'babel-plugin-doit-async',
               ]
             },
             loader: 'workspace-loader'
@@ -384,11 +394,18 @@ if (window.lively && window.lively4url) {
       try {
         var livelyloaded = new Promise(async livelyloadedResolve => {
 
+          
           groupedMessage(1, 4, 'Invalidate Caches');
           await invalidateFileCaches()
           groupedMessageEnd();
+
+          
+//           groupedMessage(2, 4, 'Load foo.js');
+//           const { contextJS } = await System.import(lively4url + "/foo.js");
+          
           
           groupedMessage(2, 4, 'Wait for Service Worker');
+          
           const { whenLoaded } = await System.import(lively4url + "/src/client/load.js");
           await new Promise(whenLoaded);
           groupedMessageEnd();

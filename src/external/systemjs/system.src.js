@@ -3529,7 +3529,7 @@ function runFetchPipeline (loader, key, metadata, processAnonRegister, wasm) {
   .then(function (fetched) {
     livelyLog("fetched")
     if (!fetched) {
-      debugger
+      // debugger
     }
     
     // if (cachedOutputCode ) {
@@ -3610,6 +3610,7 @@ function translateAndInstantiate (loader, key, source, metadata, processAnonRegi
       else
         return metadata.pluginLoad.source;
     });
+    
   })
   .then(function (source) {
     if (metadata.load.format === 'register' || !metadata.load.format && detectRegisterFormat(source)) {
@@ -3787,6 +3788,9 @@ function translateAndInstantiate (loader, key, source, metadata, processAnonRegi
 
     if (!metadata.registered)
       throw new Error('Module ' + key + ' detected as ' + metadata.load.format + ' but didn\'t execute correctly.');
+  }).then( r => {
+     livelyLog("FINISHED translateAndInstantiate " + key)
+    return r
   });
 }
 
@@ -4125,4 +4129,3 @@ if (typeof module !== 'undefined' && module.exports)
   module.exports = System;
 
 }());
-//# sourceMappingURL=system.src.js.map

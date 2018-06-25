@@ -1,9 +1,11 @@
+export { default as View} from './view.js';
 import View from './view.js';
 import { pushIfMissing, removeIfExisting, Stack, isPrimitive, identity } from './utils.js';
 import { BaseActiveExpression } from "active-expressions";
 import aexpr from 'aexpr-source-transformation-propagation';
 import { withAdvice } from './../lib/flight/advice.js';
-import * as cop  from "src/external/ContextJS/src/contextjs.js";
+import * as cop  from "src/client/ContextJS/src/contextjs.js";
+import { PausableLoop } from 'utils';
 
 // TODO: this is use to keep SystemJS from messing up scoping
 // (FilterOperation would not be defined in select)
@@ -60,10 +62,9 @@ class IdentityOperator extends Operator {
 }
 
 class FilterOperator extends IdentityOperator {
-  constructor(upstream, downstream, expression, context) {
+  constructor(upstream, downstream, expression) {
     super();
     this.expression = expression;
-    this.expression.varMapping = context;
 
     this.selectionItems = [];
 
@@ -369,7 +370,7 @@ Object.assign(View.prototype, {
 });
 
 /**
- * The callback function called to determine whether an Object is in the derived {@link View}.
+ * The callback function to determine whether an Object should be part of the resulting derived {@link View}.
  * @callback View~filterIterator
  * @param {Object} item - item from the original {@link View}.
  * @return {Boolean}
@@ -401,50 +402,118 @@ View.withOnStack = function(el, callback, context) {
     }
 };
 
-//     class SelectionItem {
-//         constructor(selection, item, callback) {
-//             this.selection = selection;
-//             this.item = item;
-//             this.callback = callback;
+/**
+ * ################## CSS SELECTORS ##################
+ */
+const selectorByAnimationName = new Map();
+const selectors = {};
+let animationCount = 0;
+const styles = document.createElement('style');
+const keyframes = document.createElement('style');
+const head = document.getElementsByTagName('head')[0];
+const startName = 'animationstart';
+const startEvent = function(event) {
+  event.selector = selectorByAnimationName.get(event.animationName);
+  ((startListenerByRoot.get(this) || {})[event.animationName] || []).forEach(fn => {
+    fn.call(this, event);
+  });
+};
+const roots = new Set();
+const startListenerByRoot = new Map();
 
-//             this.propertyAccessors = new Set();
-//         }
+styles.type = keyframes.type = 'text/css';
+head.appendChild(styles);
+head.appendChild(keyframes);
 
-//         installListeners() {
-//             var item = this.item;
-//             View.withOnStack(this, function() {
-//                 cop.withLayers([SelectionLayer], (function() {
-//                     this.expression.forInterpretation().apply(null, [item]);
-//                 }).bind(this));
-//             }, this.selection);
-//         }
+function addSelectorListener(root, selector, fn) {
+  var key = selectors[selector];
+  if(!startListenerByRoot.has(root)) {
+    startListenerByRoot.set(root, {});
+  }
+  var listeners = startListenerByRoot.get(root);
 
-//         removeListeners() {
-//             this.propertyAccessors.forEach(function(propertyAccessor) {
-//                 propertyAccessor.selectionItems.delete(this);
-//             }, this);
-//             this.propertyAccessors.clear();
-//         }
-//     }
+  if (!key) {
+    key = selectors[selector] = 'SelectorListener-' + animationCount++ + '-' + selector.replace(/[^0-9a-zA-Z]/gi, '');
+    let node = document.createTextNode(`@keyframes ${key} {
+  from { outline-color: #fff; }
+  to { outline-color: #000; }
+}`);
+    keyframes.appendChild(node);
+    styles.sheet.insertRule(`${selector} {
+  animation-duration: 0.001s;
+  animation-name: ${key} !important;
+}`, 0);
+    selectorByAnimationName.set(key, selector);
+  }
+
+  if(!roots.has(root)) {
+    roots.add(root);
+    root.addEventListener(startName, startEvent, false);
+  }
+
+  (listeners[key] = listeners[key] || []).push(fn);
+}
+
+/**
+ * chrome does not support the animationcancel event, so we have to resort back to other means, namely polling
+ */
+const stopMatchingDetectors = new Set();
+
+function removeObsoleteListeners() {
+  Array.from(stopMatchingDetectors).forEach(detector => {
+    if(!detector.matchesSelector()) {
+      detector.removeElement();
+      stopMatchingDetectors.delete(detector);
+    }
+  });
+  if(stopMatchingDetectors.size === 0) {
+    stopMatchingLoop.pause();
+  }
+}
+
+const stopMatchingLoop = new PausableLoop(() => {
+  lively.warn('check stop matching');
+  removeObsoleteListeners();
+});
+
+function trackSelector(selector, { root = document }) {
+  const view = new View();
+  addSelectorListener(root, selector, event => {
+    const element = event.target;
+    view.safeAdd(element);
+    
+    stopMatchingDetectors.add({
+      matchesSelector() {
+        const inDOM = element.getRootNode({ composed: true }) === document;
+        return inDOM && element.matches(selector);
+      },
+      removeElement() { view.safeRemove(element); }
+    });
+    stopMatchingLoop.ensureRunning();
+  });
+  return view;
+}
+
+export function __unload__() {
+  styles.remove();
+  keyframes.remove();
+  roots.forEach(root => root.removeEventListener(startName, startEvent, false));
+  
+  stopMatchingLoop.pause();
+}
 
 /**
  * @function select
  * @param {Class} Class
- * @param {predicate} predicate
  * @return {View}
  */
-export default function select(Class, predicate, context) {
-    var newSelection = new View();
+export default function select(Class, options) {
+  // css selector given?
+  if(typeof Class === 'string') {
+    return trackSelector(Class, options || {})
+  }
 
-    ensureBaseViewForClass(Class);
-    new FilterOperator(Class._instances_, newSelection, predicate, context);
-
-    return newSelection;
+  // fall back to track all instances of a class
+  ensureBaseViewForClass(Class);
+  return Class._instances_;
 }
-
-/**
- * This callback to determine whether an item should be part of the resulting {@link View}.
- * @callback predicate
- * @param {Object} item
- * @return {Boolean}
- */

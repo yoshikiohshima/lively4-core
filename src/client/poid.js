@@ -284,6 +284,46 @@ export class LivelyOpen extends Scheme {
 }
 
 
+export class LivelyBrowse extends Scheme {
+  
+  get scheme() {
+    return "browse"
+  }
+
+  resolve() {
+    return true
+  }  
+  
+  async GET(options) {
+    var openString = this.url.toString().replace(/^browse:\/\//,"") 
+    var result
+    try {
+      
+      result = await lively.openBrowser(lively4url + "/" + openString )
+    } catch(e) {
+      return new Response("failed to open " + openString, {status: 400})
+    }
+    
+    return new ObjectResponse(result, {status: 200});
+    
+  }
+
+  PUT(options) {
+    return new Response("Does not make sense, to PUT a search...", {status: 400})
+  }
+    
+  OPTIONS() {
+    var result = {
+      name: "open ",
+      type: "file",
+      donotfollowpath: true,
+      contents: []
+    }
+    return new Response(JSON.stringify(result), {status: 200})
+  }
+}
+
+
 /* 
   EXAMPLES:
     // fetch("query://#haha", {method: "PUT", body: "<h1>foo</h1>heyho"})
@@ -445,6 +485,7 @@ export default class PolymorphicIdentifier {
     this.register(InnerHTMLElementQuery) 
     this.register(LivelySearch)
     this.register(LivelyOpen)
+    this.register(LivelyBrowse)
   }
   
   static url(request) {
@@ -491,6 +532,35 @@ window.fetch = async function(request, options, ...rest) {
   if (handler) return handler.result;
   return window.originalFetch.apply(window, [request, options, ...rest])
 }
+
+
+lively.removeEventListener("poid", navigator.serviceWorker)
+lively.addEventListener("poid", navigator.serviceWorker, "message", async (evt) => {
+  try {
+    let m = evt.data.path.match(/^\/([a-zA-Z0-9]+)\/(.*)$/)
+    if (!m) {
+      throw new Error("Requested path does mot fit a scheme! path='" + evt.data.path +"'")        
+    }
+    let url= m[1] + "://" + m[2]    
+    if(evt.data.name == 'swx:pi:GET') {
+      evt.ports[0].postMessage({content: await fetch(url).then(r => r.blob())}); 
+    } else if(evt.data.name == 'swx:pi:PUT') {
+      evt.ports[0].postMessage({
+        content: await fetch(url, {
+          method: "PUT", 
+          body: event.data.content
+        }).then(r => r.blob())}); 
+    } else if(evt.data.name == 'swx:pi:OPTIONS') {
+      evt.ports[0].postMessage({content: await fetch(url, {
+        method: "OPTIONS"
+      }).then(r => r.blob())}); 
+    }
+  } catch(err) {
+    evt.ports[0].postMessage({error: err});
+  }
+});
+
+
 
 PolymorphicIdentifier.load()
 
