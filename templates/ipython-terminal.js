@@ -160,7 +160,7 @@ class Notebook {
     this.model = null;    // model
 
     this.dispatcher = null; // Dispatcher
-    this.announcer = new Announcer(); // Announcer
+    this.announcer = null; // Announcer
 
     // the view of cells
     this.cells = []; // cells structure
@@ -188,6 +188,7 @@ class Notebook {
       this.session = session;
       this.kernel = session.kernel;
       this.dispatcher = new Dispatcher();
+      this.announcer = new Announcer();
       this.dispatcher.setKernel(this.kernel);
       var file = session.path;
       var contents = new window.Services.ContentsManager({serverSettings: settings});
