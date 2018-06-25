@@ -74,7 +74,7 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
   
   ready(msg) {
     debugger;
-    if (msg.data == 'received')
+    if (msg.content.data == 'received')
     terminal.insertAndRunCommand("mnist_image.evaluate_last_image(evaluator)", false);
     
   }
