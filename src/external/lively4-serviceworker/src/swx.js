@@ -105,6 +105,8 @@ class ServiceWorker {
 
     // if (url.pathname.match(/noserviceworker/)) return; // #Debug
 
+    if (url.href.match(/localhost:8888\/api\//)) return; // For notebook
+
     if (url.hostname !== 'lively4' && url.hostname == location.hostname/* && request.mode != 'navigate'*/) {
       try {
         // Prepare a function that performs the network request if necessary
