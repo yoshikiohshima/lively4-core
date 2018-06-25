@@ -145,7 +145,6 @@ layer_names_send_layer_names(None)
   }
 
   receive_layer_names(msg) {
-    debugger;
     var list = new TextDecoder("utf-8").decode(new Uint8Array(msg.buffers[0].buffer));
     list = list.split('\n');
     this.setList(list);
