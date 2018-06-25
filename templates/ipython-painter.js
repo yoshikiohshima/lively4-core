@@ -59,6 +59,10 @@ def receive_image(msg):
   floatData = ary.astype('float32') / 255.0
   floatData = floatData.reshape([-1, 28, 28, 1])
   last_image = floatData
+  comm = Comm(target_name='mnist_image')
+  comm.send(data='received')
+  comm.close()
+
 
 def handle_open(comm, msg):
   comm.on_msg(receive_image)
@@ -68,7 +72,10 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
     terminal.addHandler('mnist_image', this, this.ready.bind(this));
   }
   
-  ready() {
+  ready(msg) {
+    debugger;
+    if (msg.data == 'received')
+    terminal.insertAndRunCommand("mnist_image.evaluate_last_image(evaluator)", false);
     
   }
 
@@ -93,7 +100,6 @@ get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 
     var shape = new Uint32Array([28, 28]);
     terminal.send('mnist_image', 'mnist_image', null, [shape, grayData]);
-    terminal.insertAndRunCommand("mnist_image.evaluate_last_image(evaluator)", false);
   }
   
  initScaledCanvas() {
