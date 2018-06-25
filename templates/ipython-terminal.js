@@ -176,7 +176,7 @@ class Notebook {
     var contents = new window.Services.ContentsManager({serverSettings: settings});
 
     contents.newUntitled({path: '.', type: 'notebook', ext: 'ipynb'}).then((notebook) => {
-      this.open(notebook.path, token, optCallback);
+      this.open(notebook.path, settings, optCallback);
     });
   }
   
