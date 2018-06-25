@@ -549,7 +549,7 @@ export default class IpythonTerminal extends Morph {
 
   insertAndRunCommand(text) {
     this.input.value = text;
-    this.runCommand(text, true);
+    this.runCommand(text, false);
   }
 
   runCommand(text, optHide) {
