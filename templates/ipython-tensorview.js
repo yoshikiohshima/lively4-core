@@ -85,7 +85,7 @@ def handle_open(comm, msg):
 get_ipython().kernel.comm_manager.register_target("weight_tensor", handle_open)
 ''')`
     terminal.runCommand(py);
-    terminal.insertAndRunCommand('weight_tensor.set_evaluator(evaluator)');
+    terminal.insertAndRunCommand('weight_tensor.set_evaluator(evaluator)', true);
     terminal.addHandler('weight_tensor', this, this.receive_tensor.bind(this));
 
     terminal.addBroadcastReceiver('layer_selected', this, this.ask);
