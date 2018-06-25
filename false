@@ -1,9 +1,12 @@
-<lively-window class="global" tabindex="0" style="z-index: 102; position: absolute; left: 248.382px; top: 125.488px; width: 1000px; height: 700px;" title="ipython-list.js"><lively-container tabindex="0" mode="edit" src="http://localhost:9005/lively4-core/templates/ipython-list.js" leftpane-flex="" rightpane-flex=""></lively-container></lively-window><lively-window class="global" tabindex="0" style="z-index: 103; position: absolute; left: 629.062px; top: 79.8087px; width: 950px; height: 600px;" title="ipython-tensorview.js"><lively-container tabindex="0" mode="edit" src="http://localhost:9005/lively4-core/templates/ipython-tensorview.js" leftpane-flex="0.2 1 0%" rightpane-flex="0.8 1 0%"></lively-container></lively-window><lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none;"></lively-halo>
+<lively-window class="global" tabindex="0" style="z-index: 100; position: absolute; left: 861.563px; top: 350.043px;" title="IpythonTerminal"><ipython-terminal></ipython-terminal></lively-window><lively-halo draggable="true" data-lively4-donotpersist="all" style="display: none;"></lively-halo>
     <!-- booting lively just came down to this one line -->
     <script src="src/client/boot.js" data-container="true"></script>
   
 <div id="mutationIndicator" style="position: fixed; right: 0px; top: 0px; width: 10px; height: 10px; background-color: rgba(10, 10, 10, 0.3); pointer-events: none; z-index: 2000;"></div>
-<lively-window class="global" tabindex="0" style="z-index: 101; position: absolute; left: 514.097px; top: 148.161px; width: 990px; height: 765px;" title="Workspace"><lively-code-mirror mode="text/jsx">
+
+
+<lively-window class="global" tabindex="0" style="z-index: 102; position: absolute; left: 356.723px; top: 14.6278px; width: 752px; height: 800px;" title="ipython-terminal.js" active="true"><lively-container tabindex="0" mode="edit" src="http://localhost:9005/lively4-core/templates/ipython-terminal.js" leftpane-flex="0.0001 1 0%" rightpane-flex="1.00232 1 0%"></lively-container></lively-window>
+<lively-window class="global" tabindex="0" style="z-index: 101; position: absolute; left: 572.175px; top: 134.316px; width: 990px; height: 765px;" title="Workspace"><lively-code-mirror mode="text/jsx">
 
 function setSettings() {
     var Request = window.Services.ServerConnection.defaultSettings.Request;
@@ -43,9 +46,30 @@ window.tensorView
 
 window.terminal
 
-var a;
-lively.create('ipython-painter').then((x) =&gt; {a = x});
+lively.openComponentInWindow("ipython-painter").then(comp =&gt; {
+  debugger;
+  comp.register();
+})
+
+var b;
+lively.openComponentInWindow("ipython-tensorview").then(comp =&gt; {
+  debugger;
+  b = comp;
+  b.register();
+})
+
+var c ;
+lively.openComponentInWindow("ipython-list").then(comp =&gt; {
+  debugger;
+  c = comp;
+  c.register();
+})
+
+
+lively.create('ipython-painter').then((x) =&gt; {
+  a = x;
 a.register()
+});
 
 var b;
 lively.create('ipython-tensorview').then((x) =&gt; {
@@ -58,8 +82,13 @@ lively.create('ipython-list').then((x) =&gt; {
   c = x
 c.register();
 });
-</lively-code-mirror></lively-window>
-<lively-window style="opacity: 1; z-index: 100; width: 1025px; height: 700px; position: absolute; left: 340px; top: 239.814px;" class="global" title="ipython-list.js" tabindex="0"><lively-container tabindex="0" mode="edit" src="http://localhost:9005/lively4-core/templates/ipython-list.js" leftpane-flex="0.2 1 0%" rightpane-flex="0.8 1 0%"></lively-container></lively-window>
+get
 
+var d;
+lively.create('ipython-tooltip').then((x) =&gt; {
+ d = x;
+});
+
+</lively-code-mirror></lively-window>
 <div class="lively-preferences lively-content" data-body-position="{&quot;x&quot;:0,&quot;y&quot;:0}" data-body-scroll="{&quot;x&quot;:0,&quot;y&quot;:0}" data--snap-windows-in-grid="false" data--show-fixed-browser="false" data--show-document-grid="false"></div>
-<lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-notification-list hidden=""></lively-notification-list><lively-halo draggable="true" data-lively4-donotpersist="all" style="top: 0.004px; left: 2.5e-05px; width: 901.203px; height: 630px; display: none;"></lively-halo><div style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 148.73px; top: 213.852px; display: none;" data-is-meta="true"></div><lively-menu tabindex="0" style="position: absolute; left: 148px; top: 213px;"></lively-menu>
+<lively-hand data-lively4-donotpersist="all" style="visibility: hidden;"></lively-hand><lively-notification-list hidden=""></lively-notification-list><lively-halo draggable="true" data-lively4-donotpersist="all" style="top: -1158px; left: -1156px; width: 1597px; height: 334px; display: none;"></lively-halo><div data-is-meta="true" style="pointer-events: none; width: 5px; height: 5px; padding: 1px; background-color: rgb(100, 100, 255); z-index: 1000; position: absolute; left: 114.227px; top: 225.051px; display: none;"></div><lively-menu tabindex="0" style="position: absolute; left: 114px; top: 225px;"></lively-menu>
