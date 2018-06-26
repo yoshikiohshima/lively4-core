@@ -143,6 +143,12 @@ layer_names.set_evaluator(evaluator)
 
 ` , true);
   }
+  
+  ask() {
+    var terminal = window.terminal;
+    if (!terminal) {return;}
+    terminal.send('layer_names', 'layer_names', null, []);
+  }
 
   receive_layer_names(msg) {
     var list = new TextDecoder("utf-8").decode(new Uint8Array(msg.buffers[0].buffer));
