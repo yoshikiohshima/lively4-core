@@ -135,6 +135,7 @@ def handle_open(comm, msg):
 get_ipython().kernel.comm_manager.register_target("layer_names", handle_open)
 ''')`;
 
+    debugger;
     terminal.addHandler('layer_names', this, this.receive_layer_names.bind(this));
 
     terminal.runCommand(py);
