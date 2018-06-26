@@ -18,7 +18,7 @@ class Announcer {
     this.handlers = {};
   }
   
-  addHandler(name, objName, callback) {
+  addHandler(name, objame, callback) {
     var that = this;
     function has(name, obj, callback) {
       var ary = that.handlers[name];
