@@ -20,18 +20,18 @@ class Announcer {
   
   addHandler(name, objName, callback) {
     var that = this;
-    function has(name, obj, callback) {
+    function has(name, objName) {
       var ary = that.handlers[name];
       if (!ary) {return false;}
       for (var i = 0; i < ary.length; i++) {
         var v = ary[i];
-        if (v.handler === obj) {
+        if (v.handler === objName) {
           return true;
         }
       }
       return false;
     }
-    if (has(name, objName, callback)) {
+    if (has(name, objName)) {
       return;
     }
     if (!this.handlers[name]) {
@@ -47,6 +47,9 @@ class Announcer {
       var p = new Promise(function(resolve, fail) {
         var objName = ary[i].handler;
         var o = document.getElementById(objName);
+        if (o && o.constructor.name === 'lively-window') {
+          o = o.childNodes[0];
+        }
         var f = ary[i].callback;
         var result;
         try {
@@ -110,8 +113,11 @@ class Dispatcher {
             var entry = ary[i];
             var objName = entry.handler;
             var o = document.getElementById(objName);
+            if (o && o.constructor.name == 'lively-window') {
+              o = o.childNodes[0];
+            }
             var f = entry.callback;
-            f(msg);
+            o.f(msg);
           }
         }
         comm.onClose = (msg) => {};
