@@ -103,6 +103,7 @@ class Dispatcher {
     (function() {
       var n = name;
       var kernel = that.kernel;
+      debugger;
       kernel.registerCommTarget(name, (comm, commMsg) => {
         comm.onMsg = (msg) => {
           var ary = that.handlers[n];
