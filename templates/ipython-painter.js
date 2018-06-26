@@ -69,7 +69,7 @@ def handle_open(comm, msg):
 get_ipython().kernel.comm_manager.register_target("mnist_image", handle_open)
 ''')`
     terminal.runCommand(py);
-    terminal.addHandler('mnist_image', this, this.ready.bind(this));
+    terminal.addHandler('mnist_image', this.id, this.ready.bind(this));
   }
   
   ready(msg) {
