@@ -118,7 +118,7 @@ class Dispatcher {
               o = o.childNodes[0];
             }
             var f = entry.callback;
-            o.f(msg);
+            f.call(o, msg);
           }
         }
         comm.onClose = (msg) => {};
