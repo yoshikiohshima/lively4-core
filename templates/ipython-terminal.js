@@ -259,7 +259,6 @@ class Notebook {
       } else if (type === "stream") {
         var out = reply.content.text;
         console.log(reply.content.name, reply.content.text);
-        debugger;
         if (terminal) {terminal.addOutput(out);}
         if (this.lastInput >= 0) {this.addOutput(out);}
       } else if (type === "error") {
