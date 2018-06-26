@@ -112,7 +112,8 @@ class Dispatcher {
           for (var i = 0; i < ary.length; i++) {
             var entry = ary[i];
             var objName = entry.handler;
-            var o = document.getElementById(objName);
+           debugger;
+             var o = document.getElementById(objName);
             if (o && o.constructor.name == 'lively-window') {
               o = o.childNodes[0];
             }
